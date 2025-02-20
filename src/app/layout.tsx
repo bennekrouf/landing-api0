@@ -15,6 +15,25 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Mayo",
   description: "AI Bridge to Enterprise systems",
+  icons: {
+      icon: [
+        { url: '/favicon/favicon.jpg' },
+        { url: '/favicon/icon.png' },
+      ],
+      apple: [
+        { url: '/favicon/apple-icon.png' },
+      ],
+      other: [
+        {
+          rel: 'apple-touch-icon',
+          url: '/favicon/apple-icon.png',
+        },
+        {
+          rel: 'manifest',
+          url: '/favicon/site.webmanifest',
+        }
+      ],
+    },
 };
 
 export default function RootLayout({
@@ -24,9 +43,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-<head>
-<meta name="apple-mobile-web-app-title" content="Mayo" />
-</head>
+    <head>
+    <meta name="apple-mobile-web-app-title" content="Mayo" />
+    </head>
       <body className="bg-gray-900 antialiased">{children}</body>
     </html>
   )

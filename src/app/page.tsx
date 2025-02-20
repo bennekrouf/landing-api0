@@ -3,11 +3,9 @@ import { MessageSquare, Zap, Lock } from 'lucide-react';
 import Image from 'next/image';
 
 const Logo = ({ variant = 'color', className = 'h-8 w-auto' }) => {
-  // Choose the correct logo based on variant
   const logoSrc = variant === 'white' 
-    ? '/logo_transparent_background.png'  // Use the white version for dark backgrounds
-    : '/dark_logo_transparent_background.png'; // Use the orange version for light backgrounds
-
+? '/images/white_logo_dark_background.jpg'
+: '/images/logo_transparent_background.png'
   return (
     <Image
       src={logoSrc}
@@ -28,7 +26,7 @@ const LandingPage = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo without text */}
-            <Logo className="h-8 w-auto" />
+            <Logo className="h-12 w-auto" />
             <div className="hidden md:flex items-center gap-8">
               <a href="#features" className="text-gray-600 hover:text-gray-900 transition-colors">Features</a>
               <a href="#testimonials" className="text-gray-600 hover:text-gray-900 transition-colors">Testimonials</a>
