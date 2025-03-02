@@ -3,9 +3,9 @@ import { MessageSquare, Zap, Lock } from 'lucide-react';
 import Image from 'next/image';
 
 const Logo = ({ variant = 'color', className = 'h-8 w-auto' }) => {
-  const logoSrc = variant === 'white' 
-? '/images/white_logo_dark_background.jpg'
-: '/images/logo_transparent_background.png'
+  const logoSrc = variant === 'white'
+    ? '/images/white_logo_dark_background.jpg'
+    : '/images/logo_transparent_background.png'
   return (
     <Image
       src={logoSrc}
@@ -30,8 +30,8 @@ const LandingPage = () => {
             <div className="hidden md:flex items-center gap-8">
               <a href="#features" className="text-gray-600 hover:text-gray-900 transition-colors">Features</a>
               <a href="#testimonials" className="text-gray-600 hover:text-gray-900 transition-colors">Testimonials</a>
-              <a 
-                href="app.mayo.ai" 
+              <a
+                href="app.apisensei.ai"
                 className="inline-flex items-center px-4 py-2 rounded-lg bg-[#FF6B00] text-white font-medium hover:bg-[#FF6B00]/90 transition-all shadow-lg shadow-orange-500/20"
               >
                 Try Demo
@@ -50,7 +50,7 @@ const LandingPage = () => {
           <p className="text-xl sm:text-2xl text-gray-600 mb-12 max-w-2xl mx-auto">
             Mayo connects users to the right APIs instantly.
           </p>
-          <a 
+          <a
             href="app.mayo.ai"
             className="inline-flex items-center px-8 py-4 rounded-lg bg-[#FF6B00] text-white text-lg font-semibold hover:bg-[#FF6B00]/90 transform transition duration-200 hover:-translate-y-1 shadow-xl shadow-orange-500/20"
           >
