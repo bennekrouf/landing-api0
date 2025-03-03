@@ -1,6 +1,7 @@
 import React from 'react';
 import { MessageSquare, Zap, Lock } from 'lucide-react';
 import Image from 'next/image';
+import { Sword } from 'lucide-react';
 
 const Logo = ({ variant = 'color', className = 'h-8 w-auto' }) => {
   const logoSrc = variant === 'white'
@@ -25,13 +26,17 @@ const LandingPage = () => {
       <nav className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100 shadow-sm">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            {/* Logo without text */}
-            <Logo className="h-12 w-auto" />
+            {/* Text logo with ninja icon */}
+            <div className="flex items-center space-x-2">
+              <Sword className="h-6 w-6 text-[#FF6B00]" />
+              <span className="text-xl font-bold tracking-tight">
+                API <span className="text-[#FF6B00]">Sensei</span>
+              </span>
+            </div>
             <div className="hidden md:flex items-center gap-8">
               <a href="#features" className="text-gray-600 hover:text-gray-900 transition-colors">Features</a>
               <a href="#testimonials" className="text-gray-600 hover:text-gray-900 transition-colors">Testimonials</a>
-              <a
-                href="app.apisensei.ai"
+              <a href="https://app.apisensei.ai"
                 className="inline-flex items-center px-4 py-2 rounded-lg bg-[#FF6B00] text-white font-medium hover:bg-[#FF6B00]/90 transition-all shadow-lg shadow-orange-500/20"
               >
                 Try Demo
@@ -95,7 +100,7 @@ const LandingPage = () => {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <Logo variant="white" className="h-8 w-auto mb-4" />
-              <p className="text-gray-400">Transforming API integration with natural language processing.</p>
+              <p className="text-gray-400">The AI bridge for Enterprises</p>
             </div>
             {footerLinks.map((section, index) => (
               <div key={index}>
@@ -117,7 +122,7 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
-    </main>
+    </main >
   );
 };
 
