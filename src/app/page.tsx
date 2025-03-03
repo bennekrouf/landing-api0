@@ -10,7 +10,7 @@ const Logo = ({ variant = 'color', className = 'h-8 w-auto' }) => {
   return (
     <Image
       src={logoSrc}
-      alt="Mayo"
+      alt="API Sensei"
       height={100}
       width={128} // Adjusted based on logo's aspect ratio
       className={className}
@@ -53,10 +53,10 @@ const LandingPage = () => {
             No More Forms. <span className="text-[#FF6B00]">Just Ask.</span>
           </h1>
           <p className="text-xl sm:text-2xl text-gray-600 mb-12 max-w-2xl mx-auto">
-            Mayo connects users to the right APIs instantly.
+            API Sensei connects users to the right APIs instantly.
           </p>
           <a
-            href="app.mayo.ai"
+            href="https://app.apisensei.ai"
             className="inline-flex items-center px-8 py-4 rounded-lg bg-[#FF6B00] text-white text-lg font-semibold hover:bg-[#FF6B00]/90 transform transition duration-200 hover:-translate-y-1 shadow-xl shadow-orange-500/20"
           >
             Try the Demo
@@ -100,7 +100,7 @@ const LandingPage = () => {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <Logo variant="white" className="h-8 w-auto mb-4" />
-              <p className="text-gray-400">The AI bridge for Enterprises</p>
+              <p className="text-gray-400">The Enterprise AI bridge</p>
             </div>
             {footerLinks.map((section, index) => (
               <div key={index}>
