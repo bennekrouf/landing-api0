@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ClientThemeProvider } from "@/components/theme/client-theme-provider";
 
 export const metadata: Metadata = {
   title: "API Sensei",
@@ -31,11 +32,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="apple-mobile-web-app-title" content="API Sensei" />
       </head>
-      <body className="bg-gray-900 antialiased">{children}</body>
+      <body className="antialiased">
+        <ClientThemeProvider>
+          {children}
+        </ClientThemeProvider>
+      </body>
     </html>
   )
 }
