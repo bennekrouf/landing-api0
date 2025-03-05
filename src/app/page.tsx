@@ -103,7 +103,7 @@ const LandingPage = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <Logo variant="white" className="h-8 w-auto mb-4" />
+              { /* <Logo variant="white" className="h-8 w-auto mb-4" /> */}
               <p className="text-gray-400">The Enterprise AI bridge</p>
             </div>
             {footerLinks.map((section, index) => (
@@ -122,7 +122,7 @@ const LandingPage = () => {
             ))}
           </div>
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 Mayorana. All rights reserved.</p>
+            <p>&copy; 2025 Api Sensei. All rights reserved.</p>
           </div>
         </div>
       </footer>
