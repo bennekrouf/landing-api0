@@ -2,25 +2,25 @@
 
 import React from 'react';
 import { MessageSquare, Zap, Lock } from 'lucide-react';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { Sword } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
 
-const Logo = ({ variant = 'color', className = 'h-8 w-auto' }) => {
-  const logoSrc = variant === 'white'
-    ? '/images/white_logo_dark_background.jpg'
-    : '/images/logo_transparent_background.png'
-  return (
-    <Image
-      src={logoSrc}
-      alt="API Sensei"
-      height={100}
-      width={128} // Adjusted based on logo's aspect ratio
-      className={className}
-      priority // Load logo with high priority
-    />
-  );
-};
+// const Logo = ({ variant = 'color', className = 'h-8 w-auto' }) => {
+//   const logoSrc = variant === 'white'
+//     ? '/images/white_logo_dark_background.jpg'
+//     : '/images/logo_transparent_background.png'
+//   return (
+//     <Image
+//       src={logoSrc}
+//       alt="API Sensei"
+//       height={100}
+//       width={128} // Adjusted based on logo's aspect ratio
+//       className={className}
+//       priority // Load logo with high priority
+//     />
+//   );
+// };
 
 const LandingPage = () => {
   return (
