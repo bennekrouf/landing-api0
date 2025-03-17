@@ -1,6 +1,6 @@
-# API Sensei Landing Page
+# api0 Landing Page
 
-A modern, responsive landing page for API Sensei with dark mode support.
+A modern, responsive landing page for api0 with dark mode support.
 
 ## Features
 

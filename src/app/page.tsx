@@ -4,7 +4,7 @@ import React from 'react';
 import { MessageSquare, Zap, Lock } from 'lucide-react';
 // import Image from 'next/image';
 import { Sword } from 'lucide-react';
-import { ThemeToggle } from '@/components/theme/theme-toggle';
+import { ThemeToggle } from '@/components/theme/theme-provider';
 
 // const Logo = ({ variant = 'color', className = 'h-8 w-auto' }) => {
 //   const logoSrc = variant === 'white'
@@ -13,7 +13,7 @@ import { ThemeToggle } from '@/components/theme/theme-toggle';
 //   return (
 //     <Image
 //       src={logoSrc}
-//       alt="API Sensei"
+//       alt="api0"
 //       height={100}
 //       width={128} // Adjusted based on logo's aspect ratio
 //       className={className}
@@ -31,10 +31,17 @@ const LandingPage = () => {
           <div className="flex items-center justify-between h-16">
             {/* Text logo with ninja icon */}
             <div className="flex items-center space-x-2">
-              <Sword className="h-6 w-6 text-[#FF6B00]" />
-              <span className="text-xl font-bold tracking-tight">
-                API <span className="text-[#FF6B00]">Sensei</span>
-              </span>
+              {/* <Sword className="h-6 w-6 text-[#FF6B00]" /> */}
+              <span className="text-xl font-bold tracking-tight group">
+  api<span className="relative inline-block text-[#FF6B00] font-black transform -rotate-12 transition-transform duration-300 group-hover:rotate-0">
+    <span className="relative z-10">0</span>
+    <span className="absolute inset-0 flex items-center justify-center z-20">
+      <span className="h-px w-4 bg-white dark:bg-gray-900 transform rotate-45 opacity-90"></span>
+    </span>
+  </span>
+</span>
+
+
             </div>
             <div className="hidden md:flex items-center gap-6">
               <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
@@ -57,7 +64,7 @@ const LandingPage = () => {
             No More Forms. <span className="text-[#FF6B00]">Just Ask.</span>
           </h1>
           <p className="text-xl sm:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-            API Sensei connects users to the right APIs instantly.
+            api0 connects users to the right APIs instantly.
           </p>
           <a
             href="https://app.apisensei.ai"
@@ -122,7 +129,7 @@ const LandingPage = () => {
             ))}
           </div>
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 Api Sensei. All rights reserved.</p>
+            <p>&copy; 2025 Mayorana. All rights reserved.</p>
           </div>
         </div>
       </footer>

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ClientThemeProvider } from "@/components/theme/client-theme-provider";
+import { ClientThemeProvider } from "@/components/theme/theme-provider";
 
 export const metadata: Metadata = {
-  title: "API Sensei",
+  title: "api0",
   description: "AI Bridge to Enterprise systems",
   icons: {
     icon: [
@@ -34,7 +34,32 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <meta name="apple-mobile-web-app-title" content="API Sensei" />
+        <meta name="apple-mobile-web-app-title" content="api0" />
+        {/* Add script to prevent flash of incorrect theme */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const storedTheme = localStorage.getItem('api0-theme');
+                  if (storedTheme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                  } else if (storedTheme === 'light') {
+                    document.documentElement.classList.add('light');
+                    document.documentElement.setAttribute('data-theme', 'light');
+                  } else if (storedTheme === 'system' || !storedTheme) {
+                    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                    document.documentElement.classList.add(systemTheme);
+                    document.documentElement.setAttribute('data-theme', systemTheme);
+                  }
+                } catch (e) {
+                  console.error('Error applying theme:', e);
+                }
+              })();
+            `,
+          }}
+        />
       </head>
       <body className="antialiased">
         <ClientThemeProvider>
