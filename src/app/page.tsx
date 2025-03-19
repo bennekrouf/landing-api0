@@ -3,7 +3,7 @@
 import React from 'react';
 import { MessageSquare, Zap, Lock } from 'lucide-react';
 // import Image from 'next/image';
-import { Sword } from 'lucide-react';
+// import { Sword } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme/theme-provider';
 
 // const Logo = ({ variant = 'color', className = 'h-8 w-auto' }) => {
@@ -33,13 +33,13 @@ const LandingPage = () => {
             <div className="flex items-center space-x-2">
               {/* <Sword className="h-6 w-6 text-[#FF6B00]" /> */}
               <span className="text-xl font-bold tracking-tight group">
-  api<span className="relative inline-block text-[#FF6B00] font-black transform -rotate-12 transition-transform duration-300 group-hover:rotate-0">
-    <span className="relative z-10">0</span>
-    <span className="absolute inset-0 flex items-center justify-center z-20">
-      <span className="h-px w-4 bg-white dark:bg-gray-900 transform rotate-45 opacity-90"></span>
-    </span>
-  </span>
-</span>
+                api<span className="relative inline-block text-[#FF6B00] font-black transform -rotate-12 transition-transform duration-300 group-hover:rotate-0">
+                  <span className="relative z-10">0</span>
+                  <span className="absolute inset-0 flex items-center justify-center z-20">
+                    <span className="h-px w-4 bg-white dark:bg-gray-900 transform rotate-45 opacity-90"></span>
+                  </span>
+                </span>
+              </span>
 
 
             </div>
