@@ -1,10 +1,17 @@
+// src/components/theme/theme-provider.tsx
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Moon, Sun, Monitor } from 'lucide-react';
 
-// Theme types and context
-type Theme = 'light' | 'dark' | 'system';
+// Theme types
+export type Theme = 'light' | 'dark' | 'system';
+
+type ThemeProviderProps = {
+  children: React.ReactNode;
+  defaultTheme?: Theme;
+  storageKey?: string;
+};
 
 type ThemeContextType = {
   theme: Theme;
@@ -12,44 +19,51 @@ type ThemeContextType = {
   toggleTheme: () => void;
 };
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+// Create context with a meaningful default to help with type checking
+const ThemeContext = createContext<ThemeContextType>({
+  theme: 'system',
+  setTheme: () => null,
+  toggleTheme: () => null,
+});
 
-// Theme hook
-function useTheme(): ThemeContextType {
+// Export hook for using the theme context
+export function useTheme() {
   const context = useContext(ThemeContext);
-  
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
-  
   return context;
 }
 
-// Theme provider component
-interface ThemeProviderProps {
-  children: React.ReactNode;
-  defaultTheme?: Theme;
-  storageKey?: string;
-}
-
-function ThemeProvider({
+// Main theme provider component
+export function ThemeProvider({
   children,
-  defaultTheme = 'light',
+  defaultTheme = 'system',
   storageKey = 'api0-theme',
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    // Get stored theme during initialization
-    if (typeof window !== 'undefined') {
-      const storedTheme = localStorage.getItem(storageKey) as Theme;
-      return storedTheme || defaultTheme;
+  // Initialize theme state safely for SSR
+  const [theme, setTheme] = useState<Theme>(defaultTheme);
+  const [mounted, setMounted] = useState(false);
+
+  // Only run after hydration to avoid mismatches
+  useEffect(() => {
+    // Get stored theme on initial mount
+    const storedTheme = localStorage.getItem(storageKey) as Theme | null;
+    if (storedTheme) {
+      setTheme(storedTheme);
+    } else {
+      setTheme(defaultTheme);
     }
-    return defaultTheme;
-  });
+    setMounted(true);
+  }, [defaultTheme, storageKey]);
 
   // Apply theme to document
   useEffect(() => {
-    const root = window.document.documentElement;
+    if (!mounted) return;
 
+    const root = window.document.documentElement;
+    
+    // Remove all theme classes
     root.classList.remove('light', 'dark');
     
     // Apply theme based on preference
@@ -61,80 +75,55 @@ function ThemeProvider({
       root.classList.add(theme);
       root.setAttribute('data-theme', theme);
     }
-  }, [theme]);
-
-  // Store theme and handle system preference changes
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(storageKey, theme);
-    }
     
-    // Add media query listener for system preference changes
-    if (theme === 'system') {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    // Store theme
+    localStorage.setItem(storageKey, theme);
+  }, [theme, mounted, storageKey]);
+
+  // Listen for system theme changes
+  useEffect(() => {
+    if (!mounted || theme !== 'system') return;
+    
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    const handleChange = () => {
+      const root = window.document.documentElement;
+      const systemTheme = mediaQuery.matches ? 'dark' : 'light';
       
-      const handleChange = () => {
-        const root = window.document.documentElement;
-        const systemTheme = mediaQuery.matches ? 'dark' : 'light';
-        
-        root.classList.remove('light', 'dark');
-        root.classList.add(systemTheme);
-        root.setAttribute('data-theme', systemTheme);
-      };
-      
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
-    }
-  }, [theme, storageKey]);
+      root.classList.remove('light', 'dark');
+      root.classList.add(systemTheme);
+      root.setAttribute('data-theme', systemTheme);
+    };
+    
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, [theme, mounted]);
 
   // Theme toggle function
   const toggleTheme = () => {
-    setTheme(prevTheme => {
-      if (prevTheme === 'light') return 'dark';
-      if (prevTheme === 'dark') return 'system';
+    setTheme(prev => {
+      if (prev === 'light') return 'dark';
+      if (prev === 'dark') return 'system';
       return 'light';
     });
   };
 
-  return (
-    <ThemeContext.Provider 
-      value={{
-        theme,
-        setTheme,
-        toggleTheme,
-      }}
-    >
-      {children}
-    </ThemeContext.Provider>
-  );
-}
+  // Context value
+  const value = {
+    theme,
+    setTheme,
+    toggleTheme,
+  };
 
-// Client theme provider component for hydration safety
-interface ClientThemeProviderProps {
-  children: React.ReactNode;
-}
-
-function ClientThemeProvider({ children }: ClientThemeProviderProps) {
-  const [mounted, setMounted] = useState(false);
-
-  // Ensure we don't render children until after hydration
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
+  // Render empty div during SSR to avoid hydration mismatch
   if (!mounted) {
-    // Add a minimal loader to avoid hydration issues
-    return (
-      <div className="fixed inset-0 bg-background flex items-center justify-center">
-        <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
+    return <div className="fixed inset-0 bg-background" />;
   }
 
   return (
-    <ThemeProvider defaultTheme="light" storageKey="api0-theme">
+    <ThemeContext.Provider value={value}>
       {children}
-    </ThemeProvider>
+    </ThemeContext.Provider>
   );
 }
 
@@ -143,7 +132,7 @@ interface ThemeToggleProps {
   className?: string;
 }
 
-function ThemeToggle({ className }: ThemeToggleProps) {
+export function ThemeToggle({ className = '' }: ThemeToggleProps) {
   const { theme, toggleTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -157,8 +146,8 @@ function ThemeToggle({ className }: ThemeToggleProps) {
   }
 
   // Get the actual theme (accounting for system preference)
-  const getEffectiveTheme = () => {
-    if (theme !== 'system') return theme;
+  const getEffectiveTheme = (): 'light' | 'dark' => {
+    if (theme !== 'system') return theme as 'light' | 'dark';
     
     if (typeof window !== 'undefined') {
       return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -185,6 +174,3 @@ function ThemeToggle({ className }: ThemeToggleProps) {
     </button>
   );
 }
-
-// Export all components
-export { ThemeProvider, ClientThemeProvider, ThemeToggle, useTheme };

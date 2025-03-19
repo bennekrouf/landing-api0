@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ClientThemeProvider } from "@/components/theme/theme-provider";
+import { ThemeProvider } from "@/components/theme/theme-provider";
 
 export const metadata: Metadata = {
   title: "api0",
@@ -35,7 +35,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="apple-mobile-web-app-title" content="api0" />
-        {/* Add script to prevent flash of incorrect theme */}
+        {/* Script below provides a quick initial theme application for reduced flicker */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -62,9 +62,9 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <ClientThemeProvider>
+        <ThemeProvider defaultTheme="system" storageKey="api0-theme">
           {children}
-        </ClientThemeProvider>
+        </ThemeProvider>
       </body>
     </html>
   )
