@@ -45,7 +45,7 @@ const LandingPage = () => {
             <div className="hidden md:flex items-center gap-6">
               <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
               <ThemeToggle className="mr-2" />
-              <a href="https://app.apisensei.ai"
+              <a href="https://app.api0.ai"
                 className="inline-flex items-center px-4 py-2 rounded-lg bg-[#FF6B00] text-white font-medium hover:bg-[#FF6B00]/90 transition-all shadow-lg shadow-orange-500/20"
               >
                 Try Demo
@@ -55,23 +55,23 @@ const LandingPage = () => {
         </div>
       </nav>
 
-{/* Hero Section */}
-<section className="relative pt-32 pb-24 bg-gradient-to-b from-accent to-background">
-  <div className="container mx-auto px-4 text-center">
-    <h1 className="text-4xl sm:text-6xl font-bold mb-8 text-foreground">
-      API <span className="text-[#FF6B00]">Discovery</span>. Simplified.
-    </h1>
-    <p className="text-xl sm:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-      api0 intelligently discovers and maps user intent to the perfect enterprise APIs.
-    </p>
-    <a
-      href="https://app.apisensei.ai"
-      className="inline-flex items-center px-8 py-4 rounded-lg bg-[#FF6B00] text-white text-lg font-semibold hover:bg-[#FF6B00]/90 transform transition duration-200 hover:-translate-y-1 shadow-xl shadow-orange-500/20"
-    >
-      Try the Demo
-    </a>
-  </div>
-</section>
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-24 bg-gradient-to-b from-accent to-background">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-4xl sm:text-6xl font-bold mb-8 text-foreground">
+            No More Forms. <span className="text-[#FF6B00]">Just Ask.</span>
+          </h1>
+          <p className="text-xl sm:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto">
+            api0 connects users to the right APIs instantly.
+          </p>
+          <a
+            href="https://app.api0.ai"
+            className="inline-flex items-center px-8 py-4 rounded-lg bg-[#FF6B00] text-white text-lg font-semibold hover:bg-[#FF6B00]/90 transform transition duration-200 hover:-translate-y-1 shadow-xl shadow-orange-500/20"
+          >
+            Try the Demo
+          </a>
+        </div>
+      </section>
 
       {/* Features Section */}
       <section id="features" className="py-24 bg-background">
