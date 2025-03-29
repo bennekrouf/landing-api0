@@ -4,6 +4,7 @@ import React from 'react';
 import { MessageSquare, Search, Target } from 'lucide-react';
 import { Twitter, Linkedin, Github } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme/theme-provider';
+import Image from 'next/image';
 
 const Logo = ({ variant = 'color', className = 'h-8 w-auto' }) => {
   const logoSrc = variant === 'white'
@@ -75,81 +76,81 @@ const LandingPage = () => {
 
       {/* Features Section */}
       <section id="features" className="py-24 bg-background">
-  <div className="container mx-auto px-4">
-    <h2 className="text-3xl font-bold text-center mb-16 text-foreground">Key Features</h2>
-    <div className="grid md:grid-cols-3 gap-12">
-      <div className="flex flex-col items-center text-center p-6 rounded-xl bg-accent/50 border border-border">
-        <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
-          <MessageSquare size={32} className="text-[#FF6B00]" />
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-16 text-foreground">Key Features</h2>
+          <div className="grid md:grid-cols-3 gap-12">
+            <div className="flex flex-col items-center text-center p-6 rounded-xl bg-accent/50 border border-border">
+              <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
+                <MessageSquare size={32} className="text-[#FF6B00]" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4 text-foreground">Natural Language Processing</h3>
+              <p className="text-muted-foreground">Transform conversational requests into structured API parameters without complex forms.</p>
+            </div>
+            <div className="flex flex-col items-center text-center p-6 rounded-xl bg-accent/50 border border-border">
+              <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
+                <Search size={32} className="text-[#FF6B00]" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4 text-foreground">API Discovery</h3>
+              <p className="text-muted-foreground">Automatically identify and surface the most relevant APIs from your ecosystem based on user needs.</p>
+            </div>
+            <div className="flex flex-col items-center text-center p-6 rounded-xl bg-accent/50 border border-border">
+              <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
+                <Target size={32} className="text-[#FF6B00]" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4 text-foreground">Intent Matching</h3>
+              <p className="text-muted-foreground">Advanced contextual analysis to understand user intent and map it to the perfect API endpoints.</p>
+            </div>
+          </div>
         </div>
-        <h3 className="text-xl font-semibold mb-4 text-foreground">Natural Language Processing</h3>
-        <p className="text-muted-foreground">Transform conversational requests into structured API parameters without complex forms.</p>
-      </div>
-      <div className="flex flex-col items-center text-center p-6 rounded-xl bg-accent/50 border border-border">
-        <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
-          <Search size={32} className="text-[#FF6B00]" />
-        </div>
-        <h3 className="text-xl font-semibold mb-4 text-foreground">API Discovery</h3>
-        <p className="text-muted-foreground">Automatically identify and surface the most relevant APIs from your ecosystem based on user needs.</p>
-      </div>
-      <div className="flex flex-col items-center text-center p-6 rounded-xl bg-accent/50 border border-border">
-        <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
-          <Target size={32} className="text-[#FF6B00]" />
-        </div>
-        <h3 className="text-xl font-semibold mb-4 text-foreground">Intent Matching</h3>
-        <p className="text-muted-foreground">Advanced contextual analysis to understand user intent and map it to the perfect API endpoints.</p>
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* Footer */}
-<footer className="bg-gray-900 py-12 mt-12">
-  <div className="container mx-auto px-4">
-    <div className="grid md:grid-cols-4 gap-8">
-      {/* Logo/Brand Section */}
-      <div>
-        <span className="text-xl font-bold tracking-tight text-white group">
-          api<span className="relative inline-block text-[#FF6B00] font-black transform -rotate-12 transition-transform duration-300 group-hover:rotate-0">
-            <span className="relative z-10">0</span>
-            <span className="absolute inset-0 flex items-center justify-center z-20">
-              <span className="h-px w-4 bg-gray-900 transform rotate-45 opacity-90"></span>
-            </span>
-          </span>
-        </span>
-        <p className="text-gray-400 mt-2">The Enterprise AI bridge</p>
-      </div>
-      
-      {/* Dynamic Footer Links */}
-      {footerLinks.map((section, index) => (
-        <div key={index}>
-          <h4 className="font-semibold text-white mb-4">{section.title}</h4>
-          <ul className="space-y-2">
-            {section.links.map((link, linkIndex) => (
-              <li key={linkIndex}>
-                <a href={link.href} className="text-gray-400 hover:text-white transition-colors">
-                  {section.title === "Connect" ? (
-                    <div className="flex items-center gap-2">
-                      {link.label === "X" && <Twitter size={18} />}
-                      {link.label === "LinkedIn" && <Linkedin size={18} />}
-                      {link.label === "GitHub" && <Github size={18} />}
-                      <span>{link.label === "X" ? "@mayoranax" : link.label}</span>
-                    </div>
-                  ) : (
-                    link.label
-                  )}
-                </a>
-              </li>
+      <footer className="bg-gray-900 py-12 mt-12">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-8">
+            {/* Logo/Brand Section */}
+            <div>
+              <span className="text-xl font-bold tracking-tight text-white group">
+                api<span className="relative inline-block text-[#FF6B00] font-black transform -rotate-12 transition-transform duration-300 group-hover:rotate-0">
+                  <span className="relative z-10">0</span>
+                  <span className="absolute inset-0 flex items-center justify-center z-20">
+                    <span className="h-px w-4 bg-gray-900 transform rotate-45 opacity-90"></span>
+                  </span>
+                </span>
+              </span>
+              <p className="text-gray-400 mt-2">The Enterprise AI bridge</p>
+            </div>
+
+            {/* Dynamic Footer Links */}
+            {footerLinks.map((section, index) => (
+              <div key={index}>
+                <h4 className="font-semibold text-white mb-4">{section.title}</h4>
+                <ul className="space-y-2">
+                  {section.links.map((link, linkIndex) => (
+                    <li key={linkIndex}>
+                      <a href={link.href} className="text-gray-400 hover:text-white transition-colors">
+                        {section.title === "Connect" ? (
+                          <div className="flex items-center gap-2">
+                            {link.label === "X" && <Twitter size={18} />}
+                            {link.label === "LinkedIn" && <Linkedin size={18} />}
+                            {link.label === "GitHub" && <Github size={18} />}
+                            <span>{link.label === "X" ? "@mayoranax" : link.label}</span>
+                          </div>
+                        ) : (
+                          link.label
+                        )}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
+          </div>
+          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+            <p>&copy; 2025 Mayorana. All rights reserved.</p>
+          </div>
         </div>
-      ))}
-    </div>
-    <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-      <p>&copy; 2025 Mayorana. All rights reserved.</p>
-    </div>
-  </div>
-</footer>
+      </footer>
     </main >
   );
 };
