@@ -47,7 +47,7 @@ const LandingPage = () => {
               <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
               <a href="#testimonials" className="text-muted-foreground hover:text-foreground transition-colors">Testimonials</a>
               <ThemeToggle className="mr-2" />
-              <a href="https://app.apisensei.ai"
+              <a href="https://app.api0.ai"
                 className="inline-flex items-center px-4 py-2 rounded-lg bg-[#FF6B00] text-white font-medium hover:bg-[#FF6B00]/90 transition-all shadow-lg shadow-orange-500/20"
               >
                 Try Demo
@@ -67,7 +67,7 @@ const LandingPage = () => {
             api0 connects users to the right APIs instantly.
           </p>
           <a
-            href="https://app.apisensei.ai"
+            href="https://app.api0.ai"
             className="inline-flex items-center px-8 py-4 rounded-lg bg-[#FF6B00] text-white text-lg font-semibold hover:bg-[#FF6B00]/90 transform transition duration-200 hover:-translate-y-1 shadow-xl shadow-orange-500/20"
           >
             Try the Demo
