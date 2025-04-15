@@ -2,27 +2,16 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 
-export const metadata: Metadata = {
-  title: "api0",
-  description: "AI Bridge to Enterprise systems",
+export const metadata = {
+  title: {
+    template: '%s | API0',
+    default: 'api0 - Intelligent API Routing', // Used on the homepage
+  },
+  description: 'api0 - Modern API Routing and Management Platform',
   icons: {
-    icon: [
-      { url: '/favicon/favicon.jpg' },
-      { url: '/favicon/icon.png' },
-    ],
-    apple: [
-      { url: '/favicon/apple-icon.png' },
-    ],
-    other: [
-      {
-        rel: 'apple-touch-icon',
-        url: '/favicon/apple-icon.png',
-      },
-      {
-        rel: 'manifest',
-        url: '/favicon/site.webmanifest',
-      }
-    ],
+    icon: '/icon.svg', // SVG favicon
+    shortcut: '/favicon.ico', // Fallback for browsers that don't support SVG
+    apple: '/apple-icon.png', // Optional: for iOS devices
   },
 };
 
