@@ -45,13 +45,9 @@ export default function RootLayout({
                   if (storedTheme === 'dark') {
                     document.documentElement.classList.add('dark');
                     document.documentElement.setAttribute('data-theme', 'dark');
-                  } else if (storedTheme === 'light') {
+                  } else {
                     document.documentElement.classList.add('light');
                     document.documentElement.setAttribute('data-theme', 'light');
-                  } else if (storedTheme === 'system' || !storedTheme) {
-                    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                    document.documentElement.classList.add(systemTheme);
-                    document.documentElement.setAttribute('data-theme', systemTheme);
                   }
                 } catch (e) {
                   console.error('Error applying theme:', e);

@@ -38,7 +38,7 @@ export function useTheme() {
 // Main theme provider component
 export function ThemeProvider({
   children,
-  defaultTheme = 'system',
+  defaultTheme = 'light',
   storageKey = 'api0-theme',
 }: ThemeProviderProps) {
   // Initialize theme state safely for SSR
