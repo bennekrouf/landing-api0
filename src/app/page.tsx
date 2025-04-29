@@ -4,6 +4,7 @@ import React from 'react';
 import { MessageSquare, Search, Target } from 'lucide-react';
 import { Twitter, Linkedin, Github } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme/theme-provider';
+import Link from 'next/link';
 // import Image from 'next/image';
 
 // const Logo = ({ variant = 'color', className = 'h-8 w-auto' }) => {
@@ -45,6 +46,7 @@ const LandingPage = () => {
             </div>
             <div className="hidden md:flex items-center gap-6">
               <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
+              <Link href="/blog" className="text-muted-foreground hover:text-foreground transition-colors">Blog</Link>
               <ThemeToggle className="mr-2" />
               <a href="https://app.api0.ai"
                 className="inline-flex items-center px-4 py-2 rounded-lg bg-[#FF6B00] text-white font-medium hover:bg-[#FF6B00]/90 transition-all shadow-lg shadow-orange-500/20"
