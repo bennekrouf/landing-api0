@@ -44,6 +44,10 @@ export default function RootLayout({
             `,
           }}
         />
+<script defer data-domain="api0.ai" src="https://plausible.io/js/script.outbound-links.js"></script>
+<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+
+
       </head>
       <body className="antialiased">
         <ThemeProvider defaultTheme="system" storageKey="api0-theme">
