@@ -1,7 +1,22 @@
-
 <svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- White background -->
-  <rect width="512" height="512" fill="white"/>
+  <style>
+    /* Dark mode styles */
+    @media (prefers-color-scheme: dark) {
+      .diagonal-line {
+        stroke: white;
+      }
+    }
+    
+    /* Light mode styles */
+    @media (prefers-color-scheme: light) {
+      .diagonal-line {
+        stroke: #1E293B;
+      }
+    }
+  </style>
+  
+  <!-- Fully transparent background -->
+  <rect width="512" height="512" fill="transparent"/>
   
   <!-- The orange "0" with translation effect -->
   <g transform="translate(256, 256)">
@@ -10,8 +25,7 @@
       <ellipse cx="0" cy="0" rx="140" ry="160" fill="transparent" stroke="#FF6B00" stroke-width="40"/>
     </g>
     
-    <!-- Diagonal white line crossing through the "0" with reduced weight -->
-    <line x1="-180" y1="-180" x2="180" y2="180" stroke="white" stroke-width="22"/>
+    <!-- Diagonal line crossing through the "0" that adapts to theme -->
+    <line class="diagonal-line" x1="-180" y1="-180" x2="180" y2="180" stroke-width="22"/>
   </g>
 </svg>
-

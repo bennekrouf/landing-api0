@@ -1,8 +1,8 @@
-// src/app/blog/page.tsx
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image'; // Import Next.js Image component
+import Image from 'next/image';
 import { getBlogPosts } from '@/lib/blog';
+import { getRandomHeading } from '@/data/blogHeadings';
 
 // Define proper types for blog posts
 interface BlogPost {
@@ -26,9 +26,13 @@ export const metadata = {
 export default async function BlogPage() {
   const posts: BlogPost[] = await getBlogPosts();
 
+  // Get a random heading for the blog page
+  // This will be generated at build time (or on each server render if using SSR)
+  const heading = getRandomHeading();
+
   return (
-    <div className="container mx-auto px-4 py-24 mt-16">
-      <h1 className="text-4xl font-bold mb-12 text-foreground">API0 Blog</h1>
+    <div className="container mx-auto px-4 py-16">
+      <h1 className="text-4xl font-bold mb-12 text-foreground">{heading}</h1>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map((post) => (
@@ -40,7 +44,6 @@ export default async function BlogPage() {
             <div className="rounded-xl border border-border bg-accent/50 overflow-hidden transition duration-300 hover:shadow-lg">
               {post.image && (
                 <div className="aspect-video w-full overflow-hidden relative">
-                  {/* Replace img with Next.js Image */}
                   <Image
                     src={post.image}
                     alt={post.title}

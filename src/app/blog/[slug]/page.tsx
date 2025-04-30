@@ -1,6 +1,4 @@
 // src/app/blog/[slug]/page.tsx
-// Update this file to correctly handle markdown rendering
-
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { getBlogPost, getBlogPosts } from '@/lib/blog';
@@ -55,7 +53,7 @@ export default async function BlogPage({ params }: { params: Promise<BlogParams>
   }
 
   return (
-    <div className="container mx-auto px-4 py-24 mt-16">
+    <div className="container mx-auto px-4 py-16">
       <article className="max-w-4xl mx-auto">
         <BlogHeader
           title={post.title}
