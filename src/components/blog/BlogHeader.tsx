@@ -1,6 +1,7 @@
 // src/components/blog/BlogHeader.tsx
 import React from 'react';
-import Image from 'next/image'; // Add this import
+import Image from 'next/image';
+import { BlogSVG } from './BlogSVG';
 
 interface BlogHeaderProps {
   title: string;
@@ -11,14 +12,28 @@ interface BlogHeaderProps {
   };
   tags?: string[];
   readingTime?: string;
-  image?: string;
+  svg?: string;           // SVG path field
+  image?: string;         // Keep for backward compatibility
 }
 
-export function BlogHeader({ title, date, author, tags, readingTime, image }: BlogHeaderProps) {
+export function BlogHeader({
+  title,
+  date,
+  author,
+  tags,
+  readingTime,
+  svg,
+  image
+}: BlogHeaderProps) {
+  // Determine if we should display a visual (SVG or image)
+  const hasVisual = Boolean(svg || image);
+
+  console.log('BlogHeader props:', { title, hasVisual, svg, image });
+
   return (
-    <header className="mb-8">
+    <header className="mb-12">
       {tags && tags.length > 0 && (
-        <div className="flex gap-3 mb-4">
+        <div className="flex flex-wrap gap-3 mb-4">
           {tags.map((tag) => (
             <span key={tag} className="px-3 py-1 text-sm rounded-full bg-[#FF6B00]/10 text-[#FF6B00]">
               {tag}
@@ -39,9 +54,9 @@ export function BlogHeader({ title, date, author, tags, readingTime, image }: Bl
                 <Image
                   src={author.avatar}
                   alt={author.name}
-                  fill
+                  width={32}
+                  height={32}
                   className="object-cover"
-                  sizes="32px"
                 />
               </div>
             )}
@@ -66,15 +81,17 @@ export function BlogHeader({ title, date, author, tags, readingTime, image }: Bl
         )}
       </div>
 
-      {image && (
-        <div className="aspect-video w-full overflow-hidden rounded-xl mb-8 relative">
-          <Image
-            src={image}
-            alt={title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 800px"
-            priority  // For hero images, use priority to load faster
+      {/* SVG/Image container with explicit height */}
+      {hasVisual && (
+        <div className="w-full mb-12 relative" style={{ minHeight: '300px' }}>
+          <BlogSVG
+            src={svg || image || ''}
+            fallbackImage={image}
+            className="w-full rounded-xl"
+            width={1200}
+            height={400}
+            priority={true}
+            alt={`Illustration for ${title}`}
           />
         </div>
       )}

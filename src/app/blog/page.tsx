@@ -1,22 +1,10 @@
+// src/app/blog/page.tsx
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { getBlogPosts } from '@/lib/blog';
-import { getRandomHeading } from '@/data/blogHeadings';
-
-// Define proper types for blog posts
-interface BlogPost {
-  slug: string;
-  title: string;
-  date: string;
-  excerpt: string;
-  image?: string;
-  tags?: string[];
-  author?: {
-    name: string;
-    avatar?: string;
-  };
-}
+import { DynamicHeading } from '@/components/blog/DynamicHeading';
+import { BlogSVG } from '@/components/blog/BlogSVG';
+import { PostMeta } from '@/lib/blog-types';
 
 export const metadata = {
   title: 'Blog | API0',
@@ -24,15 +12,12 @@ export const metadata = {
 };
 
 export default async function BlogPage() {
-  const posts: BlogPost[] = await getBlogPosts();
-
-  // Get a random heading for the blog page
-  // This will be generated at build time (or on each server render if using SSR)
-  const heading = getRandomHeading();
+  const posts: PostMeta[] = await getBlogPosts();
 
   return (
     <div className="container mx-auto px-4 py-16">
-      <h1 className="text-4xl font-bold mb-12 text-foreground">{heading}</h1>
+      {/* Dynamic heading component - set to 0 to only randomize on page load */}
+      <DynamicHeading changeInterval={0} />
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map((post) => (
@@ -41,21 +26,23 @@ export default async function BlogPage() {
             href={`/blog/${post.slug}`}
             className="group"
           >
-            <div className="rounded-xl border border-border bg-accent/50 overflow-hidden transition duration-300 hover:shadow-lg">
-              {post.image && (
-                <div className="aspect-video w-full overflow-hidden relative">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
+            <div className="h-full rounded-xl border border-border bg-accent/50 overflow-hidden transition duration-300 hover:shadow-lg flex flex-col">
+              {/* Display SVG with priority over image */}
+              {(post.svg || post.image) && (
+                <div className="aspect-video w-full overflow-hidden relative bg-accent/30">
+                  <BlogSVG
+                    src={post.svg || post.image || ''}
+                    fallbackImage={post.image}
+                    width={600}
+                    height={340}
                     className="object-cover transition duration-300 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    alt={post.title}
                   />
                 </div>
               )}
-              <div className="p-6">
-                <div className="flex gap-3 mb-3">
-                  {post.tags?.map((tag) => (
+              <div className="p-6 flex-grow flex flex-col">
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {post.tags?.slice(0, 3).map((tag) => (
                     <span key={tag} className="px-2 py-1 text-xs rounded-full bg-[#FF6B00]/10 text-[#FF6B00]">
                       {tag}
                     </span>
@@ -64,10 +51,10 @@ export default async function BlogPage() {
                 <h2 className="text-xl font-semibold mb-3 text-foreground group-hover:text-[#FF6B00] transition duration-200">
                   {post.title}
                 </h2>
-                <p className="text-muted-foreground mb-4 line-clamp-3">
+                <p className="text-muted-foreground mb-4 line-clamp-3 flex-grow">
                   {post.excerpt}
                 </p>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mt-auto">
                   <span className="text-sm text-muted-foreground">
                     {new Date(post.date).toLocaleDateString('en-US', {
                       year: 'numeric',

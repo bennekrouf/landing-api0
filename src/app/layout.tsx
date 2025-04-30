@@ -1,4 +1,6 @@
 import "./globals.css";
+import "./svg.css";
+
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
