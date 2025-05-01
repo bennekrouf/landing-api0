@@ -136,4 +136,3 @@ When creating new elements in the SVG:
 <line x1="0" y1="0" x2="100" y2="100" class="line" />
 ```
 
-By following these guidelines, your SVGs will maintain excellent readability in both light and dark modes, providing a consistent experience for all users.
