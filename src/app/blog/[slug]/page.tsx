@@ -5,25 +5,20 @@ import { getBlogPost, getBlogPosts } from '@/lib/blog';
 import { BlogHeader } from '@/components/blog/BlogHeader';
 import { TableOfContents } from '@/components/blog/TableOfContents';
 
-// Type for metadata function params
+// Define both params and searchParams as Promise types
+type PageParams = Promise<{ slug: string }>;
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+
+// Metadata params need to be defined in the same way
 type MetadataParams = {
-  params: {
-    slug: string;
-  };
+  params: PageParams;
+  searchParams?: SearchParams;
 };
 
-// Simplified page props interface that matches Next.js expectations
-interface BlogPageProps {
-  params: {
-    slug: string;
-  };
-  searchParams?: {
-    [key: string]: string | string[] | undefined;
-  };
-}
-
 export async function generateMetadata({ params }: MetadataParams) {
-  const post = await getBlogPost(params.slug);
+  // Await the params since they're a Promise
+  const { slug } = await params;
+  const post = await getBlogPost(slug);
 
   if (!post) {
     return {
@@ -52,8 +47,17 @@ export async function generateStaticParams() {
   }));
 }
 
+// Define BlogPageProps using the Promise types for both params
+interface BlogPageProps {
+  params: PageParams;
+  searchParams?: SearchParams;
+}
+
+// Remove searchParams from the function parameters if not using it
 export default async function BlogPage({ params }: BlogPageProps) {
-  const { slug } = params;
+  // Await the params since they're a Promise
+  const { slug } = await params;
+
   const post = await getBlogPost(slug);
 
   if (!post) {
