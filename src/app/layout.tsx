@@ -1,12 +1,17 @@
 import "./globals.css";
+import "./svg.css";
+
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import ScrollToAnchor from "@/components/ScrollToAnchor";
 
 export const metadata = {
   title: {
     template: '%s | API0',
-    default: 'api0 - Intelligent API Routing', // Used on the homepage
+    default: 'API0 - Intelligent API Routing', // Used on the homepage
   },
-  description: 'api0 - Modern API Routing and Management Platform',
+  description: 'API0 - Modern API Routing and Management Platform',
   icons: {
     icon: '/icon.svg', // SVG favicon
     shortcut: '/favicon.ico', // Fallback for browsers that don't support SVG
@@ -58,7 +63,14 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <ThemeProvider defaultTheme="system" storageKey="api0-theme">
-          {children}
+          <div className="flex flex-col min-h-screen">
+            <Navigation />
+            <ScrollToAnchor />
+            <main className="flex-grow pt-16">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </ThemeProvider>
       </body>
     </html>

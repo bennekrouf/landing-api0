@@ -1,3 +1,4 @@
+// tailwind.config.ts
 import type { Config } from "tailwindcss"
 
 const config: Config = {
@@ -71,9 +72,110 @@ const config: Config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: 'none',
+            color: 'hsl(var(--foreground))',
+            a: {
+              color: 'hsl(var(--primary))',
+              '&:hover': {
+                color: 'hsl(var(--primary) / 0.8)',
+              },
+            },
+            h1: {
+              color: 'hsl(var(--foreground))',
+            },
+            h2: {
+              color: 'hsl(var(--foreground))',
+            },
+            h3: {
+              color: 'hsl(var(--foreground))',
+            },
+            h4: {
+              color: 'hsl(var(--foreground))',
+            },
+            blockquote: {
+              color: 'hsl(var(--muted-foreground))',
+              borderLeftColor: 'hsl(var(--primary))',
+            },
+            code: {
+              color: 'hsl(var(--foreground))',
+              backgroundColor: 'hsl(var(--muted))',
+              padding: '0.2em 0.4em',
+              borderRadius: '0.25rem',
+              fontWeight: '400',
+              '&::before': {
+                content: '""',
+              },
+              '&::after': {
+                content: '""',
+              },
+            },
+            'pre code': {
+              backgroundColor: 'transparent',
+              padding: '0',
+            },
+            pre: {
+              color: 'hsl(var(--foreground))',
+              backgroundColor: 'hsl(var(--muted))',
+              borderRadius: '0.5rem',
+              padding: '1rem',
+              overflowX: 'auto',
+            },
+            strong: {
+              color: 'hsl(var(--foreground))',
+            },
+            hr: {
+              borderColor: 'hsl(var(--border))',
+            },
+            ul: {
+              listStyleType: 'disc',
+            },
+            li: {
+              color: 'hsl(var(--muted-foreground))',
+              marginTop: '0.5em',
+              marginBottom: '0.5em',
+            },
+            p: {
+              color: 'hsl(var(--muted-foreground))',
+            },
+            img: {
+              borderRadius: '0.5rem',
+            },
+            figure: {
+              margin: '2rem 0',
+            },
+            figcaption: {
+              color: 'hsl(var(--muted-foreground))',
+              fontSize: '0.875rem',
+              textAlign: 'center',
+              marginTop: '0.5rem',
+            },
+            table: {
+              fontSize: '0.875rem',
+            },
+            thead: {
+              borderBottomColor: 'hsl(var(--border))',
+            },
+            'thead th': {
+              color: 'hsl(var(--foreground))',
+            },
+            'tbody tr': {
+              borderBottomColor: 'hsl(var(--border))',
+            },
+            'tbody td': {
+              padding: '0.75rem',
+            },
+          },
+        },
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require('@tailwindcss/typography'), // This plugin is essential for Markdown styling
+  ],
 }
 
 export default config

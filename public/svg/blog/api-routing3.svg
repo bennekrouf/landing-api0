@@ -1,0 +1,90 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    /* SVG styles that respect theme variables */
+    .bg { fill: var(--svg-bg, #f8fafc); }
+    .text { fill: var(--svg-text, #1e293b); }
+    .accent { fill: var(--svg-accent, #FF6B00); }
+    .accent-light { fill: rgba(255, 107, 0, 0.1); }
+    .line { stroke: var(--svg-lines, #e2e8f0); stroke-width: 2; }
+    .connector { stroke: #FF6B00; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+    .curve { stroke: #FF6B00; stroke-width: 2; fill: none; }
+    .dashed { stroke-dasharray: 4, 4; }
+    .label { font-family: sans-serif; font-size: 14px; font-weight: 500; }
+    .small-label { font-family: sans-serif; font-size: 12px; }
+    .box { fill: white; stroke: #64748b; stroke-width: 2; rx: 8; filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1)); }
+    .highlight-box { fill: rgba(255, 107, 0, 0.08); stroke: #FF6B00; stroke-width: 2; rx: 8; }
+    .code { font-family: monospace; font-size: 12px; fill: #475569; }
+    .human { fill: #4338ca; }
+    .machine { fill: #0284c7; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0f172a; }
+      .text { fill: #f8fafc; }
+      .box { fill: #1e293b; stroke: #475569; }
+      .code { fill: #cbd5e1; }
+      .human { fill: #818cf8; }
+      .machine { fill: #0ea5e9; }
+    }
+  </style>
+  
+  <!-- Define arrow marker for connector lines -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#FF6B00" />
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="400" class="bg" />
+  
+  <!-- Title -->
+  <text x="400" y="40" class="text label" font-size="24" text-anchor="middle" font-weight="bold">The Language of APIs</text>
+  <text x="400" y="70" class="text small-label" font-size="16" text-anchor="middle" font-style="italic">Bridging Human Intent and Machine Logic</text>
+  
+  <!-- Human side -->
+  <circle cx="150" cy="160" r="60" class="human" opacity="0.1" />
+  <text x="150" y="160" class="text label" font-size="18" text-anchor="middle">Human Language</text>
+  <text x="150" y="185" class="small-label text" text-anchor="middle">"I want to see"</text>
+  <text x="150" y="205" class="small-label text" text-anchor="middle">"Find all the..."</text>
+  <text x="150" y="225" class="small-label text" text-anchor="middle">"Show me recent..."</text>
+  
+  <!-- Machine side -->
+  <circle cx="650" cy="160" r="60" class="machine" opacity="0.1" />
+  <text x="650" y="160" class="text label" font-size="18" text-anchor="middle">Machine Logic</text>
+  <text x="650" y="185" class="code" text-anchor="middle">GET /resource?param=value</text>
+  <text x="650" y="205" class="code" text-anchor="middle">POST /endpoint {"key": "val"}</text>
+  <text x="650" y="225" class="code" text-anchor="middle">PUT /items/123 {}</text>
+  
+  <!-- Bridge section - NLP Processing -->
+  <rect x="250" y="120" width="300" height="180" class="highlight-box" rx="12" />
+  <text x="400" y="145" class="label accent" text-anchor="middle" font-weight="bold">NLP Bridge</text>
+  
+  <!-- Processing steps -->
+  <rect x="270" y="160" width="260" height="30" class="box" rx="4" />
+  <text x="400" y="180" class="text small-label" text-anchor="middle">Intent Recognition</text>
+  
+  <rect x="270" y="200" width="260" height="30" class="box" rx="4" />
+  <text x="400" y="220" class="text small-label" text-anchor="middle">Entity Extraction</text>
+  
+  <rect x="270" y="240" width="260" height="30" class="box" rx="4" />
+  <text x="400" y="260" class="text small-label" text-anchor="middle">API Mapping</text>
+  
+  <!-- Connecting arrows -->
+  <path d="M210,160 C230,160 250,160 270,160" class="connector" />
+  <path d="M530,160 C550,160 570,160 590,160" class="connector" />
+  <path d="M400,190 L400,200" class="connector" />
+  <path d="M400,230 L400,240" class="connector" />
+  
+  <!-- Example transformation -->
+  <rect x="100" y="320" width="600" height="60" class="box" style="fill: rgba(255, 107, 0, 0.05); stroke: #FF6B00;" />
+  <text x="150" y="345" class="small-label text" font-style="italic">"Show me John Smith's pending orders sorted by date"</text>
+  <text x="400" y="345" class="text label" font-size="16" text-anchor="middle">→</text>
+  <text x="550" y="345" class="code" font-size="11">GET /customers/123/orders?status=pending&sort=date&direction=desc</text>
+  <line x1="150" y1="355" x2="650" y2="355" class="line dashed" />
+  <text x="150" y="375" class="small-label text" font-size="10" font-style="italic">Natural language request</text>
+  <text x="650" y="375" class="small-label text" font-size="10" text-anchor="end" font-style="italic">Structured API call</text>
+  
+  <!-- API0 Logo -->
+  <g transform="translate(400, 380)">
+    <text class="text" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle">api<tspan class="accent" font-weight="900" transform="rotate(-12, 15, 0)">0</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,65 @@
+/* SVG Container styling */
+.svg-container {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Base SVG styling */
+.blog-svg {
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+/* Theme-specific SVG styles */
+.blog-svg[data-theme="dark"] {
+  /* Override colors for dark theme */
+  --svg-bg: var(--card);
+  --svg-text: var(--foreground);
+  --svg-accent: var(--primary);
+  --svg-lines: var(--border);
+  filter: brightness(0.9) saturate(1.1);
+}
+
+.blog-svg[data-theme="light"] {
+  /* Override colors for light theme */
+  --svg-bg: var(--background);
+  --svg-text: var(--foreground);
+  --svg-accent: var(--primary);
+  --svg-lines: var(--border);
+}
+
+/* Hover effect for SVGs in interactive containers */
+a:hover .blog-svg, 
+button:hover .blog-svg {
+  transform: scale(1.05);
+}
+
+/* You can target specific SVG elements for more control */
+.blog-svg .background {
+  fill: var(--svg-bg, #ffffff);
+}
+
+.blog-svg .text {
+  fill: var(--svg-text, #1e293b);
+}
+
+.blog-svg .accent {
+  fill: var(--svg-accent, #FF6B00);
+}
+
+.blog-svg .line {
+  stroke: var(--svg-lines, #e2e8f0);
+}
+
+/* Custom animation for specific elements */
+.blog-svg .animated-path {
+  animation: dash 3s ease-in-out infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

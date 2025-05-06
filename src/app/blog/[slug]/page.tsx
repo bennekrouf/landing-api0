@@ -78,7 +78,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
   if (!post) {
     notFound();
   }
-  
+
   // Create canonical URL
   const canonicalUrl = `https://api0.ai/blog/${slug}/`;
 
@@ -100,33 +100,33 @@ export default async function BlogPage({ params }: BlogPageProps) {
 
       {/* Add Structured Data Schema */}
       <BlogSchema post={post} url={canonicalUrl} />
-      
+
       <div className="container mx-auto px-4 py-16">
-        <article className="max-w-4xl mx-auto">
-          <BlogHeader
-            title={post.title}
-            date={post.date}
-            author={post.author}
-            tags={post.tags}
-            readingTime={post.readingTime}
-            svg={post.svg}
-            image={post.image}
-          />
+      <article className="max-w-4xl mx-auto">
+        <BlogHeader
+          title={post.title}
+          date={post.date}
+          author={post.author}
+          tags={post.tags}
+          readingTime={post.readingTime}
+          svg={post.svg}
+          image={post.image}
+        />
 
-          <div className="flex flex-col md:flex-row gap-8 mt-12">
-            <div className="md:w-3/4">
-              <div
-                className="prose prose-lg dark:prose-invert max-w-none prose-headings:text-foreground prose-a:text-[#FF6B00] prose-strong:text-foreground prose-p:text-muted-foreground prose-li:text-muted-foreground prose-blockquote:text-muted-foreground"
-                dangerouslySetInnerHTML={{ __html: post.contentHtml || '' }}
-              />
-            </div>
-
-            <div className="md:w-1/4 md:sticky md:top-24 h-fit">
-              <TableOfContents headings={post.headings} />
-            </div>
+        <div className="flex flex-col md:flex-row gap-8 mt-12">
+          <div className="md:w-3/4">
+            <div
+              className="prose prose-lg dark:prose-invert max-w-none prose-headings:text-foreground prose-a:text-[#FF6B00] prose-strong:text-foreground prose-p:text-muted-foreground prose-li:text-muted-foreground prose-blockquote:text-muted-foreground"
+              dangerouslySetInnerHTML={{ __html: post.contentHtml || '' }}
+            />
           </div>
-        </article>
-      </div>
+
+          <div className="md:w-1/4 md:sticky md:top-24 h-fit">
+            <TableOfContents headings={post.headings} />
+          </div>
+        </div>
+      </article>
+    </div>
     </>
   );
 }

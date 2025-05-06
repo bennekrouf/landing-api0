@@ -1,6 +1,14 @@
-import type { NextConfig } from "next";
+// import type { NextConfig } from "next";
+//
+// const nextConfig: NextConfig = {
+//   /* config options here */
+// };
+//
+// export default nextConfig;
 
-const nextConfig: NextConfig = {
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
  images: {
     domains: ['api0.ai'], // Add your domain for image optimization
   },
@@ -48,7 +56,6 @@ const nextConfig: NextConfig = {
     ];
   },
   // Add trailing slashes for better SEO
-  trailingSlash: true,
-};
+  trailingSlash: true,};
 
-export default nextConfig;
+module.exports = nextConfig;

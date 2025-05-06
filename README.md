@@ -1,13 +1,14 @@
-# api0 Landing Page
+# API0 Website
 
-A modern, responsive landing page for api0 with dark mode support.
+A modern, responsive website for API0 with integrated blog and dark mode support.
 
 ## Features
 
 - 🌓 Dark/Light mode with theme persistence in local storage
-- 🎨 Responsive design across all devices
+- 📱 Responsive design across all devices
+- 📝 Integrated blog with markdown support
 - ⚡ Built with Next.js and Tailwind CSS
-- 🔄 Smooth transitions between themes
+- 🔄 Smooth transitions between pages and themes
 
 ## Getting Started
 
@@ -25,6 +26,59 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Project Structure
+
+```
+src/
+  app/
+    blog/
+      [slug]/           # Individual blog post pages
+        page.tsx        
+      page.tsx          # Blog listing page
+    globals.css         # Global styles, CSS variables for themes
+    layout.tsx          # Root layout with unified navigation
+    page.tsx            # Landing page
+  components/
+    blog/               # Blog-specific components
+      BlogHeader.tsx
+      TableOfContents.tsx
+    Navigation.tsx      # Shared navigation component
+    Footer.tsx          # Shared footer component
+    ScrollToAnchor.tsx  # Utility for handling anchor link scrolling
+    theme/              # Theme-related components
+      theme-provider.tsx
+      theme-toggle.tsx
+  lib/
+    blog.ts             # Blog data fetching utilities
+content/
+  blog/                 # Markdown blog posts
+    *.md
+public/                 # Static assets
+```
+
+## Blog System
+
+The blog system uses markdown files in the `content/blog` directory. Each post should include frontmatter with:
+
+```md
+---
+title: "Post Title"
+date: "YYYY-MM-DD"
+excerpt: "Brief description"
+author:
+  name: "Author Name"
+  avatar: "/path/to/avatar.jpg" (optional)
+tags: ["Tag1", "Tag2"]
+image: "/path/to/header-image.jpg" (optional)
+---
+
+# Content starts here
+```
+
+## Navigation System
+
+The website uses a unified navigation system that's shared between the landing page and blog pages, providing a consistent experience. The navigation highlights the active section or page using the current URL path.
+
 ## Dark Mode Implementation
 
 The dark mode implementation follows these key principles:
@@ -38,21 +92,6 @@ The dark mode implementation follows these key principles:
 
 To toggle between light and dark mode, click the sun/moon icon in the navbar. The theme preference is automatically saved to local storage.
 
-### Theme Provider
-
-The theme provider is the core of the dark mode implementation. It:
-- Initializes the theme based on local storage or default
-- Provides theme context to components
-- Handles theme toggling
-- Persists theme preferences in local storage
-
-```tsx
-import { useTheme } from '@/components/theme/theme-provider';
-
-// In your component
-const { theme, toggleTheme } = useTheme();
-```
-
 ## Design Priorities
 
 ✅ **Clarity & Simplicity** – A professional, modern aesthetic that prioritizes readability and intuitive navigation.  
@@ -60,20 +99,6 @@ const { theme, toggleTheme } = useTheme();
 ✅ **Real-Time Updates** – Instant theme changes with smooth transitions.  
 ✅ **Modular & Scalable** – Card-based layout to keep information well-structured.  
 ✅ **Developer-Friendly** – Dark/light mode support, a responsive layout.
-
-## Project Structure
-
-```
-src/
-  app/
-    globals.css           # Global styles, CSS variables for themes
-    layout.tsx            # Root layout with ThemeProvider
-    page.tsx              # Landing page with theme toggle
-  components/
-    theme/
-      theme-provider.tsx  # ThemeProvider context
-      theme-toggle.tsx    # Theme toggle button component
-```
 
 ## Customization
 
