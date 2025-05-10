@@ -1,4 +1,4 @@
-# Default configuration for sensei-landing
+# Default configuration for landing
 service:
-  name: sensei-landing
+  name: landing
   version: 1.0.0
