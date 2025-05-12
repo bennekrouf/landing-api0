@@ -28,8 +28,6 @@ export function BlogHeader({
   // Determine if we should display a visual (SVG or image)
   const hasVisual = Boolean(svg || image);
 
-  console.log('BlogHeader props:', { title, hasVisual, svg, image });
-
   return (
     <header className="mb-12">
       {tags && tags.length > 0 && (
@@ -42,10 +40,9 @@ export function BlogHeader({
         </div>
       )}
 
-      <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-foreground">
-        {title}
-      </h1>
-
+      {/* Removing the title from here to avoid duplication */}
+      {/* The title will remain in the markdown content */}
+      
       <div className="flex flex-wrap items-center gap-4 mb-8 text-muted-foreground">
         {author && (
           <div className="flex items-center gap-2">

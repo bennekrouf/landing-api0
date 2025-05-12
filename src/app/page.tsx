@@ -17,9 +17,11 @@ const HomePage = () => {
           </p>
           <a
             href="https://app.api0.ai"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center px-8 py-4 rounded-lg bg-[#FF6B00] text-white text-lg font-semibold hover:bg-[#FF6B00]/90 transform transition duration-200 hover:-translate-y-1 shadow-xl shadow-orange-500/20"
           >
-            Try the Demo
+            Get started
           </a>
         </div>
       </section>
