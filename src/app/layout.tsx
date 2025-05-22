@@ -6,16 +6,18 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import ScrollToAnchor from "@/components/ScrollToAnchor";
 
-export const metadata = {
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
   title: {
     template: '%s | API0',
-    default: 'API0 - Intelligent API Routing', // Used on the homepage
+    default: 'API0 - Intelligent API Routing',
   },
   description: 'API0 - Modern API Routing and Management Platform',
   icons: {
-    icon: '/icon.svg', // SVG favicon
-    shortcut: '/favicon.ico', // Fallback for browsers that don't support SVG
-    apple: '/apple-icon.png', // Optional: for iOS devices
+    icon: '/icon.svg',
+    shortcut: '/favicon.ico',
+    apple: '/apple-icon.png',
   },
 };
 

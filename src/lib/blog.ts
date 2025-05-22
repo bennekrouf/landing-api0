@@ -1,28 +1,20 @@
 // src/lib/blog.ts
+import { cache } from 'react';
 import blogPostsData from '@/data/blog-posts.json';
 import type { Post } from './blog-types';
 
-// Type assertion to ensure the imported JSON has the correct structure
 const blogPosts = blogPostsData as Post[];
 
-/**
- * Get all blog posts
- */
-export async function getBlogPosts(): Promise<Post[]> {
+// Cache the blog posts retrieval
+export const getBlogPosts = cache(async (): Promise<Post[]> => {
   return blogPosts;
-}
+});
 
-/**
- * Get a single blog post by slug
- * @param slug The post slug to retrieve
- */
-export async function getBlogPost(slug: string): Promise<Post | null> {
-  // Find the post with the matching slug
+// Cache individual blog post retrieval
+export const getBlogPost = cache(async (slug: string): Promise<Post | null> => {
   const post = blogPosts.find(post => post.slug === slug);
-  
-  // Return the post or null if not found
   return post || null;
-}
+});
 
 /**
  * Search blog posts by query

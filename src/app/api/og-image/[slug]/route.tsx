@@ -1,4 +1,3 @@
-// src/app/api/og-image/[slug]/route.tsx
 import { ImageResponse } from 'next/og';
 import { getBlogPost } from '@/lib/blog';
 import { NextRequest } from 'next/server';
