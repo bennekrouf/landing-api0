@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { MessageSquare, Search, Target } from 'lucide-react';
+import { Zap, DollarSign, Settings } from 'lucide-react';
 
 const HomePage = () => {
   return (
@@ -10,48 +10,132 @@ const HomePage = () => {
       <section className="relative pt-24 pb-24 bg-gradient-to-b from-accent to-background">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl sm:text-6xl font-bold mb-8 text-foreground">
-            No More Forms. <span className="text-[#FF6B00]">Just Ask.</span>
+            AI APIs that <span className="text-[#FF6B00]">just work</span>
           </h1>
           <p className="text-xl sm:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-            api0 connects users to the right APIs instantly.
+            Two powerful endpoints. Zero setup. Pay per use.
           </p>
-          <a
-            href="https://app.api0.ai"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center px-8 py-4 rounded-lg bg-[#FF6B00] text-white text-lg font-semibold hover:bg-[#FF6B00]/90 transform transition duration-200 hover:-translate-y-1 shadow-xl shadow-orange-500/20"
-          >
-            Get started
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a
+              href="https://app.api0.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-8 py-4 rounded-lg bg-[#FF6B00] text-white text-lg font-semibold hover:bg-[#FF6B00]/90 transform transition duration-200 hover:-translate-y-1 shadow-xl shadow-orange-500/20"
+            >
+              Get API Key
+            </a>
+            <a
+              href="https://app.api0.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-8 py-4 rounded-lg border border-border text-foreground text-lg font-semibold hover:border-[#FF6B00] hover:text-[#FF6B00] transition duration-200"
+            >
+              View Dashboard
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-24 bg-background">
+      {/* Examples Section */}
+      <section id="examples" className="py-24 bg-background">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-16 text-foreground">Key Features</h2>
+          <h2 className="text-3xl font-bold text-center mb-16 text-foreground">Start building in 30 seconds</h2>
+          
+          <div className="grid md:grid-cols-2 gap-12">
+            {/* Chat API */}
+            <div className="bg-card border border-border rounded-xl p-8">
+              <h3 className="text-2xl font-bold mb-4 text-[#FF6B00]">/chat</h3>
+              <p className="text-muted-foreground mb-6 text-lg">
+                General-purpose AI chat API with streaming support and function calling.
+              </p>
+              <div className="bg-muted rounded-lg p-6 overflow-x-auto">
+                <pre className="text-sm">
+                  <code className="text-muted-foreground">
+{`# Chat with AI
+curl -X POST https://api0.ai/chat \\
+  -H "Authorization: Bearer YOUR_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "messages": [
+      {"role": "user", "content": "Explain async/await"}
+    ]
+  }'`}
+                  </code>
+                </pre>
+              </div>
+            </div>
+
+            {/* Semantic API */}
+            <div className="bg-card border border-border rounded-xl p-8">
+              <h3 className="text-2xl font-bold mb-4 text-[#FF6B00]">/semantic</h3>
+              <p className="text-muted-foreground mb-6 text-lg">
+                Matches user queries to your imported APIs using semantic understanding.
+              </p>
+              <div className="bg-muted rounded-lg p-6 overflow-x-auto">
+                <pre className="text-sm">
+                  <code className="text-muted-foreground">
+{`# Find matching APIs
+curl -X POST https://api0.ai/semantic \\
+  -H "Authorization: Bearer YOUR_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "query": "get user profile data",
+    "apis": ["users", "accounts", "profiles"]
+  }'`}
+                  </code>
+                </pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-24 bg-accent/30">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-16 text-foreground">Built for developers</h2>
+          
           <div className="grid md:grid-cols-3 gap-12">
-            <div className="flex flex-col items-center text-center p-6 rounded-xl bg-accent/50 border border-border">
+            <div className="flex flex-col items-center text-center p-6">
               <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
-                <MessageSquare size={32} className="text-[#FF6B00]" />
+                <Zap size={32} className="text-[#FF6B00]" />
               </div>
-              <h3 className="text-xl font-semibold mb-4 text-foreground">Natural Language Processing</h3>
-              <p className="text-muted-foreground">Transform conversational requests into structured API parameters without complex forms.</p>
+              <h3 className="text-xl font-semibold mb-4 text-foreground">Instant Access</h3>
+              <p className="text-muted-foreground">Get your API key and start making requests immediately. No SDK required, works with any HTTP client.</p>
             </div>
-            <div className="flex flex-col items-center text-center p-6 rounded-xl bg-accent/50 border border-border">
+            
+            <div className="flex flex-col items-center text-center p-6">
               <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
-                <Search size={32} className="text-[#FF6B00]" />
+                <DollarSign size={32} className="text-[#FF6B00]" />
               </div>
-              <h3 className="text-xl font-semibold mb-4 text-foreground">API Discovery</h3>
-              <p className="text-muted-foreground">Automatically identify and surface the most relevant APIs from your ecosystem based on user needs.</p>
+              <h3 className="text-xl font-semibold mb-4 text-foreground">Pay Per Use</h3>
+              <p className="text-muted-foreground">Only pay for what you use. No monthly subscriptions, no minimum commitments. Start free.</p>
             </div>
-            <div className="flex flex-col items-center text-center p-6 rounded-xl bg-accent/50 border border-border">
+            
+            <div className="flex flex-col items-center text-center p-6">
               <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
-                <Target size={32} className="text-[#FF6B00]" />
+                <Settings size={32} className="text-[#FF6B00]" />
               </div>
-              <h3 className="text-xl font-semibold mb-4 text-foreground">Intent Matching</h3>
-              <p className="text-muted-foreground">Advanced contextual analysis to understand user intent and map it to the perfect API endpoints.</p>
+              <h3 className="text-xl font-semibold mb-4 text-foreground">Zero Setup</h3>
+              <p className="text-muted-foreground">Standard REST API with JSON. No complex integrations, no vendor lock-in. Just HTTP requests.</p>
             </div>
+          </div>
+          
+          <div className="mt-16 text-center p-8 bg-[#FF6B00]/5 border border-[#FF6B00]/20 rounded-xl">
+            <h3 className="text-xl font-semibold mb-4 text-[#FF6B00]">Flexible Payment</h3>
+            <p className="text-muted-foreground mb-4">
+              Pay with credit card, bank transfer, or crypto (BTC, ETH, USDC). Automatic billing based on usage.
+            </p>
+            <p className="text-muted-foreground">
+              <a 
+                href="https://app.api0.ai" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#FF6B00] hover:underline font-medium"
+              >
+                Manage usage and import APIs in your dashboard →
+              </a>
+            </p>
           </div>
         </div>
       </section>

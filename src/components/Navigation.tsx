@@ -35,11 +35,19 @@ const Navigation = () => {
           </Link>
           
           <div className="hidden md:flex items-center gap-6">
+            <a
+              href="https://app.api0.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Dashboard
+            </a>
             <Link 
-              href="/#features" 
+              href="/#examples" 
               className={`${isActive('/') ? 'text-foreground font-medium' : 'text-muted-foreground'} hover:text-foreground transition-colors`}
             >
-              Features
+              Examples
             </Link>
             <Link 
               href="/blog" 
@@ -59,7 +67,15 @@ const Navigation = () => {
           </div>
           
           {/* Mobile menu button - can be expanded with a dropdown menu implementation */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center gap-2">
+            <a 
+              href="https://app.api0.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-3 py-1.5 rounded-lg bg-[#FF6B00] text-white text-sm font-medium hover:bg-[#FF6B00]/90 transition-all"
+            >
+              Dashboard
+            </a>
             <ThemeToggle />
           </div>
         </div>
