@@ -11,7 +11,7 @@ const HomePage = () => {
       <section className="relative pt-24 pb-24 bg-gradient-to-b from-accent to-background">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl sm:text-6xl font-bold mb-8 text-foreground">
-            AI APIs that <span className="text-[#FF6B00]">just work</span>
+            AI plugin for APIs that <span className="text-[#FF6B00]">just work</span>
           </h1>
           <p className="text-xl sm:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto">
             Two powerful endpoints. Zero setup. Pay per use.

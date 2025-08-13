@@ -35,14 +35,14 @@ const Navigation = () => {
           </Link>
           
           <div className="hidden md:flex items-center gap-6">
-            <a
-              href="https://app.api0.ai"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Dashboard
-            </a>
+            {/* <a */}
+            {/*   href="https://app.api0.ai" */}
+            {/*   target="_blank" */}
+            {/*   rel="noopener noreferrer" */}
+            {/*   className="text-muted-foreground hover:text-foreground transition-colors" */}
+            {/* > */}
+            {/*   Dashboard */}
+            {/* </a> */}
             <Link 
               href="/#examples" 
               className={`${isActive('/') ? 'text-foreground font-medium' : 'text-muted-foreground'} hover:text-foreground transition-colors`}
