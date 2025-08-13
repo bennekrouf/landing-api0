@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Zap, DollarSign, Settings } from 'lucide-react';
+import SemanticWorkflow from '@/components/SemanticWorkflow';
 
 const HomePage = () => {
   return (
@@ -35,6 +36,9 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+
+<SemanticWorkflow />
 
       {/* Examples Section */}
       <section id="examples" className="py-24 bg-background">
@@ -79,8 +83,7 @@ curl -X POST https://api0.ai/semantic \\
   -H "Authorization: Bearer YOUR_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
-    "query": "get user profile data",
-    "apis": ["users", "accounts", "profiles"]
+    "query": "get user profile data for user John Rush"
   }'`}
                   </code>
                 </pre>
@@ -96,47 +99,47 @@ curl -X POST https://api0.ai/semantic \\
           <h2 className="text-3xl font-bold text-center mb-16 text-foreground">Built for developers</h2>
           
           <div className="grid md:grid-cols-3 gap-12">
-            <div className="flex flex-col items-center text-center p-6">
-              <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
-                <Zap size={32} className="text-[#FF6B00]" />
-              </div>
-              <h3 className="text-xl font-semibold mb-4 text-foreground">Instant Access</h3>
-              <p className="text-muted-foreground">Get your API key and start making requests immediately. No SDK required, works with any HTTP client.</p>
-            </div>
-            
-            <div className="flex flex-col items-center text-center p-6">
-              <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
-                <DollarSign size={32} className="text-[#FF6B00]" />
-              </div>
-              <h3 className="text-xl font-semibold mb-4 text-foreground">Pay Per Use</h3>
-              <p className="text-muted-foreground">Only pay for what you use. No monthly subscriptions, no minimum commitments. Start free.</p>
-            </div>
-            
-            <div className="flex flex-col items-center text-center p-6">
-              <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
-                <Settings size={32} className="text-[#FF6B00]" />
-              </div>
-              <h3 className="text-xl font-semibold mb-4 text-foreground">Zero Setup</h3>
-              <p className="text-muted-foreground">Standard REST API with JSON. No complex integrations, no vendor lock-in. Just HTTP requests.</p>
-            </div>
-          </div>
+  <div className="flex flex-col items-center text-center p-6">
+    <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
+      <Zap size={32} className="text-[#FF6B00]" />
+    </div>
+    <h3 className="text-xl font-semibold mb-4 text-foreground">Turn APIs into AI</h3>
+    <p className="text-muted-foreground">Transform your existing APIs into intelligent, natural language interfaces without ML expertise or additional AI providers.</p>
+  </div>
+  
+  <div className="flex flex-col items-center text-center p-6">
+    <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
+      <DollarSign size={32} className="text-[#FF6B00]" />
+    </div>
+    <h3 className="text-xl font-semibold mb-4 text-foreground">Non-Intrusive Integration</h3>
+    <p className="text-muted-foreground">We compute which API matches your request, you execute the call. Complete separation - your data and systems remain entirely under your control.</p>
+  </div>
+  
+  <div className="flex flex-col items-center text-center p-6">
+    <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
+      <Settings size={32} className="text-[#FF6B00]" />
+    </div>
+    <h3 className="text-xl font-semibold mb-4 text-foreground">AI Without Complexity</h3>
+    <p className="text-muted-foreground">Get enterprise-grade LLM capabilities without learning machine learning, managing models, or paying multiple AI vendors.</p>
+  </div>
+</div>
           
-          <div className="mt-16 text-center p-8 bg-[#FF6B00]/5 border border-[#FF6B00]/20 rounded-xl">
-            <h3 className="text-xl font-semibold mb-4 text-[#FF6B00]">Flexible Payment</h3>
-            <p className="text-muted-foreground mb-4">
-              Pay with credit card, bank transfer, or crypto (BTC, ETH, USDC). Automatic billing based on usage.
-            </p>
-            <p className="text-muted-foreground">
-              <a 
-                href="https://app.api0.ai" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#FF6B00] hover:underline font-medium"
-              >
-                Manage usage and import APIs in your dashboard →
-              </a>
-            </p>
-          </div>
+          {/* <div className="mt-16 text-center p-8 bg-[#FF6B00]/5 border border-[#FF6B00]/20 rounded-xl"> */}
+          {/*   <h3 className="text-xl font-semibold mb-4 text-[#FF6B00]">Flexible Payment</h3> */}
+          {/*   <p className="text-muted-foreground mb-4"> */}
+          {/*     Pay with credit card, bank transfer, or crypto (BTC, ETH, USDC). Automatic billing based on usage. */}
+          {/*   </p> */}
+          {/*   <p className="text-muted-foreground"> */}
+          {/*     <a  */}
+          {/*       href="https://app.api0.ai"  */}
+          {/*       target="_blank" */}
+          {/*       rel="noopener noreferrer" */}
+          {/*       className="text-[#FF6B00] hover:underline font-medium" */}
+          {/*     > */}
+          {/*       Manage usage and import APIs in your dashboard → */}
+          {/*     </a> */}
+          {/*   </p> */}
+          {/* </div> */}
         </div>
       </section>
     </>

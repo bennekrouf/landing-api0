@@ -1,0 +1,145 @@
+<svg viewBox="0 0 400 800" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    /* SVG styles that respect theme variables */
+    .bg { fill: var(--svg-bg, #f8fafc); }
+    .text { fill: var(--svg-text, #1e293b); }
+    .accent { fill: var(--svg-accent, #FF6B00); }
+    .accent-light { fill: rgba(255, 107, 0, 0.1); }
+    .line { stroke: var(--svg-lines, #e2e8f0); stroke-width: 2; }
+    .connector { stroke: #FF6B00; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+    .dashed { stroke-dasharray: 6,3; }
+    .label { font-family: sans-serif; font-size: 18px; font-weight: 600; }
+    .small-label { font-family: sans-serif; font-size: 14px; }
+    .tiny-label { font-family: sans-serif; font-size: 12px; }
+    .box { fill: white; stroke: #64748b; stroke-width: 2; rx: 12; filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.1)); }
+    .step-circle { fill: #FF6B00; stroke: none; }
+    .step-number { font-family: sans-serif; font-size: 22px; font-weight: bold; fill: white; }
+    .highlight-box { fill: rgba(255, 107, 0, 0.05); stroke: #FF6B00; stroke-width: 2; rx: 12; }
+    .code { font-family: 'Monaco', 'Menlo', monospace; font-size: 10px; fill: #475569; }
+    .dashboard-bg { fill: #1e293b; rx: 6; }
+    .dashboard-text { fill: #f1f5f9; font-family: sans-serif; font-size: 11px; }
+    .success-indicator { fill: #10b981; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0f172a; }
+      .text { fill: #f8fafc; }
+      .box { fill: #1e293b; stroke: #475569; }
+      .code { fill: #cbd5e1; }
+      .dashboard-bg { fill: #334155; }
+    }
+  </style>
+  
+  <!-- Define arrow marker -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#FF6B00" />
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="800" class="bg" />
+  
+  <!-- Title -->
+  <text x="200" y="40" class="text label" font-size="24" text-anchor="middle" font-weight="bold">Semantic API</text>
+  <text x="200" y="65" class="text small-label" text-anchor="middle" font-style="italic">3 simple steps</text>
+  
+  <!-- Step 1: Describe APIs -->
+  <g id="step1">
+    <circle cx="200" cy="120" r="25" class="step-circle" />
+    <text x="200" y="128" class="step-number" text-anchor="middle">1</text>
+    
+    <rect x="40" y="160" width="320" height="180" class="highlight-box" />
+    <text x="200" y="185" class="text label" text-anchor="middle">Describe Your APIs</text>
+    <text x="200" y="205" class="small-label text" text-anchor="middle">Any format, any language</text>
+    
+    <!-- Dashboard mockup -->
+    <rect x="60" y="220" width="280" height="60" class="dashboard-bg" />
+    <text x="70" y="240" class="dashboard-text">💬 "I have a user service that handles</text>
+    <text x="70" y="255" class="dashboard-text">authentication, user profiles, and</text>
+    <text x="70" y="270" class="dashboard-text">account creation"</text>
+    
+    <!-- Endpoints -->
+    <rect x="60" y="290" width="280" height="40" style="fill: rgba(0, 0, 0, 0.05); stroke: none; rx: 6;" />
+    <text x="70" y="305" class="code">🔗 POST /api/users/create</text>
+    <text x="70" y="320" class="code">🔍 GET /api/users/{id}/profile</text>
+    
+    <!-- AI indicator -->
+    <circle cx="330" cy="310" r="8" class="accent" />
+    <text x="330" y="315" class="step-number" text-anchor="middle" font-size="10">AI</text>
+  </g>
+  
+  <!-- Connecting arrow 1 -->
+  <path d="M200,360 L200,400" class="connector" />
+  
+  <!-- Step 2: Get Integration Code -->
+  <g id="step2">
+    <circle cx="200" cy="420" r="25" class="step-circle" />
+    <text x="200" y="428" class="step-number" text-anchor="middle">2</text>
+    
+    <rect x="40" y="460" width="320" height="180" class="box" />
+    <text x="200" y="485" class="text label" text-anchor="middle">Get Integration Code</text>
+    <text x="200" y="505" class="small-label text" text-anchor="middle">Auto-generated for your stack</text>
+    
+    <!-- Code snippet -->
+    <rect x="60" y="520" width="280" height="100" style="fill: rgba(0, 0, 0, 0.05); stroke: none; rx: 6;" />
+    <text x="70" y="540" class="code">import { API0Client } from 'api0-client';</text>
+    <text x="70" y="555" class="code"></text>
+    <text x="70" y="570" class="code">const api0 = new API0Client({</text>
+    <text x="70" y="585" class="code">  apiKey: 'your-key',</text>
+    <text x="70" y="600" class="code">  apis: ['users', 'orders']</text>
+    <text x="70" y="615" class="code">});</text>
+    
+    <!-- Copy button -->
+    <rect x="320" y="525" width="15" height="12" style="fill: #FF6B00; rx: 2;" />
+    <text x="327" y="534" style="fill: white; font-size: 8px; text-anchor: middle;">📋</text>
+  </g>
+  
+  <!-- Connecting arrow 2 -->
+  <path d="M200,660 L200,700" class="connector" />
+  
+  <!-- Step 3: Deploy & Use -->
+  <g id="step3">
+    <circle cx="200" cy="720" r="25" class="step-circle" />
+    <text x="200" y="728" class="step-number" text-anchor="middle">3</text>
+    
+    <rect x="40" y="760" width="320" height="180" class="highlight-box" />
+    <text x="200" y="785" class="text label" text-anchor="middle">Deploy & Use</text>
+    <text x="200" y="805" class="small-label text" text-anchor="middle">Natural language queries</text>
+    
+    <!-- Usage example -->
+    <rect x="60" y="820" width="280" height="60" style="fill: rgba(16, 185, 129, 0.05); stroke: #10b981; stroke-width: 1; rx: 6;" />
+    <text x="70" y="840" class="code" style="fill: #059669;">// Natural language to API</text>
+    <text x="70" y="855" class="code">const result = await api0.query(</text>
+    <text x="70" y="870" class="code">  "Get profile for john@example.com"</text>
+    <text x="70" y="885" class="code">);</text>
+    
+    <!-- Stats -->
+    <g id="stats">
+      <rect x="60" y="890" width="130" height="40" style="fill: rgba(59, 130, 246, 0.1); stroke: #3b82f6; stroke-width: 1; rx: 6;" />
+      <text x="125" y="905" class="text" font-size="16" font-weight="bold" text-anchor="middle" style="fill: #3b82f6;">90%</text>
+      <text x="125" y="920" class="tiny-label text" text-anchor="middle" style="fill: #3b82f6;">Less code</text>
+      
+      <rect x="210" y="890" width="130" height="40" style="fill: rgba(16, 185, 129, 0.1); stroke: #10b981; stroke-width: 1; rx: 6;" />
+      <text x="275" y="905" class="text" font-size="16" font-weight="bold" text-anchor="middle" style="fill: #10b981;">5min</text>
+      <text x="275" y="920" class="tiny-label text" text-anchor="middle" style="fill: #10b981;">Setup</text>
+    </g>
+    
+    <!-- Success checkmark -->
+    <circle cx="330" cy="850" r="8" class="success-indicator" />
+    <text x="330" y="855" style="fill: white; font-size: 10px; text-anchor: middle;">✓</text>
+  </g>
+  
+  <!-- Feature highlights at bottom -->
+  <g id="highlights" transform="translate(0, 950)">
+    <rect x="40" y="0" width="320" height="80" class="box" style="fill: rgba(255, 107, 0, 0.02);" />
+    
+    <text x="50" y="20" class="tiny-label text">✓ AI understands any API format</text>
+    <text x="50" y="35" class="tiny-label text">✓ Generates optimized code</text>
+    <text x="50" y="50" class="tiny-label text">✓ Works with existing apps</text>
+    <text x="50" y="65" class="tiny-label text">✓ No endpoint memorization</text>
+  </g>
+  
+  <!-- API0 Logo -->
+  <g transform="translate(200, 1050)">
+    <text class="text" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle">api<tspan class="accent" font-weight="900" transform="rotate(-12, 15, 0)">0</tspan></text>
+  </g>
+</svg>
