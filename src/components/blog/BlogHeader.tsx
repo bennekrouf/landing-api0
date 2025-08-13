@@ -79,19 +79,19 @@ export function BlogHeader({
       </div>
 
       {/* SVG/Image container with explicit height */}
-      {hasVisual && (
-        <div className="w-full mb-12 relative" style={{ minHeight: '300px' }}>
-          <BlogSVG
-            src={svg || image || ''}
-            fallbackImage={image}
-            className="w-full rounded-xl"
-            width={1200}
-            height={400}
-            priority={true}
-            alt={`Illustration for ${title}`}
-          />
-        </div>
-      )}
+      {/* {hasVisual && ( */}
+      {/*   <div className="w-full mb-12 relative" style={{ minHeight: '300px' }}> */}
+      {/*     <BlogSVG */}
+      {/*       src={svg || image || ''} */}
+      {/*       fallbackImage={image} */}
+      {/*       className="w-full rounded-xl" */}
+      {/*       width={1200} */}
+      {/*       height={400} */}
+      {/*       priority={true} */}
+      {/*       alt={`Illustration for ${title}`} */}
+      {/*     /> */}
+      {/*   </div> */}
+      {/* )} */}
     </header>
   );
 }

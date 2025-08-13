@@ -50,14 +50,14 @@ export default async function BlogPage() {
                 className="group"
               >
                 <article className="h-full flex flex-col border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300">
-                  <div className="relative h-48 overflow-hidden">
-                    <BlogSVG
-                      src={post.svg || post.image || ''}
-                      fallbackImage={post.image}
-                      alt={post.title}
-                      className="object-cover transition duration-300 group-hover:scale-105"
-                    />
-                  </div>
+                  {/* <div className="relative h-48 overflow-hidden"> */}
+                  {/*   <BlogSVG */}
+                  {/*     src={post.svg || post.image || ''} */}
+                  {/*     fallbackImage={post.image} */}
+                  {/*     alt={post.title} */}
+                  {/*     className="object-cover transition duration-300 group-hover:scale-105" */}
+                  {/*   /> */}
+                  {/* </div> */}
                   
                   <div className="flex-1 p-6">
                     <div className="flex items-center text-sm text-muted-foreground mb-3">
