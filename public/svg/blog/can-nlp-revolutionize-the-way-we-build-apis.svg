@@ -1,0 +1,72 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .bg { fill: var(--svg-bg, #f8fafc); }
+    .text { fill: var(--svg-text, #1e293b); }
+    .accent { fill: var(--svg-accent, #FF6B00); }
+    .accent-light { fill: rgba(255, 107, 0, 0.1); }
+    .line { stroke: var(--svg-lines, #e2e8f0); stroke-width: 2; }
+    .grid-line { stroke: var(--svg-lines, #e2e8f0); stroke-width: 1; stroke-dasharray: 4,4; }
+    .connector { stroke: #FF6B00; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+    .label { font-family: sans-serif; font-size: 14px; font-weight: 500; }
+    .small-label { font-family: sans-serif; font-size: 12px; }
+    .box { fill: white; stroke: #64748b; stroke-width: 2; rx: 6; filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1)); }
+    .highlight-box { fill: rgba(255, 107, 0, 0.08); stroke: #FF6B00; stroke-width: 2; rx: 6; }
+    .code { font-family: monospace; font-size: 12px; fill: #475569; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0f172a; }
+      .text { fill: #f8fafc; }
+      .box { fill: #1e293b; stroke: #475569; }
+      .code { fill: #cbd5e1; }
+      .grid-line { stroke: #334155; }
+    }
+  </style>
+  <title>Can NLP Revolutionize the Way We Build APIs?</title>
+
+  <!-- Title and brief description -->
+  <text class="label text-center" x="400" y="50">Can NLP Revolutionize the Way We Build APIs?</text>
+  <text class="small-label text-center" x="400" y="70">Exploring NLP's potential in developer tools</text>
+
+  <!-- Visual representation of key concept -->
+  <g transform="translate(100, 100)">
+    <rect class="box" x="0" y="0" width="200" height="150" rx="6"/>
+    <rect class="highlight-box" x="250" y="20" width="200" height="120"/>
+    
+    <!-- API connections -->
+    <path class="connector" d="M40,110 L260,110 M180,70 L460,70" />
+    
+    <!-- Text labels -->
+    <text class="label" x="60" y="130">Traditional API Routing</text>
+    <text class="label" x="340" y="120">Intelligent API Routing with NLP</text>
+  </g>
+
+  <!-- Comparison between traditional and new approaches -->
+  <g transform="translate(300, 100)">
+    <rect class="box" x="0" y="0" width="200" height="150"/>
+    <rect class="highlight-box" x="250" y="20" width="200" height="120"/>
+    
+    <!-- API connections -->
+    <path class="connector" d="M40,110 L260,110 M180,70 L460,70" />
+    
+    <!-- Text labels -->
+    <text class="label" x="60" y="130">Traditional APIs</text>
+    <text class="label" x="340" y="120">NLP-Enhanced APIs</text>
+  </g>
+
+  <!-- Code examples or data flow -->
+  <g transform="translate(200, 250)">
+    <rect class="box" x="0" y="0" width="300" height="150"/>
+    
+    <!-- Code snippet 1 -->
+    <text class="code" x="40" y="40">Traditional Routing Logic</text>
+    <text class="code" x="60" y="45">if condition</text>
+    <path class="connector" d="M80,50 L220,50"/>
+    
+    <!-- Code snippet 2 -->
+    <text class="code" x="300" y="40">NLP-Powered Logic</text>
+    <text class="code" x="320" y="45">natural language processing</text>
+    <path class="connector" d="M380,50 L540,50"/>
+  </g>
+
+  <!-- API0 logo at the bottom -->
+  <rect class="box" x="300" y="340" width="200" height="80"/>
+</svg>

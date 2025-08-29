@@ -1,4 +1,3 @@
-# Default configuration for sensei-landing
 service:
-  name: sensei-landing
-  version: 1.0.0
+  name: "api0-landing"
+  version: "1.0.0"
