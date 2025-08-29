@@ -1,7 +1,7 @@
 // src/components/blog/BlogHeader.tsx
 import React from 'react';
 import Image from 'next/image';
-import { BlogSVG } from './BlogSVG';
+// import { BlogSVG } from './BlogSVG';
 
 interface BlogHeaderProps {
   title: string;
@@ -17,16 +17,16 @@ interface BlogHeaderProps {
 }
 
 export function BlogHeader({
-  title,
+  // _title,
   date,
   author,
   tags,
   readingTime,
-  svg,
-  image
+  // svg,
+  // image
 }: BlogHeaderProps) {
   // Determine if we should display a visual (SVG or image)
-  const hasVisual = Boolean(svg || image);
+  // const hasVisual = Boolean(svg || image);
 
   return (
     <header className="mb-12">
@@ -42,7 +42,7 @@ export function BlogHeader({
 
       {/* Removing the title from here to avoid duplication */}
       {/* The title will remain in the markdown content */}
-      
+
       <div className="flex flex-wrap items-center gap-4 mb-8 text-muted-foreground">
         {author && (
           <div className="flex items-center gap-2">

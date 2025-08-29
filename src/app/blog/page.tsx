@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { getBlogPosts } from '@/lib/blog';
-import { BlogSVG } from '@/components/blog/BlogSVG';
+// import { BlogSVG } from '@/components/blog/BlogSVG';
 // import SEOMetaTags from '@/components/SEOMetaTags';
 
 export const metadata = {
@@ -27,12 +27,12 @@ export const metadata = {
 export default async function BlogPage() {
   // Get all blog posts
   const posts = await getBlogPosts();
-  
+
   // Sort posts by date (newest first)
-  const sortedPosts = [...posts].sort((a, b) => 
+  const sortedPosts = [...posts].sort((a, b) =>
     new Date(b.date).getTime() - new Date(a.date).getTime()
   );
-  
+
   return (
     <>
       <div className="container mx-auto px-4 py-16">
@@ -41,7 +41,7 @@ export default async function BlogPage() {
           <p className="text-xl text-muted-foreground mb-12">
             Insights, tutorials, and best practices for API routing and management
           </p>
-          
+
           <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
             {sortedPosts.map((post) => (
               <Link
@@ -58,7 +58,7 @@ export default async function BlogPage() {
                   {/*     className="object-cover transition duration-300 group-hover:scale-105" */}
                   {/*   /> */}
                   {/* </div> */}
-                  
+
                   <div className="flex-1 p-6">
                     <div className="flex items-center text-sm text-muted-foreground mb-3">
                       <time dateTime={new Date(post.date).toISOString()}>
@@ -68,7 +68,7 @@ export default async function BlogPage() {
                           day: 'numeric'
                         })}
                       </time>
-                      
+
                       {post.readingTime && (
                         <>
                           <span className="mx-2">•</span>
@@ -76,17 +76,17 @@ export default async function BlogPage() {
                         </>
                       )}
                     </div>
-                    
+
                     <h2 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
                       {post.title}
                     </h2>
-                    
+
                     <p className="text-muted-foreground mb-4">{post.excerpt}</p>
-                    
+
                     {post.tags && post.tags.length > 0 && (
                       <div className="flex flex-wrap gap-2 mt-auto">
                         {post.tags.slice(0, 3).map(tag => (
-                          <span 
+                          <span
                             key={tag}
                             className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-xs font-medium"
                           >
