@@ -57,7 +57,7 @@ curl -X POST https://api0.ai/chat \\
   -H "Content-Type: application/json" \\
   -d '{
     "messages": [
-      {"role": "user", "content": "Create a new order for 5 laptops"}
+      {"context": "Job seek", "content": "Give me top 5 advice on how creating a good CV"}
     ]
   }'`}
                   </code>
@@ -79,7 +79,7 @@ curl -X POST https://api0.ai/semantic \\
   -H "Authorization: Bearer YOUR_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
-    "query": "show me this month sales report"
+    "query": "Generate a CV in english using default template"
   }'`}
                   </code>
                 </pre>
