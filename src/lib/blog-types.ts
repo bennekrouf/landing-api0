@@ -13,10 +13,10 @@ export interface Heading {
 }
 
 export interface SEO {
-  title?: string;
-  description?: string;
-  keywords?: string[];
-  ogImage?: string;
+  title: string;
+  description: string;
+  keywords: string[];
+  ogImage: string | null;
 }
 
 // Base post metadata - common properties shared across interfaces
@@ -25,17 +25,17 @@ export interface PostMeta {
   title: string;
   date: string;
   excerpt: string;
-  author?: Author;
-  tags?: string[];
-  readingTime?: string;
-  image?: string;
-  svg?: string;
-  seo?: SEO;
+  author: Author;
+  tags: string[];
+  readingTime: string;
+  image: string | null;
+  svg: string | null;
+  seo: SEO;
 }
 
 // Complete post interface with content and HTML
 export interface Post extends PostMeta {
   content: string;
-  contentHtml: string; // Required in this definition
+  contentHtml: string;
   headings: Heading[];
 }

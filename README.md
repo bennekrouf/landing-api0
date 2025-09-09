@@ -1,6 +1,6 @@
 # API0 Website
 
-A modern, responsive website for API0 with integrated blog and dark mode support.
+A modern, responsive website for API0 - the infrastructure layer that turns any application into a conversational AI interface.
 
 ## Features
 
@@ -42,6 +42,7 @@ src/
     blog/               # Blog-specific components
       BlogHeader.tsx
       TableOfContents.tsx
+    ConversationalWorkflow.tsx  # Chatbot workflow demo
     Navigation.tsx      # Shared navigation component
     Footer.tsx          # Shared footer component
     ScrollToAnchor.tsx  # Utility for handling anchor link scrolling
@@ -74,6 +75,15 @@ image: "/path/to/header-image.jpg" (optional)
 
 # Content starts here
 ```
+
+## API0 Positioning
+
+API0 is positioned as the infrastructure layer that transforms any application into a conversational AI interface:
+
+- **Not just API routing** - We enable full conversational experiences
+- **Beyond support bots** - Execute real actions and workflows through natural language
+- **Universal chatbot infrastructure** - Turn any app into a ChatGPT-like interface
+- **Action-oriented** - Users speak, apps execute real functions
 
 ## Navigation System
 

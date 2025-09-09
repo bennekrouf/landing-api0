@@ -1,7 +1,6 @@
 // src/components/blog/BlogHeader.tsx
 import React from 'react';
 import Image from 'next/image';
-// import { BlogSVG } from './BlogSVG';
 
 interface BlogHeaderProps {
   title: string;
@@ -12,22 +11,16 @@ interface BlogHeaderProps {
   };
   tags?: string[];
   readingTime?: string;
-  svg?: string;           // SVG path field
-  image?: string;         // Keep for backward compatibility
+  svg?: string | null;           // Changed to match blog types
+  image?: string | null;         // Changed to match blog types
 }
 
 export function BlogHeader({
-  // _title,
   date,
   author,
   tags,
   readingTime,
-  // svg,
-  // image
 }: BlogHeaderProps) {
-  // Determine if we should display a visual (SVG or image)
-  // const hasVisual = Boolean(svg || image);
-
   return (
     <header className="mb-12">
       {tags && tags.length > 0 && (
@@ -39,9 +32,6 @@ export function BlogHeader({
           ))}
         </div>
       )}
-
-      {/* Removing the title from here to avoid duplication */}
-      {/* The title will remain in the markdown content */}
 
       <div className="flex flex-wrap items-center gap-4 mb-8 text-muted-foreground">
         {author && (
@@ -77,21 +67,6 @@ export function BlogHeader({
           </div>
         )}
       </div>
-
-      {/* SVG/Image container with explicit height */}
-      {/* {hasVisual && ( */}
-      {/*   <div className="w-full mb-12 relative" style={{ minHeight: '300px' }}> */}
-      {/*     <BlogSVG */}
-      {/*       src={svg || image || ''} */}
-      {/*       fallbackImage={image} */}
-      {/*       className="w-full rounded-xl" */}
-      {/*       width={1200} */}
-      {/*       height={400} */}
-      {/*       priority={true} */}
-      {/*       alt={`Illustration for ${title}`} */}
-      {/*     /> */}
-      {/*   </div> */}
-      {/* )} */}
     </header>
   );
 }
