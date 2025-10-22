@@ -6,6 +6,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import ScrollToAnchor from "@/components/ScrollToAnchor";
 
+import PlausibleProvider from 'next-plausible'
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -51,29 +52,22 @@ export default function RootLayout({
             `,
           }}
         />
-<script defer data-domain="api0.ai" src="https://plausible.io/js/script.outbound-links.js"></script>
-<script 
-  dangerouslySetInnerHTML={{
-    __html: `
-      window.plausible = window.plausible || function() { 
-        (window.plausible.q = window.plausible.q || []).push(arguments) 
-      }
-    `,
-  }}
-/>
-
       </head>
       <body className="antialiased">
-        <ThemeProvider defaultTheme="system" storageKey="api0-theme">
-          <div className="flex flex-col min-h-screen">
-            <Navigation />
-            <ScrollToAnchor />
-            <main className="flex-grow pt-16">
-              {children}
-            </main>
-            <Footer />
-          </div>
-        </ThemeProvider>
+        <PlausibleProvider domain="api0.ai" trackOutboundLinks>
+
+          <ThemeProvider defaultTheme="system" storageKey="api0-theme">
+            <div className="flex flex-col min-h-screen">
+              <Navigation />
+              <ScrollToAnchor />
+              <main className="flex-grow pt-16">
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </ThemeProvider>
+        </PlausibleProvider>
+
       </body>
     </html>
   )
