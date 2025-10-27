@@ -1,23 +1,20 @@
-"use client";
-
 import React from 'react';
-import { Twitter, Linkedin, Github } from 'lucide-react';
 import Link from 'next/link';
+import { Twitter, Linkedin, Github } from 'lucide-react';
 
 const footerLinks = [
   {
     title: "Product",
     links: [
-      { label: "Features", href: "/#features" },
-      { label: "Documentation", href: "#" },
-      { label: "Pricing", href: "#" }
+      { label: "Blog", href: "/blog" },
+      { label: "Dashboard", href: "https://app.api0.ai" }
     ]
   },
   {
-    title: "Company",
+    title: "Legal",
     links: [
-      { label: "About", href: "#" },
-      { label: "Blog", href: "/blog" },
+      { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" }
     ]
   },
   {
@@ -34,7 +31,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 py-12">
       <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {/* Logo/Brand Section */}
           <div>
             <span className="text-xl font-bold tracking-tight text-white group">
@@ -56,18 +53,18 @@ const Footer = () => {
                 {section.links.map((link, linkIndex) => (
                   <li key={linkIndex}>
                     {link.href.startsWith('http') ? (
-                      <a 
-                        href={link.href} 
+                      <a
+                        href={link.href}
                         className="text-gray-400 hover:text-white transition-colors"
-                        target="_blank" 
+                        target="_blank"
                         rel="noopener noreferrer"
                       >
                         {section.title === "Connect" ? (
-                          <div className="flex items-center gap-2">
-                            {link.label === "X" && <Twitter size={18} />}
-                            {link.label === "LinkedIn" && <Linkedin size={18} />}
-                            {link.label === "GitHub" && <Github size={18} />}
-                            <span>{link.label === "X" ? "@mayoranax" : link.label}</span>
+                          <div className="flex items-center gap-1.5">
+                            {link.label === "X" && <Twitter size={14} />}
+                            {link.label === "LinkedIn" && <Linkedin size={14} />}
+                            {link.label === "GitHub" && <Github size={14} />}
+                            <span className="text-sm">{link.label}</span>
                           </div>
                         ) : (
                           link.label
