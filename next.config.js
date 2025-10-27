@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
- images: {
+  images: {
     domains: ['api0.ai'], // Add your domain for image optimization
   },
   async headers() {
@@ -46,7 +46,6 @@ const nextConfig = {
       },
     ];
   },
-  // Add trailing slashes for better SEO
-  trailingSlash: true,};
+};
 
 module.exports = nextConfig;

@@ -40,6 +40,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/types/**/*.d.ts" // Explicitly include your type declaration files
+    ,
+    "../src/middleware.ts"
   ],
   "exclude": [
     "node_modules"
