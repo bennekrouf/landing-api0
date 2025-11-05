@@ -56,7 +56,7 @@ export default function RootLayout({
       <body className="antialiased">
         <PlausibleProvider domain="api0.ai" trackOutboundLinks>
 
-          <ThemeProvider defaultTheme="system" storageKey="api0-theme">
+          <ThemeProvider defaultTheme="light" storageKey="api0-theme">
             <div className="flex flex-col min-h-screen">
               <Navigation />
               <ScrollToAnchor />
