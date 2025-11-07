@@ -98,7 +98,7 @@ POST /users/create
               <div className="bg-[#FF6B00] text-white text-sm font-bold px-3 py-1 rounded-full mb-4">
                 STEP 3
               </div>
-              <h3 className="text-xl font-semibold mb-4 text-foreground">Build Your App</h3>
+              <h3 className="text-xl font-semibold mb-4 text-foreground">Make Your App AI</h3>
               <p className="text-muted-foreground mb-6">
                 Add conversational AI to your existing app, build a new chatbot interface, or call api0 from your backend code.
               </p>

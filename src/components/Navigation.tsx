@@ -33,7 +33,7 @@ const Navigation = () => {
               </span>
             </span>
           </Link>
-          
+
           <div className="hidden md:flex items-center gap-6">
             {/* <a */}
             {/*   href="https://app.api0.ai" */}
@@ -43,20 +43,20 @@ const Navigation = () => {
             {/* > */}
             {/*   Dashboard */}
             {/* </a> */}
-            <Link 
-              href="/#examples" 
+            <Link
+              href="/#integration"
               className={`${isActive('/') ? 'text-foreground font-medium' : 'text-muted-foreground'} hover:text-foreground transition-colors`}
             >
-              Examples
+              How it works
             </Link>
-            <Link 
-              href="/blog" 
+            <Link
+              href="/blog"
               className={`${isActive('/blog') ? 'text-foreground font-medium' : 'text-muted-foreground'} hover:text-foreground transition-colors`}
             >
               Blog
             </Link>
             <ThemeToggle className="mr-2" />
-            <a 
+            <a
               href="https://app.api0.ai"
               target="_blank"
               rel="noopener noreferrer"
@@ -65,10 +65,10 @@ const Navigation = () => {
               Get started
             </a>
           </div>
-          
+
           {/* Mobile menu button - can be expanded with a dropdown menu implementation */}
           <div className="md:hidden flex items-center gap-2">
-            <a 
+            <a
               href="https://app.api0.ai"
               target="_blank"
               rel="noopener noreferrer"
