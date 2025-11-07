@@ -2,10 +2,10 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Moon, Sun, Monitor } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 
 // Theme types
-export type Theme = 'light' | 'dark' | 'system';
+export type Theme = 'light' | 'dark';
 
 type ThemeProviderProps = {
   children: React.ReactNode;
@@ -21,7 +21,7 @@ type ThemeContextType = {
 
 // Create context with a meaningful default to help with type checking
 const ThemeContext = createContext<ThemeContextType>({
-  theme: 'system',
+  theme: 'light',
   setTheme: () => null,
   toggleTheme: () => null,
 });
@@ -49,7 +49,7 @@ export function ThemeProvider({
   useEffect(() => {
     // Get stored theme on initial mount
     const storedTheme = localStorage.getItem(storageKey) as Theme | null;
-    if (storedTheme) {
+    if (storedTheme && (storedTheme === 'light' || storedTheme === 'dark')) {
       setTheme(storedTheme);
     } else {
       setTheme(defaultTheme);
@@ -62,50 +62,21 @@ export function ThemeProvider({
     if (!mounted) return;
 
     const root = window.document.documentElement;
-    
+
     // Remove all theme classes
     root.classList.remove('light', 'dark');
-    
+
     // Apply theme based on preference
-    if (theme === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      root.classList.add(systemTheme);
-      root.setAttribute('data-theme', systemTheme);
-    } else {
-      root.classList.add(theme);
-      root.setAttribute('data-theme', theme);
-    }
-    
+    root.classList.add(theme);
+    root.setAttribute('data-theme', theme);
+
     // Store theme
     localStorage.setItem(storageKey, theme);
   }, [theme, mounted, storageKey]);
 
-  // Listen for system theme changes
-  useEffect(() => {
-    if (!mounted || theme !== 'system') return;
-    
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    const handleChange = () => {
-      const root = window.document.documentElement;
-      const systemTheme = mediaQuery.matches ? 'dark' : 'light';
-      
-      root.classList.remove('light', 'dark');
-      root.classList.add(systemTheme);
-      root.setAttribute('data-theme', systemTheme);
-    };
-    
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [theme, mounted]);
-
   // Theme toggle function
   const toggleTheme = () => {
-    setTheme(prev => {
-      if (prev === 'light') return 'dark';
-      if (prev === 'dark') return 'system';
-      return 'light';
-    });
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
   // Context value
@@ -145,32 +116,18 @@ export function ThemeToggle({ className = '' }: ThemeToggleProps) {
     return <div className={`${className} w-8 h-8`} />;
   }
 
-  // Get the actual theme (accounting for system preference)
-  const getEffectiveTheme = (): 'light' | 'dark' => {
-    if (theme !== 'system') return theme as 'light' | 'dark';
-    
-    if (typeof window !== 'undefined') {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    
-    return 'light'; // Fallback
-  };
-
-  const effectiveTheme = getEffectiveTheme();
+  const effectiveTheme = theme;
 
   return (
     <button
       onClick={toggleTheme}
-      className={`p-2 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 ${
-        effectiveTheme === 'dark'
-          ? 'bg-gray-800 text-primary hover:bg-gray-700'
-          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-      } ${className}`}
+      className={`p-2 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 ${effectiveTheme === 'dark'
+        ? 'bg-gray-800 text-primary hover:bg-gray-700'
+        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+        } ${className}`}
       aria-label="Toggle theme"
     >
-      {theme === 'dark' && <Moon className="h-5 w-5" />}
-      {theme === 'light' && <Sun className="h-5 w-5" />}
-      {theme === 'system' && <Monitor className="h-5 w-5" />}
+      {theme === 'dark' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
     </button>
   );
 }
