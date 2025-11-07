@@ -105,7 +105,7 @@ POST /users/create
               <div className="bg-muted rounded-lg p-4 w-full">
                 <pre className="text-sm text-left">
                   <code className="text-muted-foreground">
-                    {`const response = await fetch('/api/semantic', {
+                    {`fetch('/api/semantic', {
   method: 'POST',
   headers: {
     'Authorization': 'Bearer KEY',
