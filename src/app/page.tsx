@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Upload, Key, Code } from 'lucide-react';
+import ScopeSection from '@/components/ScopeSection';
 
 const HomePage = () => {
   return (
@@ -35,6 +36,9 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+      {/* Scope Section */}
+      <ScopeSection />
 
       {/* 3-Step Integration */}
       <section id="integration" className="py-24 bg-background">
