@@ -11,7 +11,7 @@ export default function ScopeSection() {
         <div className="max-w-4xl mx-auto">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-foreground">
-              {lang === 'en' ? 'API0 — Scope, Responsibility, and Pre-loading Design' : 'API0 — Périmètre, Responsabilité et Conception'}
+              {lang === 'en' ? 'API0 — Security, Governance, and Execution' : 'API0 — Sécurité, Gouvernance et Exécution'}
             </h2>
             <div className="flex bg-muted rounded-lg p-1">
               <button
@@ -35,43 +35,34 @@ export default function ScopeSection() {
 
           <div className="bg-card border border-border rounded-xl p-8 shadow-sm">
             <h3 className="text-xl font-semibold mb-6 text-[#FF6B00]">
-              {lang === 'en' ? 'What api0 actually is (and is not)' : 'Ce qu\'est réellement api0 (et ce qu\'il n\'est pas)'}
+              {lang === 'en' ? 'What api0 actually is (and does)' : 'Ce qu\'est réellement api0 (et ce qu\'il fait)'}
             </h3>
             
             <div className="space-y-6 text-muted-foreground leading-relaxed">
               <p className="text-lg">
                 <strong className="text-foreground">
-                  {lang === 'en' ? 'api0 is a semantic routing layer. Its sole responsibility is:' : 'api0 est une couche de routage sémantique. Sa seule responsabilité est :'}
+                  {lang === 'en' ? 'api0 is a full Model Context Protocol (MCP) gateway. Its core responsibility is:' : 'api0 est une passerelle complète du Model Context Protocol (MCP). Sa responsabilité principale est :'}
                 </strong>
               </p>
               
               <div className="bg-muted p-6 rounded-lg border-l-4 border-[#FF6B00]">
                 <p className="text-foreground font-medium">
                   {lang === 'en' 
-                    ? 'Given a natural language sentence + a user identity, return which endpoint to call and what parameter values to use — without executing that call itself.'
-                    : 'Étant donné une phrase en langage naturel + une identité utilisateur, renvoyer quel endpoint appeler et quelles valeurs de paramètres utiliser — sans exécuter cet appel lui-même.'}
+                    ? 'Acting as a secure bridge between MCP clients and your internal REST APIs. It handles handshakes, parameter substitution, secure remote execution, and billing governance on your behalf.'
+                    : 'Agir comme un pont sécurisé entre les clients MCP et vos API REST internes. Il gère les courtoisies (handshakes), la substitution de paramètres, l\'exécution distante sécurisée et la gouvernance de facturation en votre nom.'}
                 </p>
               </div>
 
               <p>
                 {lang === 'en'
-                  ? 'The response contains: '
-                  : 'La réponse contient : '}
-                <code className="bg-muted text-foreground px-2 py-1 rounded text-sm">endpoint_id</code>,{' '}
-                <code className="bg-muted text-foreground px-2 py-1 rounded text-sm">verb</code>,{' '}
-                <code className="bg-muted text-foreground px-2 py-1 rounded text-sm">base</code>,{' '}
-                <code className="bg-muted text-foreground px-2 py-1 rounded text-sm">path</code>,{' '}
-                <code className="bg-muted text-foreground px-2 py-1 rounded text-sm">parameters[]</code>,{' '}
-                <code className="bg-muted text-foreground px-2 py-1 rounded text-sm">matching_info</code>.
-                {lang === 'en'
-                  ? ' The caller decides what to do with that.'
-                  : ' L\'appelant décide quoi faire de tout cela.'}
+                  ? 'When a tool is triggered, the gateway processes the execution natively. It validates credit balances via its billing integration, automatically substituting parameters into URLs and bodies using the correct HTTP verbs (GET, POST, PUT, DELETE), before returning the result seamlessly to the LLM.'
+                  : 'Lorsqu\'un outil est déclenché, la passerelle traite l\'exécution nativement. Elle valide les soldes de crédits via son intégration de facturation, substituant automatiquement les paramètres dans les URL et les corps en utilisant les bons verbes HTTP (GET, POST, PUT, DELETE), avant de renvoyer le résultat de manière transparente au LLM.'}
               </p>
 
               <p>
                 {lang === 'en'
-                  ? 'api0 is fully generic — it has zero hardcoded business logic. It doesn\'t know if it\'s routing for a CRM, a hospital, or an e-commerce system. All domain knowledge lives in the endpoint definitions the user preloads.'
-                  : 'api0 est entièrement générique — il n\'a aucune logique métier codée en dur. Il ne sait pas s\'il route pour un CRM, un hôpital ou un système e-commerce. Toute la connaissance du domaine réside dans les définitions d\'endpoints que l\'utilisateur précharge.'}
+                  ? 'Deploying precisely with the 2024-11-05 Specification (Streamable HTTP, SSE or POST), API0 transforms any standard JSON REST definition into a fully functional MCP Tool. It brings enterprise governance and visibility to every API action Claude makes.'
+                  : 'Se déployant précisément avec la spécification 2024-11-05 (Streamable HTTP, SSE ou POST), API0 transforme n\'importe quelle définition JSON REST standard en un outil MCP entièrement fonctionnel. Il apporte gouvernance et visibilité d\'entreprise à chaque action API effectuée par Claude.'}
               </p>
             </div>
           </div>
