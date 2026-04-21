@@ -23,17 +23,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 301);
   }
 
-  // Let Next.js handle all routing naturally - only add trailing slash for production SEO
-  if (process.env.NODE_ENV === 'production') {
-    const hasTrailingSlash = url.pathname.endsWith('/');
-    const isRoot = url.pathname === '/';
-
-    // Add trailing slash to non-root paths that don't have one
-    if (!isRoot && !hasTrailingSlash) {
-      url.pathname += '/';
-      return NextResponse.redirect(url, 301);
-    }
-  }
 
   return NextResponse.next();
 }
