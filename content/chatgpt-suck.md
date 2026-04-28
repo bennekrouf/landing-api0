@@ -37,23 +37,28 @@ What if we could add reasoning to existing systems—without hallucinations, wit
 
 This is where **api0** comes in.
 
-## A Bridge, Not an Executor
+## A Governed Gateway, Not a Free Executor
 
-Api0 doesn't run on behalf of applications. It acts as a connector. A brain you can attach to software that already works.
+This is where **api0** comes in—as an MCP gateway that sits between Claude and your backend APIs.
 
-The application stays in control. It decides what gets executed. Api0 adds reasoning and exploration—understanding intent, mapping requests to the right endpoints, routing intelligently.
+Claude reasons about what the user wants and calls tools through the gateway. But the gateway doesn't blindly pass through requests. It:
+
+- Validates the user's identity via OAuth before any tool executes.
+- Mints a fresh OIDC token to authenticate against your backend—Claude never sees your credentials.
+- Injects user context (`X-User-Email`, `X-Tenant-Id`) so your backend always knows who is acting.
+- Checks credit balance and enforces access policies before proxying.
 
 Think of it like this:
-- **ChatGPT**: "I'll wire the money for you!" (Terrifying)
-- **Traditional API**: "Call POST /transfer with these exact parameters." (Rigid)
-- **Api0**: "You want to transfer funds? Here's the verified endpoint, here are the required parameters, here's how to structure the call. Your application executes when ready." (Intelligent bridge)
+- **ChatGPT raw**: "I'll wire the money for you!" (Terrifying)
+- **Traditional API**: "Call POST /transfer with these exact parameters." (Rigid, no reasoning)
+- **Claude + api0**: "Claude understands the intent. api0 verifies the user, mints auth, checks access, then proxies the verified request to your backend. Your backend decides whether to execute." (Intelligent and governed)
 
 ## The Best of Both Worlds
 
-ChatGPT will never wire money. Nor should it.
+ChatGPT will never safely wire money. Nor should it.
 
-But systems like api0 let us bring reasoning to applications that don't hallucinate. We get intelligence without losing control. Exploration without execution risk.
+But Claude connected through a governed MCP gateway like api0 can. We get the reasoning of a frontier LLM without giving up control. The user's identity travels with every request. Your backend's auth is never exposed. And every call is metered and logged.
 
-The LLM understands intent. The application maintains authority.
+The LLM understands intent. The gateway enforces the rules. Your backend executes.
 
 That's the architecture that works.
