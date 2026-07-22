@@ -13,14 +13,67 @@ Building a bridge between powerful LLMs like Claude (functioning as MCP Clients)
 
 In this article, we'll walk through the exact architecture that powers our MCP Gateway. The system is split into three distinct phases: **Admin Setup**, **User OAuth Flow**, and **Real-Time Tool Execution**. 
 
-Below, we detail each phase of the integration using a hypothetical backend provider called "Cvenom".
+Below, we detail each phase of the integration using a hypothetical backend provider called "Cvenom". The heart of it is the OAuth handshake — how Claude gets a key that encodes *both* the user and the backend, without anyone sharing a password:
+
+<div class="svg-container" style="margin:2rem 0;">
+<svg class="arch-seq" viewBox="0 0 800 372" width="100%" style="height:auto;max-width:780px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="OAuth sequence between Claude, the api0 Gateway and the api0 Dashboard: authorize, resolve provider, user consent, exchange a short-lived code, and issue a live API key.">
+  <style>
+    .arch-seq{--bg:#f8fafc;--box:#ffffff;--tx:#1e293b;--mut:#64748b;--ln:#cbd5e1;--ac:#FF6B00}
+    :root.dark .arch-seq,[data-theme="dark"] .arch-seq{--bg:#0f172a;--box:#1e293b;--tx:#f8fafc;--mut:#94a3b8;--ln:#475569}
+    .arch-seq .bg{fill:var(--bg)}
+    .arch-seq .box{fill:var(--box);stroke:var(--ln);stroke-width:1.5}
+    .arch-seq .th{fill:var(--tx);font:700 12.5px ui-sans-serif,system-ui,sans-serif}
+    .arch-seq .m{fill:var(--mut);font:10px ui-sans-serif,system-ui,sans-serif}
+    .arch-seq .ac{fill:var(--ac);font:700 10px ui-sans-serif,system-ui,sans-serif}
+    .arch-seq .life{stroke:var(--ln);stroke-width:1.5;stroke-dasharray:4 4}
+    .arch-seq .ln{stroke:var(--ln);stroke-width:1.5;fill:none}
+    .arch-seq .lnac{stroke:var(--ac);stroke-width:1.8;fill:none}
+  </style>
+  <defs>
+    <marker id="asr" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ln)"/></marker>
+    <marker id="asl" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ln)"/></marker>
+    <marker id="asac" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ac)"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="800" height="372" rx="12"/>
+
+  <!-- actor headers + lifelines -->
+  <rect class="box" x="50"  y="14" width="120" height="38" rx="9"/><text class="th" x="110" y="38" text-anchor="middle">Claude</text>
+  <rect class="box" x="345" y="14" width="120" height="38" rx="9"/><text class="th" x="405" y="38" text-anchor="middle">api0 Gateway</text>
+  <rect class="box" x="630" y="14" width="120" height="38" rx="9"/><text class="th" x="690" y="38" text-anchor="middle">api0 Dashboard</text>
+  <line class="life" x1="110" y1="54" x2="110" y2="356"/>
+  <line class="life" x1="405" y1="54" x2="405" y2="356"/>
+  <line class="life" x1="690" y1="54" x2="690" y2="356"/>
+
+  <!-- 1 -->
+  <text class="m" x="257" y="84" text-anchor="middle">GET /oauth/authorize · client_id</text>
+  <path class="ln" d="M110,92 L403,92" marker-end="url(#asr)"/>
+  <!-- 2 -->
+  <text class="m" x="547" y="120" text-anchor="middle">resolve provider · redirect</text>
+  <path class="ln" d="M405,128 L688,128" marker-end="url(#asr)"/>
+  <!-- 3 consent -->
+  <rect class="box" x="632" y="150" width="116" height="26" rx="7"/>
+  <text class="ac" x="690" y="167" text-anchor="middle">user consents (Google)</text>
+  <!-- 4 -->
+  <text class="m" x="547" y="202" text-anchor="middle">Firebase JWT → 5-min code</text>
+  <path class="ln" d="M690,210 L407,210" marker-end="url(#asl)"/>
+  <!-- 5 -->
+  <text class="m" x="257" y="240" text-anchor="middle">redirect back + code</text>
+  <path class="ln" d="M405,248 L112,248" marker-end="url(#asl)"/>
+  <!-- 6 -->
+  <text class="m" x="257" y="278" text-anchor="middle">POST /oauth/token · code</text>
+  <path class="ln" d="M110,286 L403,286" marker-end="url(#asr)"/>
+  <!-- 7 -->
+  <text class="ac" x="257" y="316" text-anchor="middle">API key ak_live_… (Bearer)</text>
+  <path class="lnac" d="M405,324 L112,324" marker-end="url(#asac)"/>
+</svg>
+</div>
 
 ## Phase 1: Admin Setup (One-Time Configuration)
 
 Before any users can connect Claude to your tools, the backend admin must configure the Gateway connection.
 
 1. **Dashboard Authentication:** The admin signs into the API0 Dashboard (`app.api0.ai`) using Google. The dashboard verifies their identity via a Firebase JWT.
-2. **Client ID Registration:** The admin navigates to the Security tab and registers a unique Client ID (e.g., `cvenom-mcp`). The Dashboard securely updates the Gateway's database (Store) with this mapping.
+2. **Client ID Registration:** The admin opens **Connectors → MCP** and registers a unique Client ID (e.g., `cvenom-mcp`). The Dashboard securely updates the Gateway's database (Store) with this mapping.
 3. **Downstream Auth Configuration:** The admin configures how the Gateway should authenticate with their backend (Cvenom). In this flow, we select the **Google Service Account (OIDC)** authentication mode, providing a Service Account JSON and the target audience (e.g., `https://api.cvenom.com`).
 4. **Tool Synchronization:** The admin uploads an OpenAPI specification detailing the available endpoints. The Gateway parses this and upserts the available MCP tools into the datastore.
 
