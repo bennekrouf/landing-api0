@@ -35,7 +35,6 @@ Below, we detail each phase of the integration using a hypothetical backend prov
     <marker id="asac" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ac)"/></marker>
   </defs>
   <rect class="bg" x="0" y="0" width="800" height="372" rx="12"/>
-
   <!-- actor headers + lifelines -->
   <rect class="box" x="50"  y="14" width="120" height="38" rx="9"/><text class="th" x="110" y="38" text-anchor="middle">Claude</text>
   <rect class="box" x="345" y="14" width="120" height="38" rx="9"/><text class="th" x="405" y="38" text-anchor="middle">api0 Gateway</text>
@@ -43,7 +42,6 @@ Below, we detail each phase of the integration using a hypothetical backend prov
   <line class="life" x1="110" y1="54" x2="110" y2="356"/>
   <line class="life" x1="405" y1="54" x2="405" y2="356"/>
   <line class="life" x1="690" y1="54" x2="690" y2="356"/>
-
   <!-- 1 -->
   <text class="m" x="257" y="84" text-anchor="middle">GET /oauth/authorize · client_id</text>
   <path class="ln" d="M110,92 L403,92" marker-end="url(#asr)"/>
