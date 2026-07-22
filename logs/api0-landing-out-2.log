@@ -1,0 +1,160 @@
+2026-02-27T14:15:41: 
+2026-02-27T14:15:41: > api0-landing@0.1.0 prestart
+2026-02-27T14:15:41: > node scripts/generate-blog-data.js
+2026-02-27T14:15:41: 
+2026-02-27T14:15:41: Reading posts from /var/www/api0-landing/content/
+2026-02-27T14:15:41: ✅ Generated blog data with 8 posts
+2026-02-27T14:15:41: 
+2026-02-27T14:15:41: > api0-landing@0.1.0 start
+2026-02-27T14:15:41: > next start
+2026-02-27T14:15:41: 
+2026-02-27T14:15:41: ▲ Next.js 16.1.6
+2026-02-27T14:15:41: - Local:         http://localhost:3005
+2026-02-27T14:15:41: - Network:       http://57.131.31.38:3005
+2026-02-27T14:15:41: 
+2026-02-27T14:15:41: ✓ Starting...
+2026-02-27T14:15:42: ✓ Ready in 261ms
+2026-03-01T13:45:29: 
+2026-03-01T13:45:29: > api0-landing@0.1.0 prestart
+2026-03-01T13:45:29: > node scripts/generate-blog-data.js
+2026-03-01T13:45:29: 
+2026-03-01T13:45:29: Reading posts from /var/www/api0-landing/content/
+2026-03-01T13:45:30: ✅ Generated blog data with 8 posts
+2026-03-01T13:45:30: 
+2026-03-01T13:45:30: > api0-landing@0.1.0 start
+2026-03-01T13:45:30: > next start
+2026-03-01T13:45:30: 
+2026-03-01T13:45:30: ▲ Next.js 16.1.6
+2026-03-01T13:45:30: - Local:         http://localhost:3005
+2026-03-01T13:45:30: - Network:       http://57.131.31.38:3005
+2026-03-01T13:45:30: 
+2026-03-01T13:45:30: ✓ Starting...
+2026-03-01T13:45:30: ✓ Ready in 478ms
+2026-03-01T14:35:00: 
+2026-03-01T14:35:00: > api0-landing@0.1.0 prestart
+2026-03-01T14:35:00: > node scripts/generate-blog-data.js
+2026-03-01T14:35:00: 
+2026-03-01T14:35:00: Reading posts from /var/www/api0-landing/content/
+2026-03-01T14:35:00: ✅ Generated blog data with 8 posts
+2026-03-01T14:35:00: 
+2026-03-01T14:35:00: > api0-landing@0.1.0 start
+2026-03-01T14:35:00: > next start
+2026-03-01T14:35:00: 
+2026-03-01T14:35:01: ▲ Next.js 16.1.6
+2026-03-01T14:35:01: - Local:         http://localhost:3005
+2026-03-01T14:35:01: - Network:       http://57.131.31.38:3005
+2026-03-01T14:35:01: 
+2026-03-01T14:35:01: ✓ Starting...
+2026-03-01T14:35:01: ✓ Ready in 600ms
+2026-03-01T15:03:09: 
+2026-03-01T15:03:09: > api0-landing@0.1.0 prestart
+2026-03-01T15:03:09: > node scripts/generate-blog-data.js
+2026-03-01T15:03:09: 
+2026-03-01T15:03:09: Reading posts from /var/www/api0-landing/content/
+2026-03-01T15:03:09: ✅ Generated blog data with 8 posts
+2026-03-01T15:03:09: 
+2026-03-01T15:03:09: > api0-landing@0.1.0 start
+2026-03-01T15:03:09: > next start
+2026-03-01T15:03:09: 
+2026-03-01T15:03:10: ▲ Next.js 16.1.6
+2026-03-01T15:03:10: - Local:         http://localhost:3005
+2026-03-01T15:03:10: - Network:       http://57.131.31.38:3005
+2026-03-01T15:03:10: 
+2026-03-01T15:03:10: ✓ Starting...
+2026-03-01T15:03:10: ✓ Ready in 458ms
+2026-03-01T15:37:55: 
+2026-03-01T15:37:55: > api0-landing@0.1.0 prestart
+2026-03-01T15:37:55: > node scripts/generate-blog-data.js
+2026-03-01T15:37:55: 
+2026-03-01T15:37:55: Reading posts from /var/www/api0-landing/content/
+2026-03-01T15:37:55: ✅ Generated blog data with 8 posts
+2026-03-01T15:37:55: 
+2026-03-01T15:37:55: > api0-landing@0.1.0 start
+2026-03-01T15:37:55: > next start
+2026-03-01T15:37:55: 
+2026-03-01T15:37:56: ▲ Next.js 16.1.6
+2026-03-01T15:37:56: - Local:         http://localhost:3005
+2026-03-01T15:37:56: - Network:       http://57.131.31.38:3005
+2026-03-01T15:37:56: 
+2026-03-01T15:37:56: ✓ Starting...
+2026-03-01T15:37:56: ✓ Ready in 518ms
+2026-03-01T16:39:57: 
+2026-03-01T16:39:57: > api0-landing@0.1.0 prestart
+2026-03-01T16:39:57: > node scripts/generate-blog-data.js
+2026-03-01T16:39:57: 
+2026-03-01T16:39:57: Reading posts from /var/www/api0-landing/content/
+2026-03-01T16:39:57: ✅ Generated blog data with 8 posts
+2026-03-01T16:39:57: 
+2026-03-01T16:39:57: > api0-landing@0.1.0 start
+2026-03-01T16:39:57: > next start
+2026-03-01T16:39:57: 
+2026-03-01T16:39:58: ▲ Next.js 16.1.6
+2026-03-01T16:39:58: - Local:         http://localhost:3005
+2026-03-01T16:39:58: - Network:       http://57.131.31.38:3005
+2026-03-01T16:39:58: 
+2026-03-01T16:39:58: ✓ Starting...
+2026-03-01T16:39:58: ✓ Ready in 381ms
+2026-04-17T11:42:45: 
+2026-04-17T11:42:45: > api0-landing@0.1.0 prestart
+2026-04-17T11:42:45: > node scripts/generate-blog-data.js
+2026-04-17T11:42:45: 
+2026-04-17T11:42:45: Reading posts from /var/www/api0-landing/content/
+2026-04-17T11:42:45: ✅ Generated blog data with 8 posts
+2026-04-17T11:42:45: 
+2026-04-17T11:42:45: > api0-landing@0.1.0 start
+2026-04-17T11:42:45: > next start
+2026-04-17T11:42:45: 
+2026-04-17T11:42:45: ▲ Next.js 16.1.6
+2026-04-17T11:42:45: - Local:         http://localhost:3005
+2026-04-17T11:42:45: - Network:       http://57.131.31.38:3005
+2026-04-17T11:42:45: 
+2026-04-17T11:42:45: ✓ Starting...
+2026-04-17T11:42:45: ✓ Ready in 438ms
+2026-04-20T14:40:18: 
+2026-04-20T14:40:18: > api0-landing@0.1.0 prestart
+2026-04-20T14:40:18: > node scripts/generate-blog-data.js
+2026-04-20T14:40:18: 
+2026-04-20T14:40:18: Reading posts from /var/www/api0-landing/content/
+2026-04-20T14:40:18: ✅ Generated blog data with 8 posts
+2026-04-20T14:40:18: 
+2026-04-20T14:40:18: > api0-landing@0.1.0 start
+2026-04-20T14:40:18: > next start
+2026-04-20T14:40:18: 
+2026-04-20T14:40:18: ▲ Next.js 16.1.6
+2026-04-20T14:40:18: - Local:         http://localhost:3005
+2026-04-20T14:40:18: - Network:       http://57.131.31.38:3005
+2026-04-20T14:40:18: 
+2026-04-20T14:40:18: ✓ Starting...
+2026-04-20T14:40:19: ✓ Ready in 274ms
+2026-04-21T07:32:32: 
+2026-04-21T07:32:32: > api0-landing@0.1.0 prestart
+2026-04-21T07:32:32: > node scripts/generate-blog-data.js
+2026-04-21T07:32:32: 
+2026-04-21T07:32:32: Reading posts from /var/www/api0-landing/content/
+2026-04-21T07:32:32: ✅ Generated blog data with 8 posts
+2026-04-21T07:32:32: 
+2026-04-21T07:32:32: > api0-landing@0.1.0 start
+2026-04-21T07:32:32: > next start
+2026-04-21T07:32:32: 
+2026-04-21T07:32:32: ▲ Next.js 16.1.6
+2026-04-21T07:32:32: - Local:         http://localhost:3005
+2026-04-21T07:32:32: - Network:       http://57.131.31.38:3005
+2026-04-21T07:32:32: 
+2026-04-21T07:32:32: ✓ Starting...
+2026-04-21T07:32:32: ✓ Ready in 262ms
+2026-04-21T07:46:57: 
+2026-04-21T07:46:57: > api0-landing@0.1.0 prestart
+2026-04-21T07:46:57: > node scripts/generate-blog-data.js
+2026-04-21T07:46:57: 
+2026-04-21T07:46:57: Reading posts from /var/www/api0-landing/content/
+2026-04-21T07:46:57: ✅ Generated blog data with 9 posts
+2026-04-21T07:46:57: 
+2026-04-21T07:46:57: > api0-landing@0.1.0 start
+2026-04-21T07:46:57: > next start
+2026-04-21T07:46:57: 
+2026-04-21T07:46:57: ▲ Next.js 16.1.6
+2026-04-21T07:46:57: - Local:         http://localhost:3005
+2026-04-21T07:46:57: - Network:       http://57.131.31.38:3005
+2026-04-21T07:46:57: 
+2026-04-21T07:46:57: ✓ Starting...
+2026-04-21T07:46:57: ✓ Ready in 307ms
