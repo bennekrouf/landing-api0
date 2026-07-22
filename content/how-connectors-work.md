@@ -66,14 +66,15 @@ Short answer: no. And the difference matters if you're reasoning about auth, lat
   <text class="m" x="510" y="296">• trigger: Meta webhook</text>
   <text class="m" x="510" y="316">• auth: Meta phone-number + token</text>
 
-  <!-- converge to backend -->
-  <path class="lnac" d="M180,334 L180,392 L392,392" marker-end="url(#ahac)"/>
-  <path class="lnac" d="M620,334 L620,392 L508,392" marker-end="url(#ahac)"/>
+  <!-- converge to backend: Y-merge into the box top -->
+  <path class="lnac" d="M180,334 L180,386 L400,386"/>
+  <path class="lnac" d="M620,334 L620,386 L400,386"/>
+  <path class="lnac" d="M400,386 L400,403" marker-end="url(#ahac)"/>
   <text class="ac" x="400" y="372" text-anchor="middle" font-size="11">both call backend_url</text>
 
   <!-- 4. Backend -->
-  <rect class="acc" x="300" y="404" width="200" height="46" rx="10"/>
-  <text class="t" x="400" y="432" text-anchor="middle">Your backend APIs</text>
+  <rect class="acc" x="300" y="406" width="200" height="46" rx="10"/>
+  <text class="t" x="400" y="434" text-anchor="middle">Your backend APIs</text>
 </svg>
 </div>
 
