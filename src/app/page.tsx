@@ -10,11 +10,12 @@ const HomePage = () => {
       {/* Hero Section */}
       <section className="relative pt-24 pb-24 bg-gradient-to-b from-accent to-background">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl sm:text-6xl font-bold mb-8 text-foreground">
-            The secure <span className="text-[#FF6B00]">MCP Gateway</span> for your APIs
+          <div className="eyebrow text-[#FF6B00] mb-4">Agentic UI</div>
+          <h1 className="text-4xl sm:text-6xl font-bold mb-8 text-foreground leading-[1.1]">
+            Build <span className="chip-highlight">Agentic UIs</span> with your existing APIs
           </h1>
-          <p className="text-xl sm:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto">
-            Instantly bridge your standard REST APIs to Claude and other MCP clients. 
+          <p className="lead-marketing text-muted-foreground mb-12 max-w-2xl mx-auto sm:text-lg">
+            API0 is an MCP gateway that instantly bridges your standard REST APIs to Claude and other MCP-compatible agentic clients.
             We handle the JSON-RPC 2.0 protocol, security, and usage governance natively.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -22,7 +23,7 @@ const HomePage = () => {
               href="https://app.api0.ai"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-8 py-4 rounded-lg bg-[#FF6B00] text-white text-lg font-semibold hover:bg-[#FF6B00]/90 transform transition duration-200 hover:-translate-y-1 shadow-xl shadow-orange-500/20"
+              className="btn-cap inline-flex items-center px-6 py-3 rounded-lg bg-[#FF6B00] text-white hover:bg-[#FF6B00]/90 transform transition duration-200 hover:-translate-y-1 shadow-xl shadow-orange-500/20"
             >
               Get MCP Server URL
             </a>
@@ -30,7 +31,7 @@ const HomePage = () => {
               href="https://app.api0.ai"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-8 py-4 rounded-lg border border-border text-foreground text-lg font-semibold hover:border-[#FF6B00] hover:text-[#FF6B00] transition duration-200"
+              className="btn-cap-light inline-flex items-center px-6 py-3 rounded-lg border border-border text-foreground hover:border-[#FF6B00] hover:text-[#FF6B00] transition duration-200"
             >
               View Dashboard
             </a>
