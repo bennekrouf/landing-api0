@@ -1,7 +1,49 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
+@layer components {
+  .lead-marketing {
+    font-size: 1rem;
+    line-height: 2;
+    font-weight: 400;
+  }
+  .lead-ui {
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+  .btn-cap {
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.14;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+  }
+  .btn-cap-light {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.29;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+  }
+  .eyebrow {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+  }
+  .chip-highlight {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    border-radius: 4px;
+    padding: 0 0.75rem;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
