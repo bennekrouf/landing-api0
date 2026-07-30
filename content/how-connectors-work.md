@@ -98,6 +98,53 @@ Read the middle two rows again: **the MCP protocol only exists on the left**. Th
 
 That's why a setting like the **OAuth Client ID** lives only under the MCP door — it configures how someone connects an MCP client via "Add integration". WhatsApp never sees it; it authenticates to Meta instead.
 
+The subtlest part is *where the AI actually runs* — same class of model on both sides, but in a different place, which is why the auth and control models differ:
+
+<div class="svg-container" style="margin:2rem 0;">
+<svg class="run2" viewBox="0 0 800 292" width="100%" style="height:auto;max-width:760px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="On the MCP door the model runs in the user's client (Claude.ai); on the WhatsApp door the model runs in api0's own bridge. Both then call your backend.">
+  <style>
+    .run2{--bg:#f8fafc;--box:#ffffff;--tx:#1e293b;--mut:#64748b;--ln:#cbd5e1;--ac:#FF6B00}
+    :root.dark .run2,[data-theme="dark"] .run2{--bg:#0f172a;--box:#1e293b;--tx:#f8fafc;--mut:#94a3b8;--ln:#475569}
+    .run2 .bg{fill:var(--bg)}
+    .run2 .box{fill:var(--box);stroke:var(--ln);stroke-width:1.5}
+    .run2 .acc{fill:var(--box);stroke:var(--ac);stroke-width:2}
+    .run2 .th{fill:var(--tx);font:700 13px ui-sans-serif,system-ui,sans-serif}
+    .run2 .t{fill:var(--tx);font:600 12px ui-sans-serif,system-ui,sans-serif}
+    .run2 .m{fill:var(--mut);font:10.5px ui-sans-serif,system-ui,sans-serif}
+    .run2 .ac{fill:var(--ac);font:700 10.5px ui-sans-serif,system-ui,sans-serif}
+    .run2 .ln{stroke:var(--ln);stroke-width:1.5;fill:none}
+    .run2 .lnac{stroke:var(--ac);stroke-width:1.8;fill:none}
+  </style>
+  <defs>
+    <marker id="r2a" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ln)"/></marker>
+    <marker id="r2ac" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ac)"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="800" height="292" rx="12"/>
+  <text class="ac" x="180" y="26" text-anchor="middle">MCP door</text>
+  <text class="ac" x="620" y="26" text-anchor="middle">WhatsApp door</text>
+  <rect class="acc" x="48" y="38" width="264" height="58" rx="10"/>
+  <text class="th" x="180" y="62" text-anchor="middle">Claude.ai / Cursor</text>
+  <text class="ac" x="180" y="82" text-anchor="middle">▶ the model runs HERE (client)</text>
+  <path class="ln" d="M180,96 L180,126" marker-end="url(#r2a)"/>
+  <text class="m" x="196" y="116">MCP · /mcp</text>
+  <rect class="box" x="48" y="128" width="264" height="44" rx="10"/>
+  <text class="t" x="180" y="155" text-anchor="middle">api0 gateway — serves tools</text>
+  <rect class="box" x="488" y="38" width="264" height="44" rx="10"/>
+  <text class="t" x="620" y="65" text-anchor="middle">WhatsApp message → Meta</text>
+  <path class="ln" d="M620,82 L620,126" marker-end="url(#r2a)"/>
+  <text class="m" x="636" y="108">webhook</text>
+  <rect class="acc" x="488" y="128" width="264" height="58" rx="10"/>
+  <text class="th" x="620" y="152" text-anchor="middle">whatsapp-bridge</text>
+  <text class="ac" x="620" y="172" text-anchor="middle">▶ the model runs HERE (Sonnet 4)</text>
+  <path class="lnac" d="M180,172 L180,214 L400,214" marker-end=""/>
+  <path class="lnac" d="M620,186 L620,214 L400,214" marker-end=""/>
+  <path class="lnac" d="M400,214 L400,231" marker-end="url(#r2ac)"/>
+  <text class="ac" x="400" y="204" text-anchor="middle">both call backend_url</text>
+  <rect class="acc" x="300" y="234" width="200" height="46" rx="10"/>
+  <text class="t" x="400" y="262" text-anchor="middle">Your backend APIs</text>
+</svg>
+</div>
+
 ## The mental model
 
 Stop thinking "MCP is how api0 works." Think:

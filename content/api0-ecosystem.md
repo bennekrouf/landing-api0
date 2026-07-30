@@ -92,7 +92,43 @@ When an end-user wants Claude to access their account, a standard OAuth 2.0 flow
 3. api0 issues a live API key tied to that specific user and backend provider.
 4. Claude holds that key and uses it for all subsequent tool calls.
 
-Your users never share passwords. Your backend never sees raw LLM requests. The key inherently encodes both user identity and backend context.
+Your users never share passwords. Your backend never sees raw LLM requests. The key inherently encodes both user identity and backend context — that dual-encoding is what makes every later call a single lookup instead of a chain of them:
+
+<div class="svg-container" style="margin:2rem 0;">
+<svg class="eco-key" viewBox="0 0 800 236" width="100%" style="height:auto;max-width:740px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="One API key resolves simultaneously to the end user's identity and to the backend provider's tenant and auth config, so the gateway needs no extra lookups at call time.">
+  <style>
+    .eco-key{--bg:#f8fafc;--box:#ffffff;--tx:#1e293b;--mut:#64748b;--ln:#cbd5e1;--ac:#FF6B00}
+    :root.dark .eco-key,[data-theme="dark"] .eco-key{--bg:#0f172a;--box:#1e293b;--tx:#f8fafc;--mut:#94a3b8;--ln:#475569}
+    .eco-key .bg{fill:var(--bg)}
+    .eco-key .box{fill:var(--box);stroke:var(--ln);stroke-width:1.5}
+    .eco-key .acc{fill:var(--box);stroke:var(--ac);stroke-width:2}
+    .eco-key .th{fill:var(--tx);font:700 13px ui-sans-serif,system-ui,sans-serif}
+    .eco-key .m{fill:var(--mut);font:11px ui-sans-serif,system-ui,sans-serif}
+    .eco-key .ac{fill:var(--ac);font:700 11px ui-sans-serif,system-ui,sans-serif}
+    .eco-key .mono{fill:var(--tx);font:600 12.5px ui-monospace,SFMono-Regular,monospace}
+    .eco-key .lnac{stroke:var(--ac);stroke-width:1.8;fill:none}
+  </style>
+  <defs>
+    <marker id="eka" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ac)"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="800" height="236" rx="12"/>
+  <rect class="acc" x="286" y="30" width="228" height="52" rx="10"/>
+  <text class="mono" x="400" y="54" text-anchor="middle">ak_live_…</text>
+  <text class="ac" x="400" y="72" text-anchor="middle">one key Claude holds</text>
+  <path class="lnac" d="M340,82 L340,110 L190,110 L190,132" marker-end="url(#eka)"/>
+  <path class="lnac" d="M460,82 L460,110 L610,110 L610,132" marker-end="url(#eka)"/>
+  <rect class="box" x="60" y="134" width="260" height="76" rx="10"/>
+  <text class="th" x="190" y="158" text-anchor="middle">① The end-user</text>
+  <text class="m" x="190" y="178" text-anchor="middle">email · user tenant id</text>
+  <text class="m" x="190" y="196" text-anchor="middle">→ X-User-Email</text>
+  <rect class="box" x="480" y="134" width="260" height="76" rx="10"/>
+  <text class="th" x="610" y="158" text-anchor="middle">② The provider</text>
+  <text class="m" x="610" y="178" text-anchor="middle">tenant id · downstream auth</text>
+  <text class="m" x="610" y="196" text-anchor="middle">→ which tools, which creds</text>
+  <text class="ac" x="400" y="182" text-anchor="middle">resolved in</text>
+  <text class="ac" x="400" y="200" text-anchor="middle">one lookup</text>
+</svg>
+</div>
 
 ### 3. Real-Time Tool Execution — Governed at Every Step
 

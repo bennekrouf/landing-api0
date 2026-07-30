@@ -89,7 +89,55 @@ When an end-user wants to connect Claude to their backend account, they initiate
 
 ## Phase 3: The Tool Call Lifecycle
 
-Now, Claude is fully authorized. Here is what happens under the hood when Claude makes a real-time request to execute a tool.
+Now, Claude is fully authorized. Here is what happens under the hood when Claude makes a real-time request to execute a tool — seven steps, but only one network hop your backend ever sees:
+
+<div class="svg-container" style="margin:2rem 0;">
+<svg class="arch-life" viewBox="0 0 800 300" width="100%" style="height:auto;max-width:780px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tool call lifecycle: Claude posts to slash mcp with a key, the gateway resolves context, retrieves tool and auth, mints a cached OIDC token, checks credits, proxies with injected identity headers, then bills and returns the result.">
+  <style>
+    .arch-life{--bg:#f8fafc;--box:#ffffff;--tx:#1e293b;--mut:#64748b;--ln:#cbd5e1;--ac:#FF6B00}
+    :root.dark .arch-life,[data-theme="dark"] .arch-life{--bg:#0f172a;--box:#1e293b;--tx:#f8fafc;--mut:#94a3b8;--ln:#475569}
+    .arch-life .bg{fill:var(--bg)}
+    .arch-life .box{fill:var(--box);stroke:var(--ln);stroke-width:1.5}
+    .arch-life .acc{fill:var(--box);stroke:var(--ac);stroke-width:2}
+    .arch-life .row{fill:var(--bg);stroke:var(--ln);stroke-width:1}
+    .arch-life .th{fill:var(--tx);font:700 13px ui-sans-serif,system-ui,sans-serif}
+    .arch-life .t{fill:var(--tx);font:600 11.5px ui-sans-serif,system-ui,sans-serif}
+    .arch-life .m{fill:var(--mut);font:10.5px ui-sans-serif,system-ui,sans-serif}
+    .arch-life .ac{fill:var(--ac);font:700 10.5px ui-sans-serif,system-ui,sans-serif}
+    .arch-life .ln{stroke:var(--ln);stroke-width:1.5;fill:none}
+    .arch-life .lnac{stroke:var(--ac);stroke-width:1.8;fill:none}
+  </style>
+  <defs>
+    <marker id="ala" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ln)"/></marker>
+    <marker id="alac" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ac)"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="800" height="300" rx="12"/>
+  <rect class="box" x="18" y="112" width="126" height="70" rx="10"/>
+  <text class="th" x="81" y="142" text-anchor="middle">Claude</text>
+  <text class="m" x="81" y="162" text-anchor="middle">tool call</text>
+  <rect class="acc" x="268" y="26" width="264" height="248" rx="12"/>
+  <text class="th" x="400" y="52" text-anchor="middle">api0 Gateway</text>
+  <rect class="row" x="284" y="64" width="232" height="30" rx="7"/><text class="t" x="296" y="84">② resolve user + provider</text>
+  <rect class="row" x="284" y="100" width="232" height="30" rx="7"/><text class="t" x="296" y="120">③ fetch tool + auth config</text>
+  <rect class="row" x="284" y="136" width="232" height="30" rx="7"/><text class="t" x="296" y="156">④ mint OIDC (cached 55 min)</text>
+  <rect class="row" x="284" y="172" width="232" height="30" rx="7"/><text class="t" x="296" y="192">⑤ check credit balance</text>
+  <rect class="row" x="284" y="208" width="232" height="30" rx="7"/><text class="t" x="296" y="228">⑦ log + deduct credits</text>
+  <text class="ac" x="400" y="262" text-anchor="middle">all in milliseconds</text>
+  <rect class="box" x="656" y="112" width="126" height="70" rx="10"/>
+  <text class="th" x="719" y="138" text-anchor="middle">Your backend</text>
+  <text class="m" x="719" y="158" text-anchor="middle">verifies OIDC</text>
+  <text class="m" x="719" y="174" text-anchor="middle">just runs</text>
+  <path class="ln" d="M144,132 L264,132" marker-end="url(#ala)"/>
+  <text class="ac" x="204" y="124" text-anchor="middle">① key</text>
+  <path class="lnac" d="M532,132 L652,132" marker-end="url(#alac)"/>
+  <text class="ac" x="592" y="112" text-anchor="middle">⑥ proxy +</text>
+  <text class="ac" x="592" y="124" text-anchor="middle">identity headers</text>
+  <path class="ln" d="M652,166 L534,166" marker-end="url(#ala)"/>
+  <text class="m" x="593" y="182" text-anchor="middle">result</text>
+  <path class="ln" d="M264,166 L146,166" marker-end="url(#ala)"/>
+  <text class="m" x="205" y="182" text-anchor="middle">result</text>
+</svg>
+</div>
 
 1. **Inbound Request:** Claude sends a `POST /mcp` request to the Gateway, calling a specific tool (e.g., `search_cv`) and providing the Bearer API Key.
 2. **Context Resolution:** The Gateway validates the API Key against its Store. **This is a critical insight:** The single API key inherently identifies two things simultaneously:
