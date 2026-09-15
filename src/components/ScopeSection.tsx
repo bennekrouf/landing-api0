@@ -61,8 +61,8 @@ export default function ScopeSection() {
 
               <p>
                 {lang === 'en'
-                  ? 'Deploying precisely with the 2024-11-05 Specification (Streamable HTTP, SSE or POST), API0 transforms any standard JSON REST definition into a fully functional MCP Tool. It brings enterprise governance and visibility to every API action Claude makes.'
-                  : 'Se déployant précisément avec la spécification 2024-11-05 (Streamable HTTP, SSE ou POST), API0 transforme n\'importe quelle définition JSON REST standard en un outil MCP entièrement fonctionnel. Il apporte gouvernance et visibilité d\'entreprise à chaque action API effectuée par Claude.'}
+                  ? 'Deploying precisely with the 2025-06-18 Specification (Streamable HTTP, SSE or POST), API0 transforms any standard JSON REST definition into a fully functional MCP Tool. It brings enterprise governance and visibility to every API action Claude makes.'
+                  : 'Se déployant précisément avec la spécification 2025-06-18 (Streamable HTTP, SSE ou POST), API0 transforme n\'importe quelle définition JSON REST standard en un outil MCP entièrement fonctionnel. Il apporte gouvernance et visibilité d\'entreprise à chaque action API effectuée par Claude.'}
               </p>
             </div>
           </div>
