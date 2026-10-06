@@ -12,9 +12,9 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: {
     template: '%s | API0',
-    default: 'API0 - Intelligent API Routing',
+    default: 'API0 - Turn your APIs into secure MCP tools',
   },
-  description: 'API0 - Modern API Routing and Management Platform',
+  description: 'API0 is a Rust-powered MCP gateway that turns your existing REST APIs into tools for Claude and other MCP-compatible clients.',
   icons: {
     icon: '/icon.svg',
     shortcut: '/favicon.ico',

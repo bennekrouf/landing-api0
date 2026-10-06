@@ -1,184 +1,268 @@
-"use client";
-
 import React from 'react';
-import { Upload, Key, Code } from 'lucide-react';
-import ScopeSection from '@/components/ScopeSection';
+import Link from 'next/link';
+import { Upload, Plug, ShieldCheck, ArrowRight, Cpu, Fingerprint, Coins, Workflow } from 'lucide-react';
+
+const APP_URL = 'https://app.api0.ai';
+
+const steps = [
+  {
+    icon: Upload,
+    title: 'Import your endpoints',
+    body: 'Paste an OpenAPI spec, or describe endpoints in plain English. api0 turns each one into an MCP tool, and a built-in test calls it before it counts as configured.',
+    code: `POST /api/invoices
+  creates an invoice
+  required:
+    customer_id, amount`,
+  },
+  {
+    icon: Plug,
+    title: 'Connect the client',
+    body: 'Add your api0 server URL to Claude as a custom connector. Each user approves once through OAuth, and Claude then holds a key tied to that person.',
+    code: `Claude → Settings
+  → Connectors
+  → Add custom connector
+
+gateway.api0.ai/mcp/acme`,
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Govern execution',
+    body: 'Every call passes the gateway: it checks who is calling, attaches the credential your backend expects, deducts credits, and logs the call.',
+    code: `tools/call create_invoice
+  ✓ caller: jane@acme.com
+  ✓ credential attached
+  ✓ credits checked
+  → POST /api/invoices`,
+  },
+];
+
+// The credential modes a workspace can pick for its backends. Same list as the
+// "What your backend receives" section of the how-api0-works post.
+const backendAuth = [
+  { title: 'Google identity token', body: 'Proves the call came from api0. Verify it like any service-account OIDC token.' },
+  { title: 'Fixed bearer token or headers', body: 'A static token or custom API-key header, stored in api0. Claude never sees it.' },
+  { title: 'OAuth client credentials', body: 'api0 fetches and refreshes a token from your identity provider.' },
+  { title: 'Per-user secret', body: 'Each person stores their own key, and their calls carry it.' },
+  { title: 'Per-user OAuth account', body: 'Each person connects their own account once, and acts as themselves.' },
+];
+
+const callers = [
+  'OAuth 2.1 with PKCE for Claude connectors',
+  'API keys for the SDK, CLI and CI jobs',
+  'Your own identity provider: Entra ID or any OIDC',
+];
+
+const differentiators = [
+  {
+    icon: Workflow,
+    title: 'MCP-native',
+    body: 'Works with Claude Desktop, Claude Code and any MCP-compatible client. No SDK to embed, no model to host.',
+  },
+  {
+    icon: Fingerprint,
+    title: 'One place for identity',
+    body: 'Who is calling, what they may do and which credential your backend gets are decided at one gateway, whichever client they came from.',
+  },
+  {
+    icon: Cpu,
+    title: 'Built in Rust',
+    body: 'The gateway and every backend service are written in Rust, for predictable latency and a small attack surface.',
+  },
+  {
+    icon: Coins,
+    title: 'Usage-based credits',
+    body: 'Paid tool calls spend credits bought in the dashboard. No enterprise sales call to get started.',
+  },
+];
+
+const proxyExamples = [
+  { call: 'tools/call: search\n{"dept": "eng"}', http: 'GET /users/search?dept=eng' },
+  { call: 'tools/call: create_invoice\n{"customer_id": "acme"}', http: 'POST /api/invoices {"customer_id": "acme"}' },
+  { call: 'tools/call: update\n{"id": "1", "em": "x@y.z"}', http: 'PUT /users/1/update {"em": "x@y.z"}' },
+];
 
 const HomePage = () => {
   return (
     <>
-      {/* Hero Section */}
+      {/* Hero */}
       <section className="relative pt-24 pb-24 bg-gradient-to-b from-accent to-background">
         <div className="container mx-auto px-4 text-center">
-          <div className="eyebrow text-[#FF6B00] mb-4">Agentic UI</div>
+          <div className="eyebrow text-[#FF6B00] mb-4">MCP gateway · Built in Rust</div>
           <h1 className="text-4xl sm:text-6xl font-bold mb-8 text-foreground leading-[1.1]">
-            Build <span className="chip-highlight">Agentic UIs</span> with your existing APIs
+            Turn your existing APIs into <span className="chip-highlight">secure MCP tools</span>
           </h1>
-          <p className="lead-marketing text-muted-foreground mb-12 max-w-2xl mx-auto sm:text-lg">
-            API0 is an MCP gateway that instantly bridges your standard REST APIs to Claude and other MCP-compatible agentic clients.
-            We handle the JSON-RPC 2.0 protocol, security, and usage governance natively.
+          <p className="lead-marketing text-muted-foreground mb-4 max-w-2xl mx-auto sm:text-lg">
+            API0 is a Rust-powered MCP gateway that turns your existing REST APIs into tools for Claude and
+            other MCP-compatible clients, so AI agents can act instead of only talk.
+          </p>
+          <p className="text-foreground font-medium mb-12 max-w-2xl mx-auto">
+            Connect Claude to your backend in under five minutes.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a
-              href="https://app.api0.ai"
+              href={APP_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-cap inline-flex items-center px-6 py-3 rounded-lg bg-[#FF6B00] text-white hover:bg-[#FF6B00]/90 transform transition duration-200 hover:-translate-y-1 shadow-xl shadow-orange-500/20"
             >
-              Get MCP Server URL
+              Import your OpenAPI
+              <ArrowRight className="ml-2 w-4 h-4" />
             </a>
-            <a
-              href="https://app.api0.ai"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/#auth"
               className="btn-cap-light inline-flex items-center px-6 py-3 rounded-lg border border-border text-foreground hover:border-[#FF6B00] hover:text-[#FF6B00] transition duration-200"
             >
-              View Dashboard
-            </a>
+              See how auth works
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Scope Section */}
-      <ScopeSection />
-
-      {/* 3-Step Integration */}
+      {/* 3 steps */}
       <section id="integration" className="py-24 bg-background">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-16 text-foreground">Deploy in 3 steps</h2>
+          <h2 className="text-3xl font-bold text-center mb-4 text-foreground">Three steps to your first agent call</h2>
+          <p className="text-center text-muted-foreground mb-16 max-w-2xl mx-auto">
+            Import endpoints → connect the client → govern execution with credits and access control.
+          </p>
 
-          <div className="grid md:grid-cols-3 gap-12">
-            {/* Step 1: Import Your APIs */}
-            <div className="flex flex-col items-center text-center p-6">
-              <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
-                <Upload size={32} className="text-[#FF6B00]" />
+          <div className="grid md:grid-cols-3 gap-8">
+            {steps.map((step, i) => (
+              <div key={step.title} className="flex flex-col p-6 rounded-xl border border-border bg-card">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-3 bg-[#FF6B00]/10 rounded-full">
+                    <step.icon size={24} className="text-[#FF6B00]" />
+                  </div>
+                  <div className="bg-[#FF6B00] text-white text-xs font-bold px-3 py-1 rounded-full">
+                    STEP {i + 1}
+                  </div>
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-foreground">{step.title}</h3>
+                <p className="text-muted-foreground mb-6">{step.body}</p>
+                <div className="mt-auto bg-muted rounded-lg p-4 w-full overflow-x-auto">
+                  <pre className="text-xs sm:text-sm text-left">
+                    <code className="text-muted-foreground">{step.code}</code>
+                  </pre>
+                </div>
               </div>
-              <div className="bg-[#FF6B00] text-white text-sm font-bold px-3 py-1 rounded-full mb-4">
-                STEP 1
-              </div>
-              <h3 className="text-xl font-semibold mb-4 text-foreground">Import Standard APIs</h3>
-              <p className="text-muted-foreground mb-6">
-                From the dashboard, securely connect your REST endpoints: handwrite routes, upload OpenAPI specs, or sync with GitHub.
-              </p>
-              <div className="bg-muted rounded-lg p-4 w-full">
-                <pre className="text-sm text-left">
-                  <code className="text-muted-foreground">
-                    {`POST /users/create
-GET /users/search
-PUT /users/{id}/update
-DELETE /users/{id}`}
-                  </code>
-                </pre>
-              </div>
+            ))}
+          </div>
+
+          <p className="text-center mt-12">
+            <Link href="/blog/connect-claude-to-your-backend-in-5-minutes-with-api0" className="inline-flex items-center text-[#FF6B00] font-medium hover:underline">
+              Follow the five-minute quickstart
+              <ArrowRight className="ml-1.5 w-4 h-4" />
+            </Link>
+          </p>
+        </div>
+      </section>
+
+      {/* Auth */}
+      <section id="auth" className="py-24 bg-accent/30 border-y border-border">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <h2 className="text-3xl font-bold text-center mb-4 text-foreground">What your backend receives</h2>
+          <p className="text-center text-muted-foreground mb-16 max-w-2xl mx-auto">
+            You choose how api0 authenticates to your backend. The credential lives in api0 and is attached on
+            every call, along with who the call is for.
+          </p>
+
+          <div className="grid lg:grid-cols-3 gap-10">
+            <div className="lg:col-span-2 grid sm:grid-cols-2 gap-4">
+              {backendAuth.map((mode) => (
+                <div key={mode.title} className="p-5 rounded-xl border border-border bg-card">
+                  <h3 className="font-semibold mb-2 text-foreground">{mode.title}</h3>
+                  <p className="text-sm text-muted-foreground">{mode.body}</p>
+                </div>
+              ))}
             </div>
 
-            {/* Step 2: Get API Key & Connect */}
-            <div className="flex flex-col items-center text-center p-6">
-              <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
-                <Key size={32} className="text-[#FF6B00]" />
-              </div>
-              <div className="bg-[#FF6B00] text-white text-sm font-bold px-3 py-1 rounded-full mb-4">
-                STEP 2
-              </div>
-              <h3 className="text-xl font-semibold mb-4 text-foreground">Connect MCP Client</h3>
-              <p className="text-muted-foreground mb-6">
-                Get your secure Streamable HTTP Server URL with API key, and add it directly to Claude Desktop or any MCP-compatible client.
+            <div className="p-6 rounded-xl border-2 border-[#FF6B00]/40 bg-card self-start">
+              <h3 className="font-semibold mb-4 text-foreground">Who is calling</h3>
+              <ul className="space-y-3 mb-6">
+                {callers.map((c) => (
+                  <li key={c} className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <ShieldCheck className="w-4 h-4 mt-0.5 shrink-0 text-[#FF6B00]" />
+                    {c}
+                  </li>
+                ))}
+              </ul>
+              <p className="text-sm text-muted-foreground">
+                The connection test in the dashboard runs the same logic as a real call, so a passing test means a
+                working setup.
               </p>
-              <div className="bg-muted rounded-lg p-4 w-full">
-                <pre className="text-sm text-left">
-                  <code className="text-muted-foreground">
-                    {`"mcpServers": {
-  "my-api": {
-    "command": "curl",
-    "args": ["https://api.api0.ai/mcp/YOUR_KEY"]
-  }
-}`}
-                  </code>
-                </pre>
-              </div>
-            </div>
-
-            {/* Step 3: Govern & Execute */}
-            <div className="flex flex-col items-center text-center p-6">
-              <div className="mb-6 p-4 bg-[#FF6B00]/10 rounded-full">
-                <Code size={32} className="text-[#FF6B00]" />
-              </div>
-              <div className="bg-[#FF6B00] text-white text-sm font-bold px-3 py-1 rounded-full mb-4">
-                STEP 3
-              </div>
-              <h3 className="text-xl font-semibold mb-4 text-foreground">Govern & Execute</h3>
-              <p className="text-muted-foreground mb-6">
-                API0 natively handles permissions, checks credit balances, and proxies the tools/call to your exact REST backend methods.
-              </p>
-              <div className="bg-muted rounded-lg p-4 w-full overflow-hidden">
-                <pre className="text-sm text-left">
-                  <code className="text-muted-foreground">
-                    {`{
-  "method": "tools/call",
-  "params": {
-    "name": "create_user",
-    "arguments": { "name": "John" }
-  }
-}`}
-                  </code>
-                </pre>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* How It Works Section */}
+      {/* Differentiators */}
+      <section className="py-24 bg-background">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <h2 className="text-3xl font-bold text-center mb-16 text-foreground">Why api0</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {differentiators.map((d) => (
+              <div key={d.title} className="p-6 rounded-xl border border-border bg-card">
+                <d.icon size={24} className="text-[#FF6B00] mb-4" />
+                <h3 className="font-semibold mb-2 text-foreground">{d.title}</h3>
+                <p className="text-sm text-muted-foreground">{d.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Proxying proof */}
       <section className="py-24 bg-accent/30">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-16 text-foreground">Native MCP Capabilities for Standard APIs</h2>
+          <h2 className="text-3xl font-bold text-center mb-16 text-foreground">From tool call to real API call</h2>
 
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-card border border-border rounded-xl p-8 mb-8">
-              <h3 className="text-2xl font-bold mb-6 text-center text-[#FF6B00]">Smart Proxying & Substitution</h3>
-
-              <div className="space-y-6">
-                <div className="flex items-center gap-4 p-4 bg-muted rounded-lg flex-col sm:flex-row text-center sm:text-left">
-                  <div className="text-foreground font-mono text-xs sm:text-sm flex-1 break-all">
-                    tools/call: search{"\n"}
-                    &#123;&quot;dept&quot;: &quot;eng&quot;&#125;
+          <div className="max-w-4xl mx-auto bg-card border border-border rounded-xl p-8">
+            <div className="space-y-6">
+              {proxyExamples.map((ex) => (
+                <div
+                  key={ex.http}
+                  className="flex items-center gap-4 p-4 bg-muted rounded-lg flex-col sm:flex-row text-center sm:text-left"
+                >
+                  <div className="text-foreground font-mono text-xs sm:text-sm flex-1 break-all whitespace-pre-line">
+                    {ex.call}
                   </div>
                   <div className="text-[#FF6B00] font-bold text-xl my-2 sm:my-0">→</div>
-                  <div className="text-muted-foreground font-mono text-xs sm:text-sm flex-1 break-all">
-                    GET /users/search?dept=eng
-                  </div>
+                  <div className="text-muted-foreground font-mono text-xs sm:text-sm flex-1 break-all">{ex.http}</div>
                 </div>
-
-                <div className="flex items-center gap-4 p-4 bg-muted rounded-lg flex-col sm:flex-row text-center sm:text-left">
-                  <div className="text-foreground font-mono text-xs sm:text-sm flex-1 break-all">
-                    tools/call: gen_cv{"\n"}
-                    &#123;&quot;lang&quot;: &quot;en&quot;&#125;
-                  </div>
-                  <div className="text-[#FF6B00] font-bold text-xl my-2 sm:my-0">→</div>
-                  <div className="text-muted-foreground font-mono text-xs sm:text-sm flex-1 break-all">
-                    POST /cv/gen &#123;&quot;lang&quot;: &quot;en&quot;&#125;
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 p-4 bg-muted rounded-lg flex-col sm:flex-row text-center sm:text-left">
-                  <div className="text-foreground font-mono text-xs sm:text-sm flex-1 break-all">
-                    tools/call: update{"\n"}
-                    &#123;&quot;id&quot;: &quot;1&quot;, &quot;em&quot;: &quot;x@y.z&quot;&#125;
-                  </div>
-                  <div className="text-[#FF6B00] font-bold text-xl my-2 sm:my-0">→</div>
-                  <div className="text-muted-foreground font-mono text-xs sm:text-sm flex-1 break-all">
-                    PUT /users/1/update &#123;&quot;em&quot;: &quot;x@y.z&quot;&#125;
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8 text-center text-sm sm:text-base">
-                <p className="text-muted-foreground">
-                  The gateway translates tool calls flawlessly, injecting parameters into URLs and bodies using the correct HTTP verbs.
-                </p>
-              </div>
+              ))}
             </div>
+
+            <p className="mt-8 text-center text-sm sm:text-base text-muted-foreground">
+              The gateway injects parameters into URLs and bodies with the right HTTP verb, then returns the result
+              to the model.
+            </p>
           </div>
+
+          <p className="text-center mt-12">
+            <Link href="/blog/how-api0-works" className="inline-flex items-center text-[#FF6B00] font-medium hover:underline">
+              See the whole architecture on one page
+              <ArrowRight className="ml-1.5 w-4 h-4" />
+            </Link>
+          </p>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-24 bg-background">
+        <div className="container mx-auto px-4 max-w-3xl text-center">
+          <h2 className="text-3xl font-bold mb-6 text-foreground">Get your first tools live this week</h2>
+          <p className="lead-marketing text-muted-foreground mb-10">
+            Sign in with Google, import a spec, and call your own API from Claude. Usage-based credits, no sales call.
+          </p>
+          <a
+            href={APP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-cap inline-flex items-center px-6 py-3 rounded-lg bg-[#FF6B00] text-white hover:bg-[#FF6B00]/90 transform transition duration-200 hover:-translate-y-1 shadow-xl shadow-orange-500/20"
+          >
+            Get started
+            <ArrowRight className="ml-2 w-4 h-4" />
+          </a>
         </div>
       </section>
     </>
