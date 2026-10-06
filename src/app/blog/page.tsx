@@ -6,11 +6,11 @@ import { getBlogPosts } from '@/lib/blog';
 // import SEOMetaTags from '@/components/SEOMetaTags';
 
 export const metadata = {
-  title: 'Blog | API0',
-  description: 'Explore the latest insights, tutorials, and best practices for API routing and management.',
+  title: 'Blog',
+  description: 'Guides and architecture notes on MCP, AI agents and connecting Claude to your existing APIs.',
   openGraph: {
     title: 'API0 Blog',
-    description: 'Explore the latest insights, tutorials, and best practices for API routing and management.',
+    description: 'Guides and architecture notes on MCP, AI agents and connecting Claude to your existing APIs.',
     type: 'website',
     url: 'https://api0.ai/blog/',
     images: [
