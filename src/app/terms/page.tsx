@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | API0',
+  title: 'Terms of Service',
   description: 'Terms of service for API0 services provided by Mayorana',
   robots: 'noindex, nofollow', // Legal pages typically not indexed
 };
@@ -13,11 +13,8 @@ export default function TermsPage() {
 
       <div className="prose prose-lg dark:prose-invert max-w-none">
         <p className="text-muted-foreground mb-8">
-          <strong>Last updated:</strong> {new Date().toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
+          {/* A fixed date: change it whenever the terms below change. */}
+          <strong>Last updated:</strong> October 27, 2025
         </p>
 
         <section className="mb-8">
@@ -271,7 +268,7 @@ export default function TermsPage() {
           <div className="bg-muted p-4 rounded-lg mt-4">
             <p><strong>Mayorana</strong></p>
             <p>Saint-Prex, Switzerland</p>
-            <p>Email: legal@api0.ai</p>
+            <p>Email: contact@mayorana.ch</p>
             <p>Website: https://api0.ai</p>
           </div>
         </section>
