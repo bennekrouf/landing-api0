@@ -52,7 +52,8 @@ export default function TermsPage() {
           <p>
             To access certain features of our Service, you must create an account. You agree to provide
             accurate, complete, and current information during registration and to update such information
-            to keep it accurate, complete, and current.
+            to keep it accurate, complete, and current. You must be at least 18 years old, or the age of
+            majority where you live, to create an account. The Service is not intended for children under 13.
           </p>
 
           <h3 className="text-xl font-medium mb-3">3.2 Account Security</h3>
@@ -116,10 +117,11 @@ export default function TermsPage() {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">6. Payment Terms</h2>
 
-          <h3 className="text-xl font-medium mb-3">6.1 Subscription Fees</h3>
+          <h3 className="text-xl font-medium mb-3">6.1 Credits and Licences</h3>
           <p>
-            Access to certain features of the Service requires payment of subscription fees. Fees are charged
-            in advance on a monthly or annual basis as specified in your chosen plan.
+            Paid usage of the Service is prepaid: you buy credits, which are deducted as you use the Service,
+            or a licence key, in a one-time payment. We do not charge recurring fees and nothing renews
+            automatically. You are charged only when you choose to make a purchase.
           </p>
 
           <h3 className="text-xl font-medium mb-3">6.2 Payment Processing</h3>
@@ -130,7 +132,7 @@ export default function TermsPage() {
 
           <h3 className="text-xl font-medium mb-3">6.3 Refunds</h3>
           <p>
-            Refunds are generally not provided except as required by law or as specified in your subscription agreement.
+            Refunds are generally not provided except as required by law.
           </p>
         </section>
 
