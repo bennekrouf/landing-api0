@@ -12,9 +12,9 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: {
     template: '%s | API0',
-    default: 'API0 - Turn your APIs into secure MCP tools',
+    default: 'API0 - Intelligence on demand for any backend',
   },
-  description: 'API0 is a Rust-powered MCP gateway that turns your existing REST APIs into tools for Claude and other MCP-compatible clients.',
+  description: 'Add an intelligent interface to any backend. Import your API and your team uses it from Claude, Telegram or WhatsApp, in plain language. No rewrite, fully in the cloud.',
   icons: {
     icon: '/icon.svg',
     shortcut: '/favicon.ico',

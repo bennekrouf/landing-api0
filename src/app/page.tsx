@@ -16,13 +16,13 @@ const steps = [
   },
   {
     icon: Plug,
-    title: 'Connect the client',
-    body: 'Add your api0 server URL to Claude as a custom connector. Each user approves once through OAuth, and Claude then holds a key tied to that person.',
-    code: `Claude → Settings
-  → Connectors
-  → Add custom connector
+    title: 'Send your team one link',
+    body: 'Your workspace gets its own Get started page. Each person signs in once, then adds it to Claude or links their Telegram or WhatsApp to your own bot.',
+    code: `app.api0.ai/link/acme
 
-gateway.api0.ai/mcp/acme`,
+  ✓ Claude connector
+  ✓ @acme_bot on Telegram
+  ✓ WhatsApp`,
   },
   {
     icon: ShieldCheck,
@@ -55,8 +55,8 @@ const callers = [
 const differentiators = [
   {
     icon: Workflow,
-    title: 'MCP-native',
-    body: 'Works with Claude Desktop, Claude Code and any MCP-compatible client. No SDK to embed, no model to host.',
+    title: 'Where your team already is',
+    body: 'Claude on web, desktop and mobile, your own Telegram and WhatsApp bots, and any MCP-compatible client. No SDK to embed, no model to host.',
   },
   {
     icon: Fingerprint,
@@ -87,16 +87,16 @@ const HomePage = () => {
       {/* Hero */}
       <section className="relative pt-24 pb-24 bg-gradient-to-b from-accent to-background">
         <div className="container mx-auto px-4 text-center">
-          <div className="eyebrow text-[#FF6B00] mb-4">MCP gateway · Built in Rust</div>
+          <div className="eyebrow text-[#FF6B00] mb-4">Intelligence on demand · In the cloud</div>
           <h1 className="text-4xl sm:text-6xl font-bold mb-8 text-foreground leading-[1.1]">
-            Turn your existing APIs into <span className="chip-highlight">secure MCP tools</span>
+            Add an intelligent interface to <span className="chip-highlight">any backend</span>
           </h1>
           <p className="lead-marketing text-muted-foreground mb-4 max-w-2xl mx-auto sm:text-lg">
-            API0 is a Rust-powered MCP gateway that turns your existing REST APIs into tools for Claude and
-            other MCP-compatible clients, so AI agents can act instead of only talk.
+            Your backend already does the work. api0 lets people talk to it: import your API, and your team
+            uses it from Claude, Telegram or WhatsApp, in plain language. Every action runs as the person asking.
           </p>
           <p className="text-foreground font-medium mb-12 max-w-2xl mx-auto">
-            Connect Claude to your backend in under five minutes.
+            No rewrite, no new frontend, nothing to host. Live in under five minutes.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a
@@ -105,7 +105,7 @@ const HomePage = () => {
               rel="noopener noreferrer"
               className="btn-cap inline-flex items-center px-6 py-3 rounded-lg bg-[#FF6B00] text-white hover:bg-[#FF6B00]/90 transform transition duration-200 hover:-translate-y-1 shadow-xl shadow-orange-500/20"
             >
-              Import your OpenAPI
+              Import your API
               <ArrowRight className="ml-2 w-4 h-4" />
             </a>
             <Link
@@ -123,7 +123,7 @@ const HomePage = () => {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-4 text-foreground">Three steps to your first agent call</h2>
           <p className="text-center text-muted-foreground mb-16 max-w-2xl mx-auto">
-            Import endpoints → connect the client → govern execution with credits and access control.
+            Import your API → send your team one link → every call governed, attributed and metered.
           </p>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -250,9 +250,9 @@ const HomePage = () => {
       {/* Final CTA */}
       <section className="py-24 bg-background">
         <div className="container mx-auto px-4 max-w-3xl text-center">
-          <h2 className="text-3xl font-bold mb-6 text-foreground">Get your first tools live this week</h2>
+          <h2 className="text-3xl font-bold mb-6 text-foreground">Make your backend intelligent this week</h2>
           <p className="lead-marketing text-muted-foreground mb-10">
-            Sign in with Google, import a spec, and call your own API from Claude. Usage-based credits, no sales call.
+            Sign in with Google, import your API, and send your team one link. Usage-based credits, no sales call.
           </p>
           <a
             href={APP_URL}
