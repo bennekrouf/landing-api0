@@ -36,7 +36,7 @@ export async function generateMetadata(
       tags: post.tags,
       images: [
         {
-          url: post.svg || post.image || `/api/og-image/${slug}`,
+          url: post.svg || post.image || '/og.png',
           width: 1200,
           height: 630,
           alt: post.title,
@@ -47,7 +47,7 @@ export async function generateMetadata(
       card: 'summary_large_image',
       title: post.title,
       description: post.excerpt,
-      images: [post.svg || post.image || `/api/og-image/${slug}`],
+      images: [post.svg || post.image || '/og.png'],
     },
   };
 }

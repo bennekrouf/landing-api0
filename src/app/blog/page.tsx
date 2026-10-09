@@ -13,14 +13,14 @@ export const metadata = {
     description: 'Guides and architecture notes on MCP, AI agents and connecting Claude to your existing APIs.',
     type: 'website',
     url: 'https://api0.ai/blog/',
-    images: [
-      {
-        url: '/images/blog-og.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'API0 Blog',
-      },
-    ],
+    // The site's share image: there is no blog-specific one.
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'API0 Blog' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'API0 Blog',
+    description: 'Guides and architecture notes on MCP, AI agents and connecting Claude to your existing APIs.',
+    images: ['/og.png'],
   },
 };
 
