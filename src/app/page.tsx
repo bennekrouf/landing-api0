@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Upload, Plug, ShieldCheck, ArrowRight, Cpu, Fingerprint, Coins, Workflow } from 'lucide-react';
+import { Upload, Plug, ShieldCheck, ArrowRight, Cpu, Fingerprint, Coins, Workflow, Check, X } from 'lucide-react';
 
 const APP_URL = 'https://app.api0.ai';
 
@@ -72,6 +72,35 @@ const differentiators = [
     icon: Coins,
     title: 'Usage-based credits',
     body: 'Paid tool calls spend credits bought in the dashboard. No enterprise sales call to get started.',
+  },
+];
+
+// Only the rows where api0 is strong — the others do plenty api0 doesn't. A
+// competitor cell is true (does it too), false (doesn't) or a short note on
+// what it does instead. Checked against each product's docs in October 2026;
+// update the date in the footnote when this changes.
+const competitors = ['Cloudflare MCP Server Portals', 'agentgateway', 'Composio'];
+
+const comparison: { feature: string; them: (boolean | string)[] }[] = [
+  {
+    feature: 'Your own REST API as MCP tools, from an OpenAPI spec or plain English',
+    them: ['Fronts MCP servers you already run', 'OpenAPI spec in YAML config', 'Your API as code, or an MCP server you host'],
+  },
+  {
+    feature: 'The same tools in Claude, your own Telegram bot and WhatsApp',
+    them: ['MCP clients only', 'MCP and A2A clients only', 'Through your own app or MCP clients'],
+  },
+  {
+    feature: 'One Get started link per workspace: sign in once, connect Claude or a bot',
+    them: ['Portal URL behind Access', false, 'Auth links per connected app'],
+  },
+  {
+    feature: 'Five backend credential modes, per-user secrets and per-user OAuth included',
+    them: ['Left to each MCP server', 'Policies you configure', 'For catalogue apps; your API via code'],
+  },
+  {
+    feature: 'Nothing to host or operate',
+    them: [true, 'You run it', true],
   },
 ];
 
@@ -211,8 +240,71 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* Comparison */}
+      <section id="compare" className="py-24 bg-accent/30 border-y border-border">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <h2 className="text-3xl font-bold text-center mb-4 text-foreground">How api0 compares</h2>
+          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+            Only the things api0 is strong at are listed. The others do plenty it doesn&apos;t — this is why
+            you would pick it.
+          </p>
+
+          {/* Scrolls inside its box at phone width rather than squeezing four columns. */}
+          <div className="overflow-x-auto rounded-xl border border-border bg-card">
+            <table className="w-full min-w-[680px] text-sm">
+              <thead>
+                <tr className="border-b border-border">
+                  <th scope="col" className="sticky left-0 z-[1] bg-card p-4 text-left font-medium text-muted-foreground">
+                    Feature
+                  </th>
+                  <th scope="col" className="p-4 text-center font-bold text-[#FF6B00] bg-[#FF6B00]/10">
+                    api0
+                  </th>
+                  {competitors.map((c) => (
+                    <th key={c} scope="col" className="p-4 text-center font-medium text-muted-foreground">
+                      {c}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {comparison.map((row) => (
+                  <tr key={row.feature} className="border-b border-border last:border-b-0">
+                    <th
+                      scope="row"
+                      className="sticky left-0 z-[1] bg-card p-4 text-left font-medium text-foreground max-w-[14rem] md:max-w-none"
+                    >
+                      {row.feature}
+                    </th>
+                    <td className="p-4 text-center bg-[#FF6B00]/10">
+                      <Check className="inline w-5 h-5 text-green-600 dark:text-green-400" aria-label="Yes" />
+                    </td>
+                    {row.them.map((v, i) => (
+                      <td key={i} className="p-4 text-center">
+                        {v === true ? (
+                          <Check className="inline w-4 h-4 text-muted-foreground" aria-label="Yes" />
+                        ) : v === false ? (
+                          <X className="inline w-4 h-4 text-red-500/80" aria-label="No" />
+                        ) : (
+                          <span className="inline-block max-w-[11rem] text-xs leading-snug text-amber-700 dark:text-amber-300">
+                            {v}
+                          </span>
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-muted-foreground mt-3">
+            Compared in October 2026 from each product&apos;s public documentation.
+          </p>
+        </div>
+      </section>
+
       {/* Proxying proof */}
-      <section className="py-24 bg-accent/30">
+      <section className="py-24 bg-background">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-16 text-foreground">From tool call to real API call</h2>
 
@@ -248,7 +340,7 @@ const HomePage = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-background border-t border-border">
         <div className="container mx-auto px-4 max-w-3xl text-center">
           <h2 className="text-3xl font-bold mb-6 text-foreground">Make your backend intelligent this week</h2>
           <p className="lead-marketing text-muted-foreground mb-10">
