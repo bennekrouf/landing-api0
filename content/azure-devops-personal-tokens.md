@@ -45,32 +45,25 @@ Azure ever sees.
     <marker id="drac" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ac)"/></marker>
   </defs>
   <rect class="bg" x="0" y="0" width="800" height="250" rx="12"/>
-
   <rect class="box" x="40"  y="90" width="130" height="52" rx="9"/>
   <text class="th" x="105" y="112" text-anchor="middle">toto</text>
   <text class="m"  x="105" y="130" text-anchor="middle">in Claude</text>
-
   <rect class="box" x="335" y="90" width="130" height="52" rx="9"/>
   <text class="th" x="400" y="112" text-anchor="middle">api0</text>
   <text class="m"  x="400" y="130" text-anchor="middle">gateway</text>
-
   <rect class="box" x="630" y="90" width="130" height="52" rx="9"/>
   <text class="th" x="695" y="112" text-anchor="middle">Azure DevOps</text>
   <text class="m"  x="695" y="130" text-anchor="middle">dev.azure.com</text>
-
   <path class="ln"   d="M172,116 L332,116" marker-end="url(#dr)"/>
   <path class="lnac" d="M467,116 L627,116" marker-end="url(#drac)"/>
-
   <text class="th" x="252" y="58"  text-anchor="middle">INBOUND</text>
   <text class="m"  x="252" y="76"  text-anchor="middle">who are you, to api0?</text>
   <text class="m"  x="252" y="160" text-anchor="middle">a Google account</text>
   <text class="m"  x="252" y="176" text-anchor="middle">(this post)</text>
-
   <text class="ac" x="547" y="58"  text-anchor="middle">OUTBOUND</text>
   <text class="m"  x="547" y="76"  text-anchor="middle">what do we send Azure?</text>
   <text class="ac" x="547" y="160" text-anchor="middle">that person's own PAT</text>
   <text class="m"  x="547" y="176" text-anchor="middle">identical in both posts</text>
-
   <path class="dash" d="M105,196 L695,196"/>
   <text class="m" x="400" y="216" text-anchor="middle">Azure sees only the right-hand door. Whoever owns the token is who created the work item.</text>
 </svg>
@@ -104,30 +97,25 @@ Four steps, and only one of them involves an administrator of anything: none.
     <marker id="pac" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ac)"/></marker>
   </defs>
   <rect class="bg" x="0" y="0" width="800" height="400" rx="12"/>
-
   <rect class="box" x="45"  y="14" width="120" height="38" rx="9"/><text class="th" x="105" y="38" text-anchor="middle">Claude</text>
   <rect class="box" x="340" y="14" width="120" height="38" rx="9"/><text class="th" x="400" y="38" text-anchor="middle">api0</text>
   <rect class="box" x="635" y="14" width="120" height="38" rx="9"/><text class="th" x="695" y="38" text-anchor="middle">Azure DevOps</text>
   <line class="life" x1="105" y1="54" x2="105" y2="384"/>
   <line class="life" x1="400" y1="54" x2="400" y2="384"/>
   <line class="life" x1="695" y1="54" x2="695" y2="384"/>
-
   <text class="num" x="30" y="86">1</text>
   <text class="m" x="252" y="82" text-anchor="middle">add connector · client_id</text>
   <path class="ln" d="M105,90 L398,90" marker-end="url(#pr)"/>
-
   <text class="num" x="30" y="128">2</text>
   <rect class="box" x="342" y="106" width="116" height="26" rx="7"/>
   <text class="ac" x="400" y="123" text-anchor="middle">approve · Google</text>
   <text class="m" x="252" y="150" text-anchor="middle">api0 key, scoped to the workspace</text>
   <path class="ln" d="M398,158 L107,158" marker-end="url(#pl)"/>
-
   <text class="num" x="30" y="200">3</text>
   <rect class="box" x="637" y="180" width="116" height="26" rx="7"/>
   <text class="ac" x="695" y="197" text-anchor="middle">create a PAT</text>
   <text class="m" x="695" y="222" text-anchor="middle">in the Azure DevOps UI,</text>
   <text class="m" x="695" y="236" text-anchor="middle">signed in as toto@cgi.com</text>
-
   <text class="num" x="30" y="272">4</text>
   <text class="m" x="252" y="268" text-anchor="middle">paste the token into api0</text>
   <path class="ln" d="M105,276 L398,276" marker-end="url(#pr)"/>
@@ -135,7 +123,6 @@ Four steps, and only one of them involves an administrator of anything: none.
   <path class="ln" d="M400,304 L693,304" marker-end="url(#pr)"/>
   <text class="ac" x="547" y="324" text-anchor="middle">toto@cgi.com</text>
   <path class="lnac" d="M695,332 L402,332" marker-end="url(#pac)"/>
-
   <text class="m" x="400" y="368" text-anchor="middle">every later tool call runs on toto's token — Azure records toto</text>
 </svg>
 </div>

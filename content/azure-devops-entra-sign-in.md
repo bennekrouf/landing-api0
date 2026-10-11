@@ -40,7 +40,6 @@ This post replaces that, and nothing else.
     <marker id="sac" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ac)"/></marker>
   </defs>
   <rect class="bg" x="0" y="0" width="800" height="280" rx="12"/>
-
   <text class="m" x="40" y="34">PART 1</text>
   <rect class="box" x="120" y="16" width="150" height="40" rx="9"/>
   <text class="th" x="195" y="41" text-anchor="middle">Google account</text>
@@ -51,9 +50,7 @@ This post replaces that, and nothing else.
   <rect class="box" x="560" y="16" width="200" height="40" rx="9"/>
   <text class="th" x="660" y="35" text-anchor="middle">that person's own PAT</text>
   <text class="m"  x="660" y="49" text-anchor="middle">→ Azure DevOps</text>
-
   <line class="sep" x1="40" y1="86" x2="760" y2="86"/>
-
   <text class="ac" x="40" y="134">PART 2</text>
   <rect class="hot" x="120" y="116" width="150" height="40" rx="9"/>
   <text class="th" x="195" y="135" text-anchor="middle">Entra ID</text>
@@ -65,11 +62,9 @@ This post replaces that, and nothing else.
   <rect class="box" x="560" y="116" width="200" height="40" rx="9"/>
   <text class="th" x="660" y="135" text-anchor="middle">that person's own PAT</text>
   <text class="m"  x="660" y="149" text-anchor="middle">→ Azure DevOps</text>
-
   <rect class="box" x="120" y="190" width="150" height="54" rx="9"/>
   <text class="ac" x="195" y="212" text-anchor="middle">this half changes</text>
   <text class="m"  x="195" y="230" text-anchor="middle">one app registration</text>
-
   <rect class="box" x="560" y="190" width="200" height="54" rx="9"/>
   <text class="th" x="660" y="212" text-anchor="middle">this half is untouched</text>
   <text class="m"  x="660" y="230" text-anchor="middle">same tokens, same attribution</text>
@@ -112,46 +107,36 @@ Okta or Auth0 would be the same two values.
     <marker id="oac" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ac)"/></marker>
   </defs>
   <rect class="bg" x="0" y="0" width="800" height="430" rx="12"/>
-
   <rect class="box" x="45"  y="14" width="120" height="38" rx="9"/><text class="th" x="105" y="38" text-anchor="middle">Claude</text>
   <rect class="box" x="340" y="14" width="120" height="38" rx="9"/><text class="th" x="400" y="38" text-anchor="middle">api0</text>
   <rect class="box" x="635" y="14" width="120" height="38" rx="9"/><text class="th" x="695" y="38" text-anchor="middle">Entra ID</text>
   <line class="life" x1="105" y1="54" x2="105" y2="414"/>
   <line class="life" x1="400" y1="54" x2="400" y2="414"/>
   <line class="life" x1="695" y1="54" x2="695" y2="414"/>
-
   <text class="num" x="28" y="82">1</text>
   <text class="m" x="252" y="78" text-anchor="middle">GET /authorize · client_id</text>
   <path class="ln" d="M105,86 L398,86" marker-end="url(#or)"/>
-
   <text class="num" x="28" y="118">2</text>
   <text class="m" x="547" y="114" text-anchor="middle">discovery · /.well-known/openid-configuration</text>
   <path class="ln" d="M400,122 L693,122" marker-end="url(#or)"/>
-
   <text class="num" x="28" y="158">3</text>
   <text class="m" x="547" y="154" text-anchor="middle">302 · code_challenge (S256) + signed state</text>
   <path class="lnac" d="M400,162 L693,162" marker-end="url(#oac)"/>
-
   <text class="num" x="28" y="200">4</text>
   <rect class="box" x="618" y="180" width="154" height="26" rx="7"/>
   <text class="ac" x="695" y="197" text-anchor="middle">signs in as toto@cgi.com</text>
-
   <text class="num" x="28" y="240">5</text>
   <text class="m" x="547" y="236" text-anchor="middle">callback · code + state</text>
   <path class="ln" d="M693,244 L402,244" marker-end="url(#ol)"/>
-
   <text class="num" x="28" y="280">6</text>
   <text class="m" x="547" y="276" text-anchor="middle">exchange · code + verifier + client secret</text>
   <path class="ln" d="M400,284 L693,284" marker-end="url(#or)"/>
-
   <text class="num" x="28" y="320">7</text>
   <text class="ac" x="547" y="316" text-anchor="middle">id_token · verified against JWKS</text>
   <path class="lnac" d="M693,324 L402,324" marker-end="url(#oac)"/>
-
   <text class="num" x="28" y="362">8</text>
   <text class="m" x="252" y="358" text-anchor="middle">api0 code → exchanged for a key</text>
   <path class="ln" d="M398,366 L107,366" marker-end="url(#ol)"/>
-
   <text class="m" x="400" y="402" text-anchor="middle">from here the flow is identical to every other sign-in — same code, same key, same tools</text>
 </svg>
 </div>
