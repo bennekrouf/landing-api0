@@ -11,7 +11,7 @@ import { Metadata } from 'next';
 
 const SITE_TITLE = 'API0 - Intelligence on demand for any backend';
 const SITE_DESCRIPTION =
-  'Add an intelligent interface to any backend. Import your API and your team uses it from Claude, Telegram or WhatsApp, in plain language. No rewrite, fully in the cloud.';
+  'Add an intelligent interface to any backend. Import your API and your team uses it from Teams, WhatsApp, Telegram or Claude, in plain language. No rewrite, fully in the cloud.';
 
 // What LinkedIn, X, Slack and the rest show when api0.ai is shared. The image
 // is a static file (public/og.png, 1200×630): a link preview must never depend
