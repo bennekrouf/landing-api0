@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Upload, Plug, ShieldCheck, ArrowRight, Cpu, Fingerprint, Coins, Workflow, Check, X } from 'lucide-react';
+import { Upload, Plug, ShieldCheck, ArrowRight, Cpu, Fingerprint, Coins, Workflow, Check, X, Building2, Wrench } from 'lucide-react';
 
 const APP_URL = 'https://app.api0.ai';
 
@@ -17,12 +17,13 @@ const steps = [
   {
     icon: Plug,
     title: 'Send your team one link',
-    body: 'Your workspace gets its own Get started page. Each person signs in once, then adds it to Claude or links their Telegram or WhatsApp to your own bot.',
+    body: 'Your workspace gets its own Get started page. Each person signs in once, then adds it to Claude or Teams, or links their WhatsApp or Telegram to your own bot.',
     code: `app.api0.ai/link/acme
 
   ✓ Claude connector
-  ✓ @acme_bot on Telegram
-  ✓ WhatsApp`,
+  ✓ Acme in Teams chat
+  ✓ WhatsApp
+  ✓ @acme_bot on Telegram`,
   },
   {
     icon: ShieldCheck,
@@ -52,11 +53,30 @@ const callers = [
   'Your own identity provider: Entra ID or any OIDC',
 ];
 
+// One channel and one concrete action each. Software vendors come first: they
+// are the audience api0 is sold to first.
+const useCases = [
+  {
+    icon: Building2,
+    who: 'Software vendors',
+    channel: 'Teams',
+    action: 'Your customers use your product from Teams, as your own app.',
+    body: "Put your product in your customers' Microsoft Teams chat without building a chatbot. Each user signs in once and acts with their own permissions.",
+  },
+  {
+    icon: Wrench,
+    who: 'Field service',
+    channel: 'WhatsApp',
+    action: 'Technicians close jobs from WhatsApp.',
+    body: 'No new app to roll out. A technician writes “job 4711 done” and the job is closed in your field-service system, recorded as done by them.',
+  },
+];
+
 const differentiators = [
   {
     icon: Workflow,
     title: 'Where your team already is',
-    body: 'Claude on web, desktop and mobile, your own Telegram and WhatsApp bots, and any MCP-compatible client. No SDK to embed, no model to host.',
+    body: 'Microsoft Teams chat, your own WhatsApp and Telegram bots, Claude on web, desktop and mobile, and any MCP-compatible client. No SDK to embed, no model to host.',
   },
   {
     icon: Fingerprint,
@@ -87,7 +107,7 @@ const comparison: { feature: string; them: (boolean | string)[] }[] = [
     them: ['Fronts MCP servers you already run', 'OpenAPI spec in YAML config', 'Your API as code, or an MCP server you host'],
   },
   {
-    feature: 'The same tools in Claude, your own Telegram bot and WhatsApp',
+    feature: 'The same tools in Teams, WhatsApp, your own Telegram bot and Claude',
     them: ['MCP clients only', 'MCP and A2A clients only', 'Through your own app or MCP clients'],
   },
   {
@@ -120,9 +140,12 @@ const HomePage = () => {
           <h1 className="text-4xl sm:text-6xl font-bold mb-8 text-foreground leading-[1.1]">
             Add an intelligent interface to <span className="chip-highlight">any backend</span>
           </h1>
+          <p className="text-xl sm:text-2xl font-semibold text-foreground mb-6 max-w-2xl mx-auto">
+            Your software, in the chat your team already uses.
+          </p>
           <p className="lead-marketing text-muted-foreground mb-4 max-w-2xl mx-auto sm:text-lg">
             Your backend already does the work. api0 lets people talk to it: import your API, and your team
-            uses it from Claude, Telegram or WhatsApp, in plain language. Every action runs as the person asking.
+            uses it from Teams, WhatsApp, Telegram or Claude, in plain language. Every action runs as the person asking.
           </p>
           <p className="text-foreground font-medium mb-12 max-w-2xl mx-auto">
             No rewrite, no new frontend, nothing to host. Live in under five minutes.
@@ -143,6 +166,33 @@ const HomePage = () => {
             >
               See how auth works
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Use cases */}
+      <section id="use-cases" className="py-24 bg-accent/30 border-y border-border">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <h2 className="text-3xl font-bold text-center mb-4 text-foreground">What people do with it</h2>
+          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+            One API, imported once. Each team uses it from the chat it already lives in.
+          </p>
+          <div className="grid md:grid-cols-2 gap-6">
+            {useCases.map((u) => (
+              <div key={u.who} className="flex flex-col p-6 rounded-xl border border-border bg-card">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="p-3 bg-[#FF6B00]/10 rounded-full">
+                    <u.icon size={24} className="text-[#FF6B00]" />
+                  </div>
+                  <span className="text-xs font-semibold px-2.5 py-1 rounded-full border border-border text-muted-foreground">
+                    {u.channel}
+                  </span>
+                </div>
+                <p className="text-sm font-semibold uppercase tracking-wider text-[#FF6B00] mb-2">{u.who}</p>
+                <h3 className="text-lg font-semibold mb-3 text-foreground">{u.action}</h3>
+                <p className="text-sm text-muted-foreground">{u.body}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
