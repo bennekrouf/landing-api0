@@ -98,29 +98,31 @@ const differentiators = [
 // Only the rows where api0 is strong — the others do plenty api0 doesn't. A
 // competitor cell is true (does it too), false (doesn't) or a short note on
 // what it does instead. Checked against each product's docs in October 2026;
-// update the date in the footnote when this changes.
-const competitors = ['Cloudflare MCP Server Portals', 'agentgateway', 'Composio'];
+// update the date in the footnote when this changes. Copilot Studio comes from
+// learn.microsoft.com: REST API tools (preview), publishing channels and the
+// WhatsApp channel pages.
+const competitors = ['Microsoft Copilot Studio', 'Cloudflare MCP Server Portals', 'agentgateway', 'Composio'];
 
 const comparison: { feature: string; them: (boolean | string)[] }[] = [
   {
     feature: 'Your own REST API as MCP tools, from an OpenAPI spec or plain English',
-    them: ['Fronts MCP servers you already run', 'OpenAPI spec in YAML config', 'Your API as code, or an MCP server you host'],
+    them: ['OpenAPI spec; REST API tools in preview', 'Fronts MCP servers you already run', 'OpenAPI spec in YAML config', 'Your API as code, or an MCP server you host'],
   },
   {
     feature: 'The same tools in Teams, WhatsApp, your own Telegram bot and Claude',
-    them: ['MCP clients only', 'MCP and A2A clients only', 'Through your own app or MCP clients'],
+    them: ['Teams and WhatsApp; Telegram needs code', 'MCP clients only', 'MCP and A2A clients only', 'Through your own app or MCP clients'],
   },
   {
     feature: 'One Get started link per workspace: sign in once, connect Claude or a bot',
-    them: ['Portal URL behind Access', false, 'Auth links per connected app'],
+    them: ['Teams install link; WhatsApp QR code', 'Portal URL behind Access', false, 'Auth links per connected app'],
   },
   {
     feature: 'Five backend credential modes, per-user secrets and per-user OAuth included',
-    them: ['Left to each MCP server', 'Policies you configure', 'For catalogue apps; your API via code'],
+    them: ['None, a user-entered API key, or per-user OAuth', 'Left to each MCP server', 'Policies you configure', 'For catalogue apps; your API via code'],
   },
   {
     feature: 'Nothing to host or operate',
-    them: [true, 'You run it', true],
+    them: ['Hosted; WhatsApp needs your own Azure resource', true, 'You run it', true],
   },
 ];
 
@@ -301,7 +303,7 @@ const HomePage = () => {
 
           {/* Scrolls inside its box at phone width rather than squeezing four columns. */}
           <div className="overflow-x-auto rounded-xl border border-border bg-card">
-            <table className="w-full min-w-[680px] text-sm">
+            <table className="w-full min-w-[860px] text-sm">
               <thead>
                 <tr className="border-b border-border">
                   <th scope="col" className="sticky left-0 z-[1] bg-card p-4 text-left font-medium text-muted-foreground">
