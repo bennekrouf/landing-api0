@@ -66,8 +66,13 @@ const Navigation = () => {
             </a>
           </div>
 
-          {/* Mobile menu button - can be expanded with a dropdown menu implementation */}
-          <div className="md:hidden flex items-center gap-2">
+          <div className="md:hidden flex items-center gap-3">
+            <Link
+              href="/blog"
+              className={`${isActive('/blog') ? 'text-foreground font-medium' : 'text-muted-foreground'} text-sm hover:text-foreground transition-colors`}
+            >
+              Blog
+            </Link>
             <a
               href="https://app.api0.ai"
               target="_blank"
