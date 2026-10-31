@@ -45,11 +45,9 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [SHARE_IMAGE.url],
   },
-  icons: {
-    icon: '/icon.svg',
-    shortcut: '/favicon.ico',
-    apple: '/apple-icon.png',
-  },
+  // Icons come from the file convention in src/app (favicon.ico, icon0.png,
+  // icon1.png, apple-icon.png): Next emits each link with its real type and
+  // size, which search engines (Brave, Google) need to pick a favicon.
 };
 
 export default function RootLayout({
