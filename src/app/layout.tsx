@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import ScrollToAnchor from "@/components/ScrollToAnchor";
+import AppLinkSource from "@/components/AppLinkSource";
 
 import PlausibleProvider from 'next-plausible'
 import { Metadata } from 'next';
@@ -88,6 +89,7 @@ export default function RootLayout({
             <div className="flex flex-col min-h-screen">
               <Navigation />
               <ScrollToAnchor />
+              <AppLinkSource />
               <main className="flex-grow pt-16">
                 {children}
               </main>
