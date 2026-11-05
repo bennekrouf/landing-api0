@@ -1,5 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
+import { Pricing, PricingPlan } from '@/components/Pricing';
+import type { Rates } from '@/lib/display-currency';
 import { Upload, Plug, ShieldCheck, ArrowRight, Cpu, Fingerprint, Coins, Workflow, Check, X, Building2, Wrench } from 'lucide-react';
 
 const APP_URL = 'https://app.api0.ai';
@@ -132,7 +134,22 @@ const proxyExamples = [
   { call: 'tools/call: update\n{"id": "1", "em": "x@y.z"}', http: 'PUT /users/1/update {"em": "x@y.z"}' },
 ];
 
-const HomePage = () => {
+const GATEWAY_URL = process.env.API0_GATEWAY_URL ?? 'https://gateway.api0.ai';
+
+/** The workspace plans on sale, read on the server at most hourly; none when the gateway cannot be reached. */
+async function fetchPlans(): Promise<{ plans: PricingPlan[]; rates: Rates }> {
+  try {
+    const res = await fetch(`${GATEWAY_URL}/api/workspace-plans`, { next: { revalidate: 3600 } });
+    if (!res.ok) return { plans: [], rates: {} };
+    const body = await res.json();
+    return { plans: body.plans ?? [], rates: body.display_rates ?? {} };
+  } catch {
+    return { plans: [], rates: {} };
+  }
+}
+
+const HomePage = async () => {
+  const { plans, rates } = await fetchPlans();
   return (
     <>
       {/* Hero */}
@@ -391,12 +408,14 @@ const HomePage = () => {
         </div>
       </section>
 
+      {plans.length > 0 && <Pricing plans={plans} rates={rates} />}
+
       {/* Final CTA */}
       <section className="py-24 bg-background border-t border-border">
         <div className="container mx-auto px-4 max-w-3xl text-center">
           <h2 className="text-3xl font-bold mb-6 text-foreground">Make your backend intelligent this week</h2>
           <p className="lead-marketing text-muted-foreground mb-10">
-            Sign in with Google, import your API, and send your team one link. Usage-based credits, no sales call.
+            Sign in with Google, import your API, and send your team one link. A plan per workspace, no sales call.
           </p>
           <a
             href={APP_URL}

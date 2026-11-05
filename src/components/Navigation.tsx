@@ -49,6 +49,9 @@ const Navigation = () => {
             >
               How it works
             </Link>
+            <Link href="/#pricing" className="text-muted-foreground hover:text-foreground transition-colors">
+              Pricing
+            </Link>
             <Link
               href="/blog"
               className={`${isActive('/blog') ? 'text-foreground font-medium' : 'text-muted-foreground'} hover:text-foreground transition-colors`}
