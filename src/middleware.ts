@@ -1,5 +1,12 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { LANG_COOKIE } from '@/i18n';
+
+/** Whether the browser's first language is French (Accept-Language: fr-CH, fr;q=…). */
+function prefersFrench(request: NextRequest): boolean {
+  const first = (request.headers.get('accept-language') ?? '').split(',')[0]?.trim().toLowerCase() ?? '';
+  return first === 'fr' || first.startsWith('fr-');
+}
 
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
@@ -23,6 +30,14 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 301);
   }
 
+
+  // A French browser landing on the English home or pricing page goes to the
+  // French one, once: a language chosen with the switch (cookie) wins, and a
+  // crawler, which sends no French Accept-Language, keeps the English page.
+  if ((url.pathname === '/' || url.pathname === '/pricing') && !request.cookies.get(LANG_COOKIE) && prefersFrench(request)) {
+    url.pathname = url.pathname === '/' ? '/fr' : '/fr/pricing';
+    return NextResponse.redirect(url, 307);
+  }
 
   return NextResponse.next();
 }

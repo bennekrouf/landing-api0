@@ -1,20 +1,15 @@
 'use client';
 
 // The workspace plans, from the gateway (GET /api/workspace-plans, fetched by
-// the page on the server). Billed in CHF; the visitor picks the currency they
-// read prices in (guessed from their time zone, kept in localStorage), and
-// EUR and USD show as approximations.
+// the page on the server). Billed in CHF; prices show in the visitor's
+// currency, detected from their time zone (no picker), EUR and USD as
+// approximations.
 
 import React, { useEffect, useState } from 'react';
 import { Check, ArrowRight } from 'lucide-react';
-import {
-  DISPLAY_CURRENCIES,
-  DisplayCurrency,
-  Rates,
-  displayPrice,
-  guessCurrency,
-  rememberCurrency,
-} from '@/lib/display-currency';
+import { copyFor, type Lang } from '@/i18n';
+import { TeamsMark, TelegramMark, WhatsAppMark } from '@/components/brand-icons';
+import { DisplayCurrency, Rates, displayPrice, guessCurrency } from '@/lib/display-currency';
 
 export interface PricingPlan {
   id: string;
@@ -28,46 +23,51 @@ export interface PricingPlan {
   overage_cents_per_1k: number;
 }
 
+/** The channels every plan reaches, with their brand colours. */
+const CHANNELS = [
+  { name: 'Telegram', Mark: TelegramMark, color: '#229ED9' },
+  { name: 'WhatsApp', Mark: WhatsAppMark, color: '#25D366' },
+  { name: 'Teams', Mark: TeamsMark, color: '#5B5FC7' },
+];
+
+function Channels({ label }: { label: string }) {
+  return (
+    <div className="mt-5">
+      <div className="text-xs uppercase tracking-wide text-muted-foreground mb-2">{label}</div>
+      <ul className="flex flex-wrap gap-2">
+        {CHANNELS.map(({ name, Mark, color }) => (
+          <li key={name} className="inline-flex items-center gap-1.5 rounded-full border border-border px-2.5 py-1 text-xs text-foreground">
+            <span style={{ color }}>
+              <Mark className="w-4 h-4" />
+            </span>
+            {name}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 const APP_URL = 'https://app.api0.ai/?view=settings&tab=workspace-plan';
 // Where Enterprise enquiries go.
 const ENTERPRISE_CONTACT = 'mailto:mb@mayorana.ch?subject=api0%20Enterprise';
 
-export function Pricing({ plans, rates }: { plans: PricingPlan[]; rates: Rates }) {
+export function Pricing({ plans, rates, lang = 'en' }: { plans: PricingPlan[]; rates: Rates; lang?: Lang }) {
+  const t = copyFor(lang).pricing;
   // CHF on the server, the visitor's own after the first render.
   const [currency, setCurrency] = useState<DisplayCurrency>('chf');
   useEffect(() => setCurrency(guessCurrency()), []);
 
-  const pick = (c: DisplayCurrency) => {
-    setCurrency(c);
-    rememberCurrency(c);
-  };
-  const price = (cents: number, billed: string) => displayPrice(cents, billed, currency, rates);
+  const price = (cents: number, billed: string) => displayPrice(cents, billed, currency, rates, t.numberLocale);
   const billedIn = plans[0]?.currency.toUpperCase() ?? 'CHF';
 
   return (
-    <section id="pricing" className="py-24 bg-background">
+    <section id="pricing" className="py-20 bg-background">
       <div className="container mx-auto px-4 max-w-6xl">
-        <h2 className="text-3xl font-bold text-center mb-4 text-foreground">Pricing per workspace</h2>
-        <p className="text-center text-muted-foreground mb-8">
-          Seats and credits included. Extra members per seat; credits past the allowance on the next invoice.
+        <h1 className="text-4xl font-bold text-center mb-4 text-foreground">{t.title}</h1>
+        <p className="text-center text-muted-foreground mb-12">
+          {t.lead}
         </p>
-
-        <div className="flex justify-center gap-2 mb-10" role="radiogroup" aria-label="Currency">
-          {DISPLAY_CURRENCIES.map((c) => (
-            <button
-              key={c.id}
-              role="radio"
-              aria-checked={currency === c.id}
-              onClick={() => pick(c.id)}
-              className={`px-3 py-1.5 rounded-full border text-sm transition ${
-                currency === c.id ? 'border-[#FF6B00] text-[#FF6B00] bg-[#FF6B00]/10' : 'border-border text-muted-foreground'
-              }`}
-            >
-              <span className="mr-1.5">{c.flag}</span>
-              {c.label}
-            </button>
-          ))}
-        </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {plans.map((plan) => (
@@ -75,48 +75,52 @@ export function Pricing({ plans, rates }: { plans: PricingPlan[]; rates: Rates }
               <h3 className="text-lg font-semibold text-foreground">{plan.name}</h3>
               <div className="mt-3 text-3xl font-bold text-foreground">
                 {price(plan.price_cents, plan.currency)}
-                <span className="text-sm font-normal text-muted-foreground"> / month</span>
+                <span className="text-sm font-normal text-muted-foreground"> {t.perMonth}</span>
               </div>
               {plan.description && <p className="mt-2 text-sm text-muted-foreground">{plan.description}</p>}
-              <ul className="mt-5 space-y-2 text-sm text-foreground">
-                <li className="flex gap-2"><Check className="w-4 h-4 mt-0.5 text-[#FF6B00]" />{plan.included_seats} seats included</li>
+              <Channels label={t.channelsLabel} />
+              <ul className="mt-5 mb-6 space-y-2 text-sm text-foreground">
+                <li className="flex gap-2"><Check className="w-4 h-4 mt-0.5 text-[#FF6B00]" />{t.seatsIncluded(plan.included_seats)}</li>
                 {plan.seat_price_cents > 0 && (
-                  <li className="flex gap-2"><Check className="w-4 h-4 mt-0.5 text-[#FF6B00]" />{price(plan.seat_price_cents, plan.currency)} per extra seat</li>
+                  <li className="flex gap-2"><Check className="w-4 h-4 mt-0.5 text-[#FF6B00]" />{t.perExtraSeat(price(plan.seat_price_cents, plan.currency))}</li>
                 )}
-                <li className="flex gap-2"><Check className="w-4 h-4 mt-0.5 text-[#FF6B00]" />{plan.monthly_credits.toLocaleString('en-US')} credits / month</li>
+                <li className="flex gap-2"><Check className="w-4 h-4 mt-0.5 text-[#FF6B00]" />{t.creditsPerMonth(plan.monthly_credits.toLocaleString(t.numberLocale))}</li>
                 {plan.overage_cents_per_1k > 0 && (
-                  <li className="flex gap-2"><Check className="w-4 h-4 mt-0.5 text-[#FF6B00]" />{price(plan.overage_cents_per_1k, plan.currency)} per 1,000 extra credits</li>
+                  <li className="flex gap-2"><Check className="w-4 h-4 mt-0.5 text-[#FF6B00]" />{t.overage(price(plan.overage_cents_per_1k, plan.currency))}</li>
                 )}
               </ul>
               <a
                 href={APP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-cap mt-6 inline-flex items-center justify-center px-4 py-2 rounded-lg bg-[#FF6B00] text-white hover:bg-[#FF6B00]/90"
+                className="btn-cap mt-auto inline-flex items-center justify-center px-4 py-2 rounded-lg bg-[#FF6B00] text-white hover:bg-[#FF6B00]/90"
               >
-                Start
+                {t.start}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </a>
             </div>
           ))}
 
           <div className="flex flex-col rounded-xl border border-dashed border-border bg-card p-6">
-            <h3 className="text-lg font-semibold text-foreground">Enterprise</h3>
-            <div className="mt-3 text-3xl font-bold text-foreground">Custom</div>
+            <h3 className="text-lg font-semibold text-foreground">{t.enterprise}</h3>
+            <div className="mt-3 text-3xl font-bold text-foreground">{t.custom}</div>
             <p className="mt-2 text-sm text-muted-foreground">
-              More seats and credits, invoice instead of card, a contract and data processing agreement.
+              {t.enterpriseBody}
             </p>
+            <Channels label={t.channelsLabel} />
+            <div className="flex-1" />
             <a
               href={ENTERPRISE_CONTACT}
-              className="btn-cap mt-auto inline-flex items-center justify-center px-4 py-2 rounded-lg border border-border text-foreground hover:bg-accent"
+              className="btn-cap mt-6 inline-flex items-center justify-center px-4 py-2 rounded-lg border border-border text-foreground hover:bg-accent"
             >
-              Contact us
+              {t.contact}
             </a>
           </div>
         </div>
 
         <p className="mt-8 text-center text-xs text-muted-foreground">
-          Billed in {billedIn}, VAT included.{currency !== billedIn.toLowerCase() && ' Prices in other currencies are approximate.'}
+          {t.billedIn(billedIn)}
+          {currency !== billedIn.toLowerCase() && t.indicative}
         </p>
       </div>
     </section>
