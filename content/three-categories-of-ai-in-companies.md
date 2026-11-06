@@ -29,7 +29,7 @@ Strip away the branding and most generative and agentic AI projects fall into th
 | Category | Faces | What it does | Main risk |
 |---|---|---|---|
 | 1. AI agents (B2C) | Customers | Answers, books, sells, refunds | Brand and legal exposure |
-| 2. Integration layer | Systems | Lets AI read and act on real backends | Security and permissions |
+| 2. Integration layer | Systems | Lets AI read and act on real applications | Security and permissions |
 | 3. Productivity copilots | Employees | Writes, summarizes, searches, codes | Value nobody measures |
 
 The last column is the part most use-case lists leave out: each category fails in a different way.

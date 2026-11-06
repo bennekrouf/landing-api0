@@ -15,7 +15,7 @@ Short answer: no. And the difference matters if you're reasoning about auth, lat
 ## The shared core, and the two paths
 
 <div class="svg-container" style="margin:2rem 0;">
-<svg class="api0-arch" viewBox="0 0 800 470" width="100%" style="height:auto;max-width:760px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="api0 connector architecture: uploaded specs feed a shared tool registry, exposed through an MCP door and a WhatsApp door, both of which call your backend APIs.">
+<svg class="api0-arch" viewBox="0 0 800 470" width="100%" style="height:auto;max-width:760px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="api0 connector architecture: uploaded specs feed a shared tool registry, exposed through an MCP door and a WhatsApp door, both of which call your application APIs.">
   <style>
     .api0-arch{--bg:#f8fafc;--box:#ffffff;--tx:#1e293b;--mut:#64748b;--ln:#cbd5e1;--ac:#FF6B00}
     :root.dark .api0-arch,[data-theme="dark"] .api0-arch{--bg:#0f172a;--box:#1e293b;--tx:#f8fafc;--mut:#94a3b8;--ln:#475569}
@@ -66,15 +66,15 @@ Short answer: no. And the difference matters if you're reasoning about auth, lat
   <text class="m" x="510" y="296">• trigger: Meta webhook</text>
   <text class="m" x="510" y="316">• auth: Meta phone-number + token</text>
 
-  <!-- converge to backend: Y-merge into the box top -->
+  <!-- converge to application: Y-merge into the box top -->
   <path class="lnac" d="M180,334 L180,386 L400,386"/>
   <path class="lnac" d="M620,334 L620,386 L400,386"/>
   <path class="lnac" d="M400,386 L400,403" marker-end="url(#ahac)"/>
   <text class="ac" x="400" y="372" text-anchor="middle" font-size="11">both call backend_url</text>
 
-  <!-- 4. Backend -->
+  <!-- 4. Application -->
   <rect class="acc" x="300" y="406" width="200" height="46" rx="10"/>
-  <text class="t" x="400" y="434" text-anchor="middle">Your backend APIs</text>
+  <text class="t" x="400" y="434" text-anchor="middle">Your application APIs</text>
 </svg>
 </div>
 
@@ -94,14 +94,14 @@ The two doors don't just look different in the UI — they're different runtimes
 | **Auth** | API key (Bearer) **or** OAuth Client ID | Meta Phone Number ID + permanent token |
 | **What the end-user installs** | An MCP integration in their AI client | Nothing — they just message your number |
 
-Read the middle two rows again: **the MCP protocol only exists on the left**. The WhatsApp bridge fetches the same tool list, but then drives Claude itself through the Anthropic Messages API and hits your backends directly. It reuses the *registry*, not the *protocol*.
+Read the middle two rows again: **the MCP protocol only exists on the left**. The WhatsApp bridge fetches the same tool list, but then drives Claude itself through the Anthropic Messages API and hits your applications directly. It reuses the *registry*, not the *protocol*.
 
 That's why a setting like the **OAuth Client ID** lives only under the MCP door — it configures how someone connects an MCP client via "Add integration". WhatsApp never sees it; it authenticates to Meta instead.
 
 The subtlest part is *where the AI actually runs* — same class of model on both sides, but in a different place, which is why the auth and control models differ:
 
 <div class="svg-container" style="margin:2rem 0;">
-<svg class="run2" viewBox="0 0 800 292" width="100%" style="height:auto;max-width:760px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="On the MCP door the model runs in the user's client (Claude.ai); on the WhatsApp door the model runs in api0's own bridge. Both then call your backend.">
+<svg class="run2" viewBox="0 0 800 292" width="100%" style="height:auto;max-width:760px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="On the MCP door the model runs in the user's client (Claude.ai); on the WhatsApp door the model runs in api0's own bridge. Both then call your application.">
   <style>
     .run2{--bg:#f8fafc;--box:#ffffff;--tx:#1e293b;--mut:#64748b;--ln:#cbd5e1;--ac:#FF6B00}
     :root.dark .run2,[data-theme="dark"] .run2{--bg:#0f172a;--box:#1e293b;--tx:#f8fafc;--mut:#94a3b8;--ln:#475569}
@@ -141,7 +141,7 @@ The subtlest part is *where the AI actually runs* — same class of model on bot
   <path class="lnac" d="M400,214 L400,231" marker-end="url(#r2ac)"/>
   <text class="ac" x="400" y="204" text-anchor="middle">both call backend_url</text>
   <rect class="acc" x="300" y="234" width="200" height="46" rx="10"/>
-  <text class="t" x="400" y="262" text-anchor="middle">Your backend APIs</text>
+  <text class="t" x="400" y="262" text-anchor="middle">Your application APIs</text>
 </svg>
 </div>
 

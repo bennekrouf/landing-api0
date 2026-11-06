@@ -13,6 +13,7 @@ const Navigation = () => {
   const other = otherLangPath(currentPath);
   const home = localePath(lang, '/');
   const pricing = localePath(lang, '/pricing');
+  const useCases = localePath(lang, '/use-cases');
 
   // The root layout says lang="en"; a French page says so once it runs.
   React.useEffect(() => {
@@ -27,6 +28,7 @@ const Navigation = () => {
   const isActive = (path: string) => {
     if (path === home) return currentPath === home;
     if (path === pricing) return currentPath === pricing;
+    if (path === useCases) return currentPath === useCases;
     if (path === '/blog') return currentPath === '/blog' || currentPath.startsWith('/blog/');
     return false;
   };
@@ -68,6 +70,12 @@ const Navigation = () => {
               className={`${isActive(home) ? 'text-foreground font-medium' : 'text-muted-foreground'} hover:text-foreground transition-colors`}
             >
               {t.howItWorks}
+            </Link>
+            <Link
+              href={useCases}
+              className={`${isActive(useCases) ? 'text-foreground font-medium' : 'text-muted-foreground'} hover:text-foreground transition-colors`}
+            >
+              {t.useCases}
             </Link>
             <Link
               href={pricing}

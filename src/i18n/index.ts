@@ -22,8 +22,10 @@ export function langOf(pathname: string | null | undefined): Lang {
   return pathname === '/fr' || pathname?.startsWith('/fr/') ? 'fr' : 'en';
 }
 
-/** A page's path in `lang`: home() and pricing() are translated; others stay English. */
-export function localePath(lang: Lang, path: '/' | '/pricing'): string {
+/** A page's path in `lang`: home, pricing and use cases are translated; others stay English. */
+export type LocalPage = '/' | '/pricing' | '/use-cases';
+
+export function localePath(lang: Lang, path: LocalPage): string {
   if (lang === 'en') return path;
   return path === '/' ? '/fr' : `/fr${path}`;
 }
@@ -32,9 +34,9 @@ export function localePath(lang: Lang, path: '/' | '/pricing'): string {
 export function otherLangPath(pathname: string): { lang: Lang; href: string } | null {
   const lang = langOf(pathname);
   const bare = lang === 'fr' ? pathname.replace(/^\/fr/, '') || '/' : pathname;
-  if (bare !== '/' && bare !== '/pricing') return null;
+  if (bare !== '/' && bare !== '/pricing' && bare !== '/use-cases') return null;
   const other: Lang = lang === 'fr' ? 'en' : 'fr';
-  return { lang: other, href: localePath(other, bare as '/' | '/pricing') };
+  return { lang: other, href: localePath(other, bare as LocalPage) };
 }
 
 /** The cookie a chosen language is kept in, so the middleware does not redirect again. */

@@ -1,14 +1,15 @@
 ---
-title: "Connect Claude to Your Backend in 5 Minutes with api0"
+title: "Connect Claude to Your Application in 5 Minutes with api0"
+slug: "connect-claude-to-your-backend-in-5-minutes-with-api0"
 date: "2026-04-25"
 excerpt: "Expose your existing APIs as MCP tools Claude can call—with built-in auth, identity propagation, and access control. Here's the whole flow in two diagrams."
 author: { name: "API0 Team" }
 tags: ["MCP", "Tutorial", "Claude", "Quick Start", "Integration"]
 ---
 
-# Connect Claude to Your Backend in 5 Minutes with api0
+# Connect Claude to Your Application in 5 Minutes with api0
 
-Got a backend with HTTP endpoints? Claude can call them as native MCP tools in under five minutes — no SDK, no model hosting, no rebuilt auth layer.
+Got an application with HTTP endpoints? Claude can call them as native MCP tools in under five minutes — no SDK, no model hosting, no rebuilt auth layer.
 
 Here's the entire setup, start to finish:
 
@@ -48,22 +49,22 @@ Here's the entire setup, start to finish:
 </svg>
 </div>
 
-**Prerequisites:** a backend with at least one HTTP endpoint, an OpenAPI spec (or a plain-English description — api0 parses both), and a Google account.
+**Prerequisites:** an application with at least one HTTP endpoint, an OpenAPI spec (or a plain-English description — api0 parses both), and a Google account.
 
 ## The five steps
 
 1. **Sign in** at [app.api0.ai](https://app.api0.ai) with Google.
 2. **Import your spec** under **My Endpoints → Import**. Paste OpenAPI, or just describe endpoints in English (`POST /api/invoices — creates an invoice; required: customer_id, amount, currency`). api0 turns them into MCP tools.
-3. **Set downstream auth** under the **Security** tab — how api0 authenticates to *your* backend: Google Service Account (OIDC), a static bearer token, or an API-key header. This lives in api0; Claude never sees it.
+3. **Set downstream auth** under the **Security** tab — how api0 authenticates to *your* application: Google Service Account (OIDC), a static bearer token, or an API-key header. This lives in api0; Claude never sees it.
 4. **Connect Claude** — under **Connectors → MCP**, register a Client ID (e.g. `myapp-mcp`). Your users add your MCP server in Claude, approve once via OAuth, and Claude holds a key tied to their identity.
 5. **Test** — in Claude: *"Create an invoice for customer ACME for $1,200 USD."*
 
 ## What happens on every call
 
-Once connected, each tool call runs this path in milliseconds — your backend just sees a clean, authenticated HTTP request:
+Once connected, each tool call runs this path in milliseconds — your application just sees a clean, authenticated HTTP request:
 
 <div class="svg-container" style="margin:2rem 0;">
-<svg class="qs-run" viewBox="0 0 800 300" width="100%" style="height:auto;max-width:760px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Runtime call sequence: Claude sends an API key to the api0 gateway, which validates identity, mints an OIDC token, checks credits and injects identity headers, then proxies to your backend and returns the result while logging and metering.">
+<svg class="qs-run" viewBox="0 0 800 300" width="100%" style="height:auto;max-width:760px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Runtime call sequence: Claude sends an API key to the api0 gateway, which validates identity, mints an OIDC token, checks credits and injects identity headers, then proxies to your application and returns the result while logging and metering.">
   <style>
     .qs-run{--box:#ffffff;--tx:#1e293b;--mut:#64748b;--ln:#cbd5e1;--ac:#FF6B00}
     :root.dark .qs-run,[data-theme="dark"] .qs-run{--box:#1e293b;--tx:#f8fafc;--mut:#94a3b8;--ln:#475569}
@@ -95,9 +96,9 @@ Once connected, each tool call runs this path in milliseconds — your backend j
   <text class="m" x="312" y="178">4 · inject identity headers</text>
   <text class="ac" x="312" y="230">↺ logs call · deducts credits</text>
 
-  <!-- Backend -->
+  <!-- Application -->
   <rect class="box" x="626" y="112" width="150" height="70" rx="10"/>
-  <text class="th" x="701" y="138" text-anchor="middle">Your backend</text>
+  <text class="th" x="701" y="138" text-anchor="middle">Your application</text>
   <text class="m" x="701" y="160" text-anchor="middle">verifies OIDC · runs</text>
 
   <!-- arrows -->
@@ -112,8 +113,8 @@ Once connected, each tool call runs this path in milliseconds — your backend j
 </svg>
 </div>
 
-Your backend receives `X-User-Email` and `X-Tenant-Id` headers already verified by the gateway — no MCP awareness required on your side. Credentials never leave api0, every call is metered, and you get a full audit log.
+Your application receives `X-User-Email` and `X-Tenant-Id` headers already verified by the gateway — no MCP awareness required on your side. Credentials never leave api0, every call is metered, and you get a full audit log.
 
 ## That's it
 
-Five minutes, zero infrastructure changes, and Claude has governed access to your backend. Head to [app.api0.ai](https://app.api0.ai) to start.
+Five minutes, zero infrastructure changes, and Claude has governed access to your application. Head to [app.api0.ai](https://app.api0.ai) to start.

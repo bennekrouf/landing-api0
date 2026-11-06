@@ -4,14 +4,17 @@ import type { Copy } from './index';
 
 export const fr: Copy = {
   meta: {
-    title: 'API0 - L’intelligence à la demande pour tout backend',
+    title: 'API0 - L’intelligence à la demande pour toute application',
     description:
-      'Ajoutez une interface intelligente à n’importe quel backend. Importez votre API et votre équipe l’utilise depuis Teams, WhatsApp, Telegram ou Claude, en langage naturel. Sans réécriture, entièrement dans le cloud.',
+      'Ajoutez une interface intelligente à n’importe quelle application. Importez votre API et votre équipe l’utilise depuis Teams, WhatsApp, Telegram ou Claude, en langage naturel. Sans réécriture, entièrement dans le cloud.',
+    useCasesTitle: "Cas d'usage",
+    useCasesDescription: "Comment les équipes utilisent api0 : interventions depuis WhatsApp, éditeurs dans Teams, outils internes dans Claude Enterprise.",
     pricingTitle: 'Tarifs',
     pricingDescription:
       'Les offres api0 par espace de travail : sièges et crédits inclus, votre API dans Telegram, WhatsApp et Teams. Facturé en CHF, conçu en Suisse.',
   },
   nav: {
+    useCases: "Cas d'usage",
     howItWorks: 'Comment ça marche',
     pricing: 'Tarifs',
     blog: 'Blog',
@@ -32,10 +35,10 @@ export const fr: Copy = {
   home: {
     eyebrow: 'L’intelligence à la demande · Dans le cloud',
     titleBefore: 'Ajoutez une interface intelligente à ',
-    titleHighlight: 'n’importe quel backend',
+    titleHighlight: 'n’importe quelle application',
     tagline: 'Votre logiciel, dans la messagerie que votre équipe utilise déjà.',
     lead:
-      'Votre backend fait déjà le travail. api0 permet de lui parler : importez votre API, et votre équipe l’utilise depuis Teams, WhatsApp, Telegram ou Claude, en langage naturel. Chaque action s’exécute au nom de la personne qui la demande.',
+      'Votre application fait déjà le travail. api0 permet de lui parler : importez votre API, et votre équipe l’utilise depuis Teams, WhatsApp, Telegram ou Claude, en langage naturel. Chaque action s’exécute au nom de la personne qui la demande.',
     promise: 'Sans réécriture, sans nouveau frontend, rien à héberger. En ligne en moins de cinq minutes.',
     ctaImport: 'Importer votre API',
     ctaAuth: 'Voir l’authentification',
@@ -81,7 +84,7 @@ export const fr: Copy = {
       },
       {
         title: 'Gardez le contrôle',
-        body: 'Chaque appel passe par la passerelle : elle vérifie qui appelle, joint l’identifiant attendu par votre backend, décompte les crédits et journalise l’appel.',
+        body: 'Chaque appel passe par la passerelle : elle vérifie qui appelle, joint l’identifiant attendu par votre application, décompte les crédits et journalise l’appel.',
         code: `tools/call create_invoice
   ✓ appelant : jane@acme.com
   ✓ identifiant joint
@@ -91,9 +94,9 @@ export const fr: Copy = {
     ],
     quickstart: 'Suivre le guide de démarrage en cinq minutes',
 
-    authTitle: 'Ce que reçoit votre backend',
+    authTitle: 'Ce que reçoit votre application',
     authLead:
-      'Vous choisissez comment api0 s’authentifie auprès de votre backend. L’identifiant est conservé dans api0 et joint à chaque appel, avec l’identité de la personne concernée.',
+      'Vous choisissez comment api0 s’authentifie auprès de votre application. L’identifiant est conservé dans api0 et joint à chaque appel, avec l’identité de la personne concernée.',
     backendAuth: [
       { title: 'Jeton d’identité Google', body: 'Prouve que l’appel vient d’api0. Vérifiez-le comme tout jeton OIDC de compte de service.' },
       { title: 'Jeton bearer ou en-têtes fixes', body: 'Un jeton statique ou un en-tête de clé API, conservé dans api0. Claude ne le voit jamais.' },
@@ -118,11 +121,11 @@ export const fr: Copy = {
       },
       {
         title: 'Un seul point pour l’identité',
-        body: 'Qui appelle, ce qu’il a le droit de faire et quel identifiant reçoit votre backend : tout se décide dans une seule passerelle, quel que soit le client utilisé.',
+        body: 'Qui appelle, ce qu’il a le droit de faire et quel identifiant reçoit votre application : tout se décide dans une seule passerelle, quel que soit le client utilisé.',
       },
       {
         title: 'Écrit en Rust',
-        body: 'La passerelle et chaque service backend sont écrits en Rust, pour une latence prévisible et une surface d’attaque réduite.',
+        body: 'La passerelle et chaque service d’api0 sont écrits en Rust, pour une latence prévisible et une surface d’attaque réduite.',
       },
       {
         title: 'Une offre par espace de travail',
@@ -132,40 +135,48 @@ export const fr: Copy = {
 
     compareTitle: 'api0 face aux alternatives',
     compareLead:
-      'Seuls les points forts d’api0 sont listés. Les autres font beaucoup de choses qu’api0 ne fait pas — voici pourquoi le choisir.',
+      'Là où api0 se distingue.',
     feature: 'Fonctionnalité',
     yes: 'Oui',
     no: 'Non',
     comparison: [
       {
-        feature: 'Votre propre API REST en outils MCP, depuis une spec OpenAPI ou une description en langage naturel',
-        them: ['Spec OpenAPI ; outils REST en préversion', 'Expose des serveurs MCP que vous exploitez déjà', 'Spec OpenAPI en configuration YAML', 'Votre API en code, ou un serveur MCP que vous hébergez'],
+        feature: 'Votre API REST en outils MCP',
+        them: ['En préversion', 'Vos serveurs MCP seulement', 'Config YAML', 'Code ou votre serveur'],
       },
       {
-        feature: 'Les mêmes outils dans Teams, WhatsApp, votre propre bot Telegram et Claude',
-        them: ['Teams et WhatsApp ; Telegram demande du code', 'Clients MCP uniquement', 'Clients MCP et A2A uniquement', 'Via votre propre application ou des clients MCP'],
+        feature: 'Chat dans Teams, connecté',
+        them: [true, false, false, 'Actions de l’agent seulement'],
       },
       {
-        feature: 'Un lien de démarrage par espace de travail : connexion unique, puis Claude ou un bot',
-        them: ['Lien d’installation Teams ; QR code WhatsApp', 'URL de portail derrière Access', false, 'Liens d’authentification par application'],
+        feature: 'Chat dans WhatsApp',
+        them: ['Fermé depuis oct. 2026', false, false, 'Actions de l’agent seulement'],
       },
       {
-        feature: 'Cinq modes d’identifiants backend, dont secrets et OAuth par utilisateur',
-        them: ['Aucun, une clé API saisie par l’utilisateur, ou OAuth par utilisateur', 'Laissé à chaque serveur MCP', 'Politiques à configurer', 'Pour les applications du catalogue ; votre API en code'],
+        feature: 'Chat dans votre bot Telegram',
+        them: ['Via Azure, avec du code', false, false, 'Actions de l’agent seulement'],
       },
       {
-        feature: 'Rien à héberger ni à exploiter',
-        them: ['Hébergé ; WhatsApp demande votre propre ressource Azure', true, 'À exploiter vous-même', true],
+        feature: 'Un lien d’accès par espace',
+        them: ['Un par canal', 'URL de portail', false, 'Un par application'],
+      },
+      {
+        feature: 'Cinq modes d’identifiants, dont OAuth par utilisateur',
+        them: ['Trois modes', 'Selon chaque serveur', 'Politiques à écrire', 'Catalogue seulement'],
+      },
+      {
+        feature: 'Rien à héberger',
+        them: [true, true, 'Auto-hébergé', true],
       },
     ],
-    compareNote: 'Comparaison d’octobre 2026, d’après la documentation publique de chaque produit.',
+    compareNote: 'Documentation publique, novembre 2026.',
 
     proxyTitle: 'De l’appel d’outil au véritable appel d’API',
     proxyNote:
       'La passerelle injecte les paramètres dans l’URL et le corps avec le bon verbe HTTP, puis renvoie le résultat au modèle.',
     architecture: 'Voir toute l’architecture sur une page',
 
-    finalTitle: 'Rendez votre backend intelligent cette semaine',
+    finalTitle: 'Rendez votre application intelligente cette semaine',
     finalLead: 'Connectez-vous avec Google, importez votre API et envoyez un lien à votre équipe. Une offre par espace de travail, sans rendez-vous commercial.',
     finalCta: 'Commencer',
   },
@@ -186,5 +197,65 @@ export const fr: Copy = {
     billedIn: (currency: string) => `Facturé en ${currency}, TVA incluse.`,
     indicative: ' Les prix dans les autres devises sont indicatifs.',
     numberLocale: 'fr-CH',
+  },
+  useCases: {
+    kicker: "Cas d'usage",
+    title: 'Une API importée une fois. Utilisée là où les gens travaillent déjà.',
+    lead: "Trois façons d'utiliser api0, et un produit qui tourne dessus aujourd'hui. Chaque action est faite au nom de la personne, avec ses droits.",
+    exampleLabel: 'Exemple de conversation',
+    setupLabel: "Ce qu'on met en place",
+    channelsLabel: 'Canaux :',
+    cases: [
+      {
+        id: 'field-service',
+        tag: 'Field service',
+        title: 'Les techniciens gèrent leurs interventions depuis WhatsApp',
+        problem: "Sur le terrain, l'app d'intervention est lente sur mobile. Les rapports sont saisis le soir, de mémoire, et le dispatch passe la journée au téléphone.",
+        chat: [
+          { who: 'Technicien', text: "C'est quoi ma journée ?" },
+          { who: 'Assistant', text: "3 visites. 1) 08:30 Lausanne, chaudière X200, code d'accès enregistré…" },
+          { who: 'Technicien', text: 'Fini chez Lausanne, remplacé le filtre, 2 pièces FX-200. Clôture.' },
+          { who: 'Assistant', text: "Je clôture l'intervention 1182 avec ce rapport et 2 × FX-200 ? (oui/non)" },
+        ],
+        setup: ["Votre API d'intervention : planning, ordres de travail, stock", 'Chaque technicien relie son compte une fois', 'Un numéro WhatsApp Business branché sur api0'],
+        channels: 'WhatsApp, Telegram, Teams',
+      },
+      {
+        id: 'software-vendor',
+        tag: 'Éditeurs de logiciels',
+        title: 'Votre produit dans le Teams de vos clients',
+        problem: "Les clients demandent « de l'IA dans votre produit ». Construire un assistant et un bot Teams prend une équipe et des mois, en respectant les droits de chaque utilisateur.",
+        chat: [
+          { who: 'Utilisateur client', text: 'Quels sont mes tickets urgents ouverts ?' },
+          { who: 'Assistant', text: '4 tickets urgents. #2291 Export en échec, ouvert depuis 2 jours…' },
+          { who: 'Utilisateur client', text: 'Assigne #2291 à Paul et ajoute une note : on relance le fournisseur.' },
+          { who: 'Assistant', text: 'Fait. Assigné à Paul, note interne ajoutée.' },
+        ],
+        setup: ['Votre API publique, importée depuis sa spec OpenAPI', 'Un espace api0 par client : outils, utilisateurs, crédits, journal', 'Un package d’app Teams généré par api0'],
+        channels: 'Teams, Claude, WhatsApp, Telegram',
+      },
+      {
+        id: 'internal-tools',
+        tag: 'Outils internes',
+        title: 'Vos systèmes internes dans Claude Enterprise, en sécurité',
+        problem: "Claude ne connaît ni votre ERP, ni votre CRM, ni vos outils RH : les équipes copient-collent. La sécurité exige des droits par personne, aucun secret dans l'IA et un journal.",
+        chat: [
+          { who: 'Employé', text: 'Il me reste combien de congés ? Pose-moi du 22 au 26.' },
+          { who: 'Assistant', text: 'Il vous reste 12 jours. Demande de 5 jours, du 22 au 26.12, à envoyer à Claire ? (oui/non)' },
+          { who: 'Manager', text: 'Qui est absent la semaine prochaine dans mon équipe ?' },
+          { who: 'Assistant', text: 'Deux personnes : Paul (lun–mer), Inès (ven).' },
+        ],
+        setup: ['Vos APIs internes comme outils, la lecture d’abord', 'Connexion via Entra ID ou votre fournisseur OIDC', 'Des identifiants par personne : chaque système applique ses droits'],
+        channels: 'Claude, Teams',
+      },
+    ],
+    liveKicker: "En production sur api0",
+    liveTitle: 'Un SaaS de création de CV',
+    liveBody: "Un SaaS de création de CV a importé son API dans api0 : 17 endpoints. Ses utilisateurs consultent leurs profils, génèrent des CV en PDF, les traduisent, les adaptent à une offre et écrivent des lettres de motivation, depuis Claude et depuis des messageries. Chaque appel arrive à l'application avec un jeton d'identité Google : l'application ne stocke aucun secret api0.",
+    liveFacts: ['17 endpoints, importés une fois', 'Claude et des messageries', 'Aucun secret stocké côté application'],
+    yoursTitle: 'Votre API, la prochaine',
+    yoursBody: 'Un POC de 14 jours sur votre API : à la fin, vos équipes ou vos clients l’utilisent pour de vrai, ou on arrête.',
+    yoursCta: 'Commencer avec votre API',
+    contactCta: 'Nous écrire',
   },
 };

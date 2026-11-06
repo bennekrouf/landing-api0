@@ -2,7 +2,7 @@
 title: "How api0 Works, End to End"
 slug: "how-api0-works"
 date: "2026-10-03"
-excerpt: "One diagram of the whole platform: who calls api0, what the gateway decides on every request, and what your backend receives. Then the seven flows that run through it."
+excerpt: "One diagram of the whole platform: who calls api0, what the gateway decides on every request, and what your application receives. Then the seven flows that run through it."
 author: { name: "Engineering Team" }
 tags: ["Architecture", "MCP", "OAuth", "Security", "api0"]
 image: "https://api0.ai/images/blog/how-api0-works.png"
@@ -12,14 +12,14 @@ image: "https://api0.ai/images/blog/how-api0-works.png"
 
 When Claude calls one of your APIs through api0, what actually happens between the question and the answer?
 
-api0 is a gateway between AI assistants and your systems. You register an API, and it becomes a set of MCP tools. People reach those tools from Claude, from our SDK and CLI, or straight from WhatsApp and Telegram. Every one of those calls passes through the same gateway, which settles three things before your backend sees anything: who is calling, which credential your backend should receive, and what the call costs.
+api0 is a gateway between AI assistants and your systems. You register an API, and it becomes a set of MCP tools. People reach those tools from Claude, from our SDK and CLI, or straight from WhatsApp and Telegram. Every one of those calls passes through the same gateway, which settles three things before your application sees anything: who is calling, which credential your application should receive, and what the call costs.
 
 Here is the whole platform on one page.
 
 ## The map
 
 <div class="svg-container" style="margin:2rem 0;overflow-x:auto;">
-<svg class="a0map" viewBox="0 0 800 530" width="100%" style="height:auto;min-width:600px;max-width:800px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="api0 architecture. Messaging users reach the WhatsApp bridge, which calls the gateway as the user and uses Claude as its model. MCP clients and the dashboard call the gateway directly, and Stripe sends payment webhooks to it. The gateway sends API specs to a formatter backed by a language model, keeps its state in an internal store, calls your backends with the right credential, and signs people in through identity providers.">
+<svg class="a0map" viewBox="0 0 800 530" width="100%" style="height:auto;min-width:600px;max-width:800px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="api0 architecture. Messaging users reach the WhatsApp bridge, which calls the gateway as the user and uses Claude as its model. MCP clients and the dashboard call the gateway directly, and Stripe sends payment webhooks to it. The gateway sends API specs to a formatter backed by a language model, keeps its state in an internal store, calls your applications with the right credential, and signs people in through identity providers.">
   <style>
     .a0map{--box:#ffffff;--core:#fff6ef;--tx:#1e293b;--mut:#64748b;--ln:#94a3b8;--bd:#cbd5e1;--ac:#FF6B00}
     :root.dark .a0map,[data-theme="dark"] .a0map{--box:#1e293b;--core:#2a1a0e;--tx:#f8fafc;--mut:#94a3b8;--ln:#64748b;--bd:#475569}
@@ -82,7 +82,7 @@ Here is the whole platform on one page.
   <text class="m" x="266" y="210">the only public entry</text>
   <text class="m" x="266" y="228">MCP · REST · OAuth 2.1</text>
   <text class="m" x="266" y="246">identity · credits · routing</text>
-  <text class="m" x="266" y="264">picks the backend's credential</text>
+  <text class="m" x="266" y="264">picks the application's credential</text>
   <rect class="box" x="610" y="170" width="180" height="100" rx="8"/>
   <text class="t" x="624" y="196">Spec formatter</text>
   <text class="m" x="624" y="218">API spec → tools</text>
@@ -98,7 +98,7 @@ Here is the whole platform on one page.
   <text class="m" x="264" y="484">Postgres, row-level security</text>
   <text class="m" x="264" y="500">workspaces · keys · tools</text>
   <rect class="ext" x="480" y="420" width="150" height="90" rx="8"/>
-  <text class="t" x="494" y="446">Your backends</text>
+  <text class="t" x="494" y="446">Your applications</text>
   <text class="m" x="494" y="466">any REST API</text>
   <text class="m" x="494" y="484">or MCP server</text>
   <rect class="ext" x="650" y="420" width="140" height="90" rx="8"/>
@@ -108,7 +108,7 @@ Here is the whole platform on one page.
 </svg>
 </div>
 
-Solid boxes are api0. Dashed boxes are someone else: your users' clients, your backends, Stripe, the identity providers and the models. The orange one is the gateway, and everything your backends receive passes through it.
+Solid boxes are api0. Dashed boxes are someone else: your users' clients, your applications, Stripe, the identity providers and the models. The orange one is the gateway, and everything your applications receive passes through it.
 
 ## 1. The MCP tool call
 
@@ -117,9 +117,9 @@ This is the product. A client speaks JSON-RPC to a single MCP endpoint.
 1. `initialize` returns your workspace's instructions for the model.
 2. `tools/list` returns the tools of the caller's workspace, or of the provider whose connector they came through.
 3. `tools/call` looks the tool up by name.
-4. The gateway picks the credential your backend expects (flow 3).
+4. The gateway picks the credential your application expects (flow 3).
 5. For a paid tool, it checks the balance first. If the balance can't be read, the call does not run.
-6. It forwards the request with who it is for and your backend's credential, deducts credits on success, and logs the call.
+6. It forwards the request with who it is for and your application's credential, deducts credits on success, and logs the call.
 
 ## 2. Who is calling
 
@@ -131,9 +131,9 @@ Every way in ends with a known person in a known workspace.
 - **OAuth 2.1 for MCP connectors** such as Claude. PKCE (S256) is required, each authorization code is tied to the client, redirect and challenge it was issued for, and a code works once.
 - **Your own identity provider**, such as Entra ID or any OIDC provider, for teams that already sign in there.
 
-## 3. What your backend receives
+## 3. What your application receives
 
-Each workspace chooses how its backends are called. The connection test in the dashboard runs the same logic as a real call, so a passing test means a working setup.
+Each workspace chooses how its applications are called. The connection test in the dashboard runs the same logic as a real call, so a passing test means a working setup.
 
 - No credential, a fixed bearer token, or custom headers
 - A Google identity token that proves the call came from api0
@@ -159,8 +159,8 @@ Credits are bought in the dashboard and spent by paid tool calls. Licenses for t
 
 ## 7. Workspaces
 
-A workspace owner names the workspace, invites members and sets their roles, creates and revokes API keys, reads usage and call logs, writes instructions for the model, configures backend credentials and sign-in, and connects WhatsApp or Telegram.
+A workspace owner names the workspace, invites members and sets their roles, creates and revokes API keys, reads usage and call logs, writes instructions for the model, configures application credentials and sign-in, and connects WhatsApp or Telegram.
 
 ## The takeaway
 
-The useful property of this shape is that there is exactly one place where identity, credentials and billing are decided. Claude, the CLI and a WhatsApp message all arrive at the same gateway, and your backend gets the same answer to "who is this, and what may they do" whichever door they used. If you are connecting AI assistants to internal systems, that single decision point is the thing to look for.
+The useful property of this shape is that there is exactly one place where identity, credentials and billing are decided. Claude, the CLI and a WhatsApp message all arrive at the same gateway, and your application gets the same answer to "who is this, and what may they do" whichever door they used. If you are connecting AI assistants to internal systems, that single decision point is the thing to look for.
