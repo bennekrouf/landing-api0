@@ -10,10 +10,11 @@ svg: "/svg/blog/api0-ecosystem.svg"
 
 # Azure DevOps from Claude, Part 1: Personal Access Tokens
 
-There are two ways to connect a team's Azure DevOps to Claude through api0. This
-post covers the one you can finish this afternoon, without opening a ticket with
-anyone. [Part 2](/blog/azure-devops-entra-sign-in) covers the one where people
-sign in with their work identity.
+There are several ways to connect a team's Azure DevOps to Claude through api0.
+This post covers the one you can finish this afternoon, without opening a ticket
+with anyone. [Part 2](/blog/azure-devops-entra-sign-in) covers the one where people
+sign in with their work identity, and [Part 3](/blog/azure-devops-microsoft-connect)
+the one where nobody pastes a token at all.
 
 The question that separates them is narrow, and it is not "which is more
 secure". Both end up sending the same credential to Azure DevOps. The question
@@ -186,4 +187,6 @@ their api0 account. Both are separate acts of housekeeping.
 If none of those bite, Part 1 is the whole answer. If the first one bites — and
 for a company on Microsoft it usually does —
 [Part 2](/blog/azure-devops-entra-sign-in) replaces the left-hand door without
-touching the right.
+touching the right. If the second one bites,
+[Part 3](/blog/azure-devops-microsoft-connect) replaces the right-hand door: each
+person clicks Connect, and there is no token left to rotate.
