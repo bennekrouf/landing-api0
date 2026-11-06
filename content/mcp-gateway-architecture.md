@@ -1,7 +1,7 @@
 ---
 title: "Understanding the MCP Gateway Architecture: A Secure Bridge to Claude"
 date: "2026-04-21"
-excerpt: "Learn how the api0 MCP Gateway securely bridges Claude to your backend APIs with zero-config OAuth, OIDC identity tokens, and built-in access management."
+excerpt: "Learn how the api0 MCP Gateway securely bridges Claude to your application APIs with zero-config OAuth, OIDC identity tokens, and built-in access management."
 author: { name: "Engineering Team" }
 tags: ["Architecture", "MCP", "Security", "OAuth", "API Gateway"]
 svg: "/svg/blog/api0-ecosystem.svg"
@@ -9,11 +9,11 @@ svg: "/svg/blog/api0-ecosystem.svg"
 
 # Understanding the MCP Gateway Architecture: A Secure Bridge to Claude
 
-Building a bridge between powerful LLMs like Claude (functioning as MCP Clients) and your backend services requires careful consideration of security, user identity, and API governance. The API0 MCP Gateway manages this complexity, providing a secure, turnkey architecture.
+Building a bridge between powerful LLMs like Claude (functioning as MCP Clients) and your application services requires careful consideration of security, user identity, and API governance. The API0 MCP Gateway manages this complexity, providing a secure, turnkey architecture.
 
 In this article, we'll walk through the exact architecture that powers our MCP Gateway. The system is split into three distinct phases: **Admin Setup**, **User OAuth Flow**, and **Real-Time Tool Execution**. 
 
-Below, we detail each phase of the integration using a hypothetical backend provider called "Acme". The heart of it is the OAuth handshake — how Claude gets a key that encodes *both* the user and the backend, without anyone sharing a password:
+Below, we detail each phase of the integration using a hypothetical application provider called "Acme". The heart of it is the OAuth handshake — how Claude gets a key that encodes *both* the user and the application, without anyone sharing a password:
 
 <div class="svg-container" style="margin:2rem 0;">
 <svg class="arch-seq" viewBox="0 0 800 372" width="100%" style="height:auto;max-width:780px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="OAuth sequence between Claude, the api0 Gateway and the api0 Dashboard: authorize, resolve provider, user consent, exchange a short-lived code, and issue a live API key.">
@@ -68,18 +68,18 @@ Below, we detail each phase of the integration using a hypothetical backend prov
 
 ## Phase 1: Admin Setup (One-Time Configuration)
 
-Before any users can connect Claude to your tools, the backend admin must configure the Gateway connection.
+Before any users can connect Claude to your tools, the application admin must configure the Gateway connection.
 
 1. **Dashboard Authentication:** The admin signs into the API0 Dashboard (`app.api0.ai`) using Google. The dashboard verifies their identity via a Firebase JWT.
 2. **Client ID Registration:** The admin opens **Connectors → MCP** and registers a unique Client ID (e.g., `acme-mcp`). The Dashboard securely updates the Gateway's database (Store) with this mapping.
-3. **Downstream Auth Configuration:** The admin configures how the Gateway should authenticate with their backend (Acme). In this flow, we select the **Google Service Account (OIDC)** authentication mode, providing a Service Account JSON and the target audience (e.g., `https://api.acme.com`).
+3. **Downstream Auth Configuration:** The admin configures how the Gateway should authenticate with their application (Acme). In this flow, we select the **Google Service Account (OIDC)** authentication mode, providing a Service Account JSON and the target audience (e.g., `https://api.acme.com`).
 4. **Tool Synchronization:** The admin uploads an OpenAPI specification detailing the available endpoints. The Gateway parses this and upserts the available MCP tools into the datastore.
 
-At this point, the Gateway knows about the backend provider's endpoints, knows how to authenticate securely against them, and is ready to onboard users.
+At this point, the Gateway knows about the application provider's endpoints, knows how to authenticate securely against them, and is ready to onboard users.
 
 ## Phase 2: User OAuth Flow (Per End-User)
 
-When an end-user wants to connect Claude to their backend account, they initiate a standard OAuth 2.0 flow. However, the API0 Gateway streamlines this process significantly.
+When an end-user wants to connect Claude to their application account, they initiate a standard OAuth 2.0 flow. However, the API0 Gateway streamlines this process significantly.
 
 1. **Authorization Request:** Claude initiates the flow by hitting the Gateway's `/oauth/authorize` endpoint with `client_id=acme-mcp`. The Gateway looks up the Client ID, identifies "Acme" as the provider, and redirects Claude to the API0 Dashboard.
 2. **User Consent:** The API0 Dashboard prompts the user: *"Authorize Claude to access your Acme account."* Because the user is already authenticated via Google Firebase, approving the prompt generates a Firebase JWT.
@@ -89,7 +89,7 @@ When an end-user wants to connect Claude to their backend account, they initiate
 
 ## Phase 3: The Tool Call Lifecycle
 
-Now, Claude is fully authorized. Here is what happens under the hood when Claude makes a real-time request to execute a tool — seven steps, but only one network hop your backend ever sees:
+Now, Claude is fully authorized. Here is what happens under the hood when Claude makes a real-time request to execute a tool — seven steps, but only one network hop your application ever sees:
 
 <div class="svg-container" style="margin:2rem 0;">
 <svg class="arch-life" viewBox="0 0 800 300" width="100%" style="height:auto;max-width:780px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tool call lifecycle: Claude posts to slash mcp with a key, the gateway resolves context, retrieves tool and auth, mints a cached OIDC token, checks credits, proxies with injected identity headers, then bills and returns the result.">
@@ -124,7 +124,7 @@ Now, Claude is fully authorized. Here is what happens under the hood when Claude
   <rect class="row" x="284" y="208" width="232" height="30" rx="7"/><text class="t" x="296" y="228">⑦ log + deduct credits</text>
   <text class="ac" x="400" y="262" text-anchor="middle">all in milliseconds</text>
   <rect class="box" x="656" y="112" width="126" height="70" rx="10"/>
-  <text class="th" x="719" y="138" text-anchor="middle">Your backend</text>
+  <text class="th" x="719" y="138" text-anchor="middle">Your application</text>
   <text class="m" x="719" y="158" text-anchor="middle">verifies OIDC</text>
   <text class="m" x="719" y="174" text-anchor="middle">just runs</text>
   <path class="ln" d="M144,132 L264,132" marker-end="url(#ala)"/>
@@ -143,17 +143,17 @@ Now, Claude is fully authorized. Here is what happens under the hood when Claude
 2. **Context Resolution:** The Gateway validates the API Key against its Store. **This is a critical insight:** The single API key inherently identifies two things simultaneously:
    * The **End-User** (their email and user tenant ID).
    * The **Provider** (the downstream `acme_tenant_id`).
-3. **Tool & Auth Retrieval:** Knowing the provider, the Gateway fetches the tool's definition (HTTP verb, backend URL, cost) and pulls the downstream auth configuration established in Phase 1.
+3. **Tool & Auth Retrieval:** Knowing the provider, the Gateway fetches the tool's definition (HTTP verb, application URL, cost) and pulls the downstream auth configuration established in Phase 1.
 4. **Secure OIDC Minting:** The Gateway dynamically mints a Google OIDC Identity Token using the admin's Service Account and the configured target audience. To ensure low latency, this token is securely cached for 55 minutes.
 5. **Credit Validation:** The Gateway checks the tenant's credit balance to ensure they have sufficient funds to execute the tool call.
-6. **Downstream Proxying:** The Gateway proxies the request to the Acme backend (`https://api.acme.example/search`). Crucially, it injects three things:
-   * `Authorization: Bearer <oidc_token>` (for backend security).
+6. **Downstream Proxying:** The Gateway proxies the request to the Acme application (`https://api.acme.example/search`). Crucially, it injects three things:
+   * `Authorization: Bearer <oidc_token>` (for application security).
    * `X-User-Email: user@example.com` (for user-level context).
    * `X-Tenant-Id: acme_tenant_id` (for workspace isolation).
-7. **Execution & Billing:** The Acme backend easily verifies the OIDC token using standard Google middleware, processes the request, and returns the results. The Gateway completes the flow by fire-and-forget deducting API0 credits and returning the final results to Claude.
+7. **Execution & Billing:** The Acme application easily verifies the OIDC token using standard Google middleware, processes the request, and returns the results. The Gateway completes the flow by fire-and-forget deducting API0 credits and returning the final results to Claude.
 
 ## The Key Takeaway
 
 By cleanly separating the OAuth authorization layer from the real-time proxying layer, the API0 MCP Gateway ensures total security without sacrificing latency. 
 
-The primary insight of this architecture is how the API Key unifies identity: the key Claude holds intrinsically links the end-user to the backend provider. This means the Gateway always knows exactly whose tools to load and whose downstream authentication configuration to apply—all instantly, without requiring additional round-trip lookups at call time.
+The primary insight of this architecture is how the API Key unifies identity: the key Claude holds intrinsically links the end-user to the application provider. This means the Gateway always knows exactly whose tools to load and whose downstream authentication configuration to apply—all instantly, without requiring additional round-trip lookups at call time.

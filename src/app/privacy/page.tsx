@@ -52,14 +52,14 @@ export default function PrivacyPage() {
             <li>The API specifications you upload, and the tools and endpoints made from them</li>
             <li>The instructions you write for the model</li>
             <li>
-              Credentials for your backends: bearer tokens, headers, OAuth client secrets, and the personal secrets or
+              Credentials for your applications: bearer tokens, headers, OAuth client secrets, and the personal secrets or
               connected accounts of individual users. These are encrypted with AES-256-GCM before they are stored.
             </li>
           </ul>
 
           <h3 className="text-xl font-medium mb-3">2.3 Tool calls</h3>
           <p className="mb-4">
-            When a client calls one of your tools, the gateway passes the arguments to your backend and the result back to
+            When a client calls one of your tools, the gateway passes the arguments to your application and the result back to
             the client. It does not store the content of either. For each call it logs: who made it (email and API key),
             the tool or endpoint, the time, the response status and duration, request and response sizes, the caller&apos;s
             IP address and user agent, and, where they apply, token counts and the model used.
@@ -119,7 +119,7 @@ export default function PrivacyPage() {
             <li>Plausible Analytics, for website and dashboard statistics</li>
           </ul>
           <p className="mb-4">
-            Your own backends, and services you connect (for example Azure DevOps), receive the tool calls and credentials
+            Your own applications, and services you connect (for example Azure DevOps), receive the tool calls and credentials
             you configure them to receive.
           </p>
           <p>
@@ -144,7 +144,7 @@ export default function PrivacyPage() {
           <h2 className="text-2xl font-semibold mb-4">6. Data Security</h2>
           <ul className="list-disc pl-6">
             <li>All traffic to the Service is encrypted in transit (HTTPS)</li>
-            <li>Backend credentials and users&apos; secrets are encrypted with AES-256-GCM before they are stored</li>
+            <li>Application credentials and users&apos; secrets are encrypted with AES-256-GCM before they are stored</li>
             <li>Workspaces are separated in the database with row-level security</li>
             <li>Connectors such as Claude sign in with OAuth 2.1 and PKCE; authorization codes work once</li>
           </ul>

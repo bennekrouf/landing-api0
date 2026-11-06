@@ -1,12 +1,13 @@
 ---
-title: "MCP Is the New API Standard for AI Agents—And Your Backend Needs a Gateway"
+title: "MCP Is the New API Standard for AI Agents—And Your Application Needs a Gateway"
+slug: "mcp-is-the-new-api-standard-for-ai-agentsand-your-backend-needs-a-gateway"
 date: "2026-04-22"
 excerpt: "MCP is becoming the standard way AI agents talk to tools—but it's a protocol, not a security system. Here's the gap, and the gateway that fills it, in one diagram."
 author: { name: "Mayo" }
 tags: ["MCP", "Architecture", "Enterprise", "Security", "API Gateway"]
 ---
 
-# MCP Is the New API Standard for AI Agents—And Your Backend Needs a Gateway
+# MCP Is the New API Standard for AI Agents—And Your Application Needs a Gateway
 
 Model Context Protocol (MCP) is winning. Claude supports it natively, Cursor runs on it, and enterprise tools are shipping MCP servers by the week. It's becoming *the* interface between AI agents and the tools they call.
 
@@ -33,7 +34,7 @@ None of that is in the spec. In multi-tenant production, it's the whole ballgame
 Both paths end at the same place — the difference is where the complexity lives, and who maintains it as the spec moves:
 
 <div class="svg-container" style="margin:2rem 0;">
-<svg class="gw-opt" viewBox="0 0 800 268" width="100%" style="height:auto;max-width:760px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Building it yourself pushes OAuth, OIDC, tenancy, metering and audit into your backend; a gateway absorbs that layer and leaves your backend clean.">
+<svg class="gw-opt" viewBox="0 0 800 268" width="100%" style="height:auto;max-width:760px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Building it yourself pushes OAuth, OIDC, tenancy, metering and audit into your application; a gateway absorbs that layer and leaves your application clean.">
   <style>
     .gw-opt{--bg:#f8fafc;--box:#ffffff;--tx:#1e293b;--mut:#64748b;--ln:#cbd5e1;--ac:#FF6B00;--warn:#b45309}
     :root.dark .gw-opt,[data-theme="dark"] .gw-opt{--bg:#0f172a;--box:#1e293b;--tx:#f8fafc;--mut:#94a3b8;--ln:#475569;--warn:#fbbf24}
@@ -59,7 +60,7 @@ Both paths end at the same place — the difference is where the complexity live
   <text class="t" x="196" y="60" text-anchor="middle">AI agent</text>
   <path class="ln" d="M196,72 L196,96" marker-end="url(#goa)"/>
   <rect class="warnbox" x="60" y="98" width="272" height="106" rx="10"/>
-  <text class="th" x="196" y="122" text-anchor="middle">Your backend</text>
+  <text class="th" x="196" y="122" text-anchor="middle">Your application</text>
   <text class="w" x="196" y="142" text-anchor="middle">+ OAuth + OIDC + tenancy</text>
   <text class="w" x="196" y="160" text-anchor="middle">+ metering + audit log</text>
   <text class="m" x="196" y="184" text-anchor="middle">2–3 months, then upkeep</text>
@@ -73,21 +74,21 @@ Both paths end at the same place — the difference is where the complexity live
   <text class="ac" x="604" y="139" text-anchor="middle">absorbs the whole layer</text>
   <path class="lnac" d="M604,150 L604,174" marker-end="url(#goac)"/>
   <rect class="box" x="468" y="176" width="272" height="46" rx="10"/>
-  <text class="th" x="604" y="198" text-anchor="middle">Your backend</text>
+  <text class="th" x="604" y="198" text-anchor="middle">Your application</text>
   <text class="m" x="604" y="214" text-anchor="middle">plain authenticated HTTP</text>
-  <text class="ac" x="604" y="248" text-anchor="middle">backend stays clean</text>
+  <text class="ac" x="604" y="248" text-anchor="middle">application stays clean</text>
 </svg>
 </div>
 
 - **Build it yourself:** OAuth 2.0, OIDC token minting, tenant routing, metering, and an audit log on top of your MCP server. Budget 2–3 months, then ongoing upkeep as the spec evolves.
-- **Put a gateway in front.** Purpose-built infrastructure handles the layer MCP omits, and your backend stays clean.
+- **Put a gateway in front.** Purpose-built infrastructure handles the layer MCP omits, and your application stays clean.
 
 ## What a gateway actually does
 
-A gateway sits between the agent and your backend and owns everything the protocol doesn't:
+A gateway sits between the agent and your application and owns everything the protocol doesn't:
 
 <div class="svg-container" style="margin:2rem 0;">
-<svg class="gw-arch" viewBox="0 0 800 350" width="100%" style="height:auto;max-width:780px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI agents connect over the MCP protocol to the api0 gateway, which handles OAuth and identity, credential isolation, multi-tenant routing, access control and metering, and audit logging, then forwards a clean authenticated HTTP request to your backend.">
+<svg class="gw-arch" viewBox="0 0 800 350" width="100%" style="height:auto;max-width:780px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI agents connect over the MCP protocol to the api0 gateway, which handles OAuth and identity, credential isolation, multi-tenant routing, access control and metering, and audit logging, then forwards a clean authenticated HTTP request to your application.">
   <style>
     .gw-arch{--bg:#f8fafc;--box:#ffffff;--tx:#1e293b;--mut:#64748b;--ln:#cbd5e1;--ac:#FF6B00}
     :root.dark .gw-arch,[data-theme="dark"] .gw-arch{--bg:#0f172a;--box:#1e293b;--tx:#f8fafc;--mut:#94a3b8;--ln:#475569}
@@ -123,9 +124,9 @@ A gateway sits between the agent and your backend and owns everything the protoc
   <rect class="row" x="308" y="238" width="214" height="34" rx="7"/><text class="t" x="320" y="260">Audit log</text>
   <text class="ac" x="415" y="300" text-anchor="middle">handles what MCP omits</text>
 
-  <!-- Backend -->
+  <!-- Application -->
   <rect class="box" x="630" y="132" width="150" height="86" rx="10"/>
-  <text class="th" x="705" y="162" text-anchor="middle">Your backend</text>
+  <text class="th" x="705" y="162" text-anchor="middle">Your application</text>
   <text class="m" x="705" y="184" text-anchor="middle">stays clean</text>
   <text class="m" x="705" y="200" text-anchor="middle">plain HTTP</text>
 
@@ -137,7 +138,7 @@ A gateway sits between the agent and your backend and owns everything the protoc
 </svg>
 </div>
 
-The entry arrow speaks **MCP**; the exit arrow is a **clean, authenticated HTTP request** with the verified user's `X-User-Email` and `X-Tenant-Id` already attached. Your backend verifies a standard OIDC token and runs — it never learns MCP exists. Credentials stay in the gateway; every call is metered and logged.
+The entry arrow speaks **MCP**; the exit arrow is a **clean, authenticated HTTP request** with the verified user's `X-User-Email` and `X-Tenant-Id` already attached. Your application verifies a standard OIDC token and runs — it never learns MCP exists. Credentials stay in the gateway; every call is metered and logged.
 
 ## The broader point
 

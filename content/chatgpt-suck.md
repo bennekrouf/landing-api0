@@ -39,26 +39,26 @@ This is where **api0** comes in.
 
 ## A Governed Gateway, Not a Free Executor
 
-This is where **api0** comes in—as an MCP gateway that sits between Claude and your backend APIs.
+This is where **api0** comes in—as an MCP gateway that sits between Claude and your application APIs.
 
 Claude reasons about what the user wants and calls tools through the gateway. But the gateway doesn't blindly pass through requests. It:
 
 - Validates the user's identity via OAuth before any tool executes.
-- Mints a fresh OIDC token to authenticate against your backend—Claude never sees your credentials.
-- Injects user context (`X-User-Email`, `X-Tenant-Id`) so your backend always knows who is acting.
+- Mints a fresh OIDC token to authenticate against your application—Claude never sees your credentials.
+- Injects user context (`X-User-Email`, `X-Tenant-Id`) so your application always knows who is acting.
 - Checks credit balance and enforces access policies before proxying.
 
 Think of it like this:
 - **ChatGPT raw**: "I'll wire the money for you!" (Terrifying)
 - **Traditional API**: "Call POST /transfer with these exact parameters." (Rigid, no reasoning)
-- **Claude + api0**: "Claude understands the intent. api0 verifies the user, mints auth, checks access, then proxies the verified request to your backend. Your backend decides whether to execute." (Intelligent and governed)
+- **Claude + api0**: "Claude understands the intent. api0 verifies the user, mints auth, checks access, then proxies the verified request to your application. Your application decides whether to execute." (Intelligent and governed)
 
 ## The Best of Both Worlds
 
 ChatGPT will never safely wire money. Nor should it.
 
-But Claude connected through a governed MCP gateway like api0 can. We get the reasoning of a frontier LLM without giving up control. The user's identity travels with every request. Your backend's auth is never exposed. And every call is metered and logged.
+But Claude connected through a governed MCP gateway like api0 can. We get the reasoning of a frontier LLM without giving up control. The user's identity travels with every request. Your application's auth is never exposed. And every call is metered and logged.
 
-The LLM understands intent. The gateway enforces the rules. Your backend executes.
+The LLM understands intent. The gateway enforces the rules. Your application executes.
 
 That's the architecture that works.

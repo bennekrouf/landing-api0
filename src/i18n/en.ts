@@ -2,14 +2,17 @@
 
 export const en = {
   meta: {
-    title: 'API0 - Intelligence on demand for any backend',
+    title: 'API0 - Intelligence on demand for any application',
     description:
-      'Add an intelligent interface to any backend. Import your API and your team uses it from Teams, WhatsApp, Telegram or Claude, in plain language. No rewrite, fully in the cloud.',
+      'Add an intelligent interface to any application. Import your API and your team uses it from Teams, WhatsApp, Telegram or Claude, in plain language. No rewrite, fully in the cloud.',
+    useCasesTitle: 'Use cases',
+    useCasesDescription: 'How teams use api0: field service from WhatsApp, software vendors in Teams, internal tools in Claude Enterprise.',
     pricingTitle: 'Pricing',
     pricingDescription:
       'api0 plans per workspace: seats and credits included, your API in Telegram, WhatsApp and Teams. Billed in CHF, Swiss-made.',
   },
   nav: {
+    useCases: 'Use cases',
     howItWorks: 'How it works',
     pricing: 'Pricing',
     blog: 'Blog',
@@ -30,10 +33,10 @@ export const en = {
   home: {
     eyebrow: 'Intelligence on demand · In the cloud',
     titleBefore: 'Add an intelligent interface to ',
-    titleHighlight: 'any backend',
+    titleHighlight: 'any application',
     tagline: 'Your software, in the chat your team already uses.',
     lead:
-      'Your backend already does the work. api0 lets people talk to it: import your API, and your team uses it from Teams, WhatsApp, Telegram or Claude, in plain language. Every action runs as the person asking.',
+      'Your application already does the work. api0 lets people talk to it: import your API, and your team uses it from Teams, WhatsApp, Telegram or Claude, in plain language. Every action runs as the person asking.',
     promise: 'No rewrite, no new frontend, nothing to host. Live in under five minutes.',
     ctaImport: 'Import your API',
     ctaAuth: 'See how auth works',
@@ -79,7 +82,7 @@ export const en = {
       },
       {
         title: 'Govern execution',
-        body: 'Every call passes the gateway: it checks who is calling, attaches the credential your backend expects, deducts credits, and logs the call.',
+        body: 'Every call passes the gateway: it checks who is calling, attaches the credential your application expects, deducts credits, and logs the call.',
         code: `tools/call create_invoice
   ✓ caller: jane@acme.com
   ✓ credential attached
@@ -89,9 +92,9 @@ export const en = {
     ],
     quickstart: 'Follow the five-minute quickstart',
 
-    authTitle: 'What your backend receives',
+    authTitle: 'What your application receives',
     authLead:
-      'You choose how api0 authenticates to your backend. The credential lives in api0 and is attached on every call, along with who the call is for.',
+      'You choose how api0 authenticates to your application. The credential lives in api0 and is attached on every call, along with who the call is for.',
     backendAuth: [
       { title: 'Google identity token', body: 'Proves the call came from api0. Verify it like any service-account OIDC token.' },
       { title: 'Fixed bearer token or headers', body: 'A static token or custom API-key header, stored in api0. Claude never sees it.' },
@@ -116,11 +119,11 @@ export const en = {
       },
       {
         title: 'One place for identity',
-        body: 'Who is calling, what they may do and which credential your backend gets are decided at one gateway, whichever client they came from.',
+        body: 'Who is calling, what they may do and which credential your application gets are decided at one gateway, whichever client they came from.',
       },
       {
         title: 'Built in Rust',
-        body: 'The gateway and every backend service are written in Rust, for predictable latency and a small attack surface.',
+        body: 'The gateway and every api0 service are written in Rust, for predictable latency and a small attack surface.',
       },
       {
         title: 'A plan per workspace',
@@ -130,40 +133,48 @@ export const en = {
 
     compareTitle: 'How api0 compares',
     compareLead:
-      "Only the things api0 is strong at are listed. The others do plenty it doesn't — this is why you would pick it.",
+      'Where api0 stands out.',
     feature: 'Feature',
     yes: 'Yes',
     no: 'No',
     comparison: [
       {
-        feature: 'Your own REST API as MCP tools, from an OpenAPI spec or plain English',
-        them: ['OpenAPI spec; REST API tools in preview', 'Fronts MCP servers you already run', 'OpenAPI spec in YAML config', 'Your API as code, or an MCP server you host'],
+        feature: 'Your REST API as MCP tools',
+        them: ['In preview', 'Your MCP servers only', 'YAML config', 'Code or your own server'],
       },
       {
-        feature: 'The same tools in Teams, WhatsApp, your own Telegram bot and Claude',
-        them: ['Teams and WhatsApp; Telegram needs code', 'MCP clients only', 'MCP and A2A clients only', 'Through your own app or MCP clients'],
+        feature: 'Chat in Teams, signed in',
+        them: [true, false, false, 'Agent actions only'],
       },
       {
-        feature: 'One Get started link per workspace: sign in once, connect Claude or a bot',
-        them: ['Teams install link; WhatsApp QR code', 'Portal URL behind Access', false, 'Auth links per connected app'],
+        feature: 'Chat in WhatsApp',
+        them: ['Closed since Oct 2026', false, false, 'Agent actions only'],
       },
       {
-        feature: 'Five backend credential modes, per-user secrets and per-user OAuth included',
-        them: ['None, a user-entered API key, or per-user OAuth', 'Left to each MCP server', 'Policies you configure', 'For catalogue apps; your API via code'],
+        feature: 'Chat in your own Telegram bot',
+        them: ['Via Azure, with code', false, false, 'Agent actions only'],
       },
       {
-        feature: 'Nothing to host or operate',
-        them: ['Hosted; WhatsApp needs your own Azure resource', true, 'You run it', true],
+        feature: 'One onboarding link per workspace',
+        them: ['Per channel', 'Portal URL', false, 'One per app'],
+      },
+      {
+        feature: 'Five credential modes, per-user OAuth included',
+        them: ['Three modes', 'Up to each server', 'Policies to write', 'Catalogue apps only'],
+      },
+      {
+        feature: 'Nothing to host',
+        them: [true, true, 'Self-hosted', true],
       },
     ] as { feature: string; them: (boolean | string)[] }[],
-    compareNote: "Compared in October 2026 from each product's public documentation.",
+    compareNote: 'Public docs, November 2026.',
 
     proxyTitle: 'From tool call to real API call',
     proxyNote:
       'The gateway injects parameters into URLs and bodies with the right HTTP verb, then returns the result to the model.',
     architecture: 'See the whole architecture on one page',
 
-    finalTitle: 'Make your backend intelligent this week',
+    finalTitle: 'Make your application intelligent this week',
     finalLead: 'Sign in with Google, import your API, and send your team one link. A plan per workspace, no sales call.',
     finalCta: 'Get started',
   },
@@ -184,5 +195,65 @@ export const en = {
     billedIn: (currency: string) => `Billed in ${currency}, VAT included.`,
     indicative: ' Prices in other currencies are indicative.',
     numberLocale: 'en-US',
+  },
+  useCases: {
+    kicker: 'Use cases',
+    title: 'One API, imported once. Used where people already work.',
+    lead: 'Three ways teams put api0 to work, and one product running on it today. Every action runs as the person asking, with their own permissions.',
+    exampleLabel: 'Example conversation',
+    setupLabel: 'What gets set up',
+    channelsLabel: 'Channels:',
+    cases: [
+      {
+        id: 'field-service',
+        tag: 'Field service',
+        title: 'Technicians run their jobs from WhatsApp',
+        problem: 'On site, the field-service app is slow on a phone. Reports get typed in the evening, from memory, and dispatch spends the day calling for status.',
+        chat: [
+          { who: 'Technician', text: "What's my day?" },
+          { who: 'Assistant', text: '3 visits. 1) 08:30 Lausanne, boiler X200, access code on file…' },
+          { who: 'Technician', text: 'Done at Lausanne, replaced the filter, 2 FX-200 parts. Close it.' },
+          { who: 'Assistant', text: 'Close job 1182 with that report and 2 × FX-200? (yes/no)' },
+        ],
+        setup: ['Your field-service API: schedule, work orders, parts stock', 'Each technician links their account once', 'A WhatsApp Business number connected to api0'],
+        channels: 'WhatsApp, Telegram, Teams',
+      },
+      {
+        id: 'software-vendor',
+        tag: 'Software vendors',
+        title: "Your product in your customers' Teams",
+        problem: 'Customers ask for "AI in your product". Building an assistant and a Teams bot takes a team and months, and it must respect each user\'s rights.',
+        chat: [
+          { who: 'Customer user', text: 'What are my urgent open tickets?' },
+          { who: 'Assistant', text: '4 urgent tickets. #2291 Export failing, open for 2 days…' },
+          { who: 'Customer user', text: 'Assign #2291 to Paul and add a note: chasing the supplier.' },
+          { who: 'Assistant', text: 'Done. Assigned to Paul, internal note added.' },
+        ],
+        setup: ['Your public API, imported from its OpenAPI spec', 'One api0 workspace per customer: tools, users, credits, log', 'A Teams app package generated by api0'],
+        channels: 'Teams, Claude, WhatsApp, Telegram',
+      },
+      {
+        id: 'internal-tools',
+        tag: 'Internal tools',
+        title: 'Internal systems in Claude Enterprise, securely',
+        problem: "Claude doesn't know your ERP, CRM or HR tools, so people copy and paste. Security wants per-person rights, no secrets in the AI and an audit log.",
+        chat: [
+          { who: 'Employee', text: 'How many days off do I have left? Book me the 22nd to the 26th.' },
+          { who: 'Assistant', text: '12 days left. Request 5 days, 22–26 Dec, and send it to Claire? (yes/no)' },
+          { who: 'Manager', text: "Who's off next week on my team?" },
+          { who: 'Assistant', text: 'Two people: Paul (Mon–Wed), Inès (Fri).' },
+        ],
+        setup: ['Your internal APIs as tools, reads first', 'Sign-in through Entra ID or your OIDC provider', 'Per-person credentials, so each system applies its own rights'],
+        channels: 'Claude, Teams',
+      },
+    ],
+    liveKicker: 'Running on api0 today',
+    liveTitle: 'A CV-building SaaS',
+    liveBody: 'A SaaS that builds CVs imported its API into api0: 17 endpoints. Its users read their profiles, generate PDF CVs, translate them, tailor them to a job and write cover letters, from Claude and from messaging apps. Each call reaches the application with a Google identity token, so the application keeps no api0 secret.',
+    liveFacts: ['17 endpoints, imported once', 'Claude plus messaging channels', 'No secret stored by the application'],
+    yoursTitle: 'Your API next',
+    yoursBody: 'A 14-day POC on your own API: at the end, your team or customers use it for real, or we stop.',
+    yoursCta: 'Start with your API',
+    contactCta: 'Talk to us',
   },
 };

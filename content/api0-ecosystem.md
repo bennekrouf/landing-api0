@@ -1,7 +1,7 @@
 ---
 title: "Welcome to the api0 MCP Gateway Ecosystem"
 date: "2026-04-21"
-excerpt: "api0 is a secure MCP gateway that bridges Claude and other AI agents to your backend APIs—without exposing credentials or rebuilding your infrastructure."
+excerpt: "api0 is a secure MCP gateway that bridges Claude and other AI agents to your application APIs—without exposing credentials or rebuilding your infrastructure."
 author: { name: "Mayo" }
 tags: ["MCP", "API Gateway", "Architecture", "Claude"]
 svg: "/svg/blog/api0-ecosystem.svg"
@@ -13,10 +13,10 @@ Most AI tools today generate text. api0 is about *execution*—secure, governed,
 
 The Model Context Protocol (MCP) is becoming the standard for connecting AI agents like Claude to real tools and APIs. But MCP itself is just a protocol. It doesn't handle authentication, billing, multi-tenancy, or access control. That's the gap api0 fills.
 
-api0 is an **MCP gateway**: the secure infrastructure layer that sits between Claude and your backend services. The whole ecosystem is three phases — set up once, connect per user, govern every call:
+api0 is an **MCP gateway**: the secure infrastructure layer that sits between Claude and your application services. The whole ecosystem is three phases — set up once, connect per user, govern every call:
 
 <div class="svg-container" style="margin:2rem 0;">
-<svg class="eco-life" viewBox="0 0 800 300" width="100%" style="height:auto;max-width:780px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three phases: admin setup once, user OAuth per user, and governed tool execution per call, which reaches your backend as a clean authenticated HTTP request.">
+<svg class="eco-life" viewBox="0 0 800 300" width="100%" style="height:auto;max-width:780px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three phases: admin setup once, user OAuth per user, and governed tool execution per call, which reaches your application as a clean authenticated HTTP request.">
   <style>
     .eco-life{--bg:#f8fafc;--box:#ffffff;--tx:#1e293b;--mut:#64748b;--ln:#cbd5e1;--ac:#FF6B00}
     :root.dark .eco-life,[data-theme="dark"] .eco-life{--bg:#0f172a;--box:#1e293b;--tx:#f8fafc;--mut:#94a3b8;--ln:#475569}
@@ -50,7 +50,7 @@ api0 is an **MCP gateway**: the secure infrastructure layer that sits between Cl
   <text class="ac" x="298" y="84">per user</text>
   <text class="m" x="298" y="114">/oauth/authorize</text>
   <text class="m" x="298" y="136">user approves once</text>
-  <text class="m" x="298" y="158">API key: user + backend</text>
+  <text class="m" x="298" y="158">API key: user + application</text>
 
   <!-- Phase 3 -->
   <rect class="acc" x="556" y="34" width="236" height="150" rx="11"/>
@@ -64,10 +64,10 @@ api0 is an **MCP gateway**: the secure infrastructure layer that sits between Cl
   <path class="ln" d="M244,109 L280,109" marker-end="url(#eca)"/>
   <path class="ln" d="M518,109 L554,109" marker-end="url(#eca)"/>
 
-  <!-- to backend -->
+  <!-- to application -->
   <path class="lnac" d="M674,184 L674,229" marker-end="url(#ecaac)"/>
   <rect class="acc" x="576" y="232" width="196" height="46" rx="10"/>
-  <text class="t" x="674" y="260" text-anchor="middle">Your backend — clean HTTP</text>
+  <text class="t" x="674" y="260" text-anchor="middle">Your application — clean HTTP</text>
 </svg>
 </div>
 
@@ -75,7 +75,7 @@ api0 is an **MCP gateway**: the secure infrastructure layer that sits between Cl
 
 ### 1. Admin Setup — Define Your Tools Once
 
-From the api0 Dashboard, backend admins configure everything in one place:
+From the api0 Dashboard, application admins configure everything in one place:
 
 - **Upload an OpenAPI spec** and api0 automatically converts your endpoints into MCP tools Claude can call.
 - **Configure downstream auth**: choose between Google Service Account (OIDC), bearer tokens, or API keys. api0 handles minting and caching credentials at call time.
@@ -89,13 +89,13 @@ When an end-user wants Claude to access their account, a standard OAuth 2.0 flow
 
 1. Claude hits the api0 `/oauth/authorize` endpoint.
 2. The user approves in the api0 Dashboard (already authenticated via Google).
-3. api0 issues a live API key tied to that specific user and backend provider.
+3. api0 issues a live API key tied to that specific user and application provider.
 4. Claude holds that key and uses it for all subsequent tool calls.
 
-Your users never share passwords. Your backend never sees raw LLM requests. The key inherently encodes both user identity and backend context — that dual-encoding is what makes every later call a single lookup instead of a chain of them:
+Your users never share passwords. Your application never sees raw LLM requests. The key inherently encodes both user identity and application context — that dual-encoding is what makes every later call a single lookup instead of a chain of them:
 
 <div class="svg-container" style="margin:2rem 0;">
-<svg class="eco-key" viewBox="0 0 800 236" width="100%" style="height:auto;max-width:740px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="One API key resolves simultaneously to the end user's identity and to the backend provider's tenant and auth config, so the gateway needs no extra lookups at call time.">
+<svg class="eco-key" viewBox="0 0 800 236" width="100%" style="height:auto;max-width:740px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="One API key resolves simultaneously to the end user's identity and to the application provider's tenant and auth config, so the gateway needs no extra lookups at call time.">
   <style>
     .eco-key{--bg:#f8fafc;--box:#ffffff;--tx:#1e293b;--mut:#64748b;--ln:#cbd5e1;--ac:#FF6B00}
     :root.dark .eco-key,[data-theme="dark"] .eco-key{--bg:#0f172a;--box:#1e293b;--tx:#f8fafc;--mut:#94a3b8;--ln:#475569}
@@ -134,17 +134,17 @@ Your users never share passwords. Your backend never sees raw LLM requests. The 
 
 When Claude calls a tool through the gateway:
 
-- api0 validates the API key and resolves the user + backend context in one lookup.
-- It mints a fresh OIDC token (cached for 55 minutes for performance) to authenticate against your backend.
-- It injects `X-User-Email` and `X-Tenant-Id` headers so your backend always knows who is acting.
+- api0 validates the API key and resolves the user + application context in one lookup.
+- It mints a fresh OIDC token (cached for 55 minutes for performance) to authenticate against your application.
+- It injects `X-User-Email` and `X-Tenant-Id` headers so your application always knows who is acting.
 - It checks the user's credit balance before proxying.
 - It logs the call and deducts credits after execution.
 
-Your backend receives a clean, authenticated HTTP request. It never needs to know anything about MCP, Claude, or the gateway.
+Your application receives a clean, authenticated HTTP request. It never needs to know anything about MCP, Claude, or the gateway.
 
 ## Not Another AI Middleware
 
-This isn't about wrapping your API in a chatbot. It's about giving Claude governed access to tools your backend already exposes.
+This isn't about wrapping your API in a chatbot. It's about giving Claude governed access to tools your application already exposes.
 
 Your endpoints stay yours. Your auth stays yours. Your access control stays yours.
 
