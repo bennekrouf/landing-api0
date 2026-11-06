@@ -78,7 +78,9 @@ when they arrive.
 
 That separation is deliberate. It means switching sign-in method later is a
 configuration change, not a migration — and it means you can start on Part 1
-today and move when the app registration is ready.
+today and move when the app registration is ready. It also works the other way:
+[Part 3](/blog/azure-devops-microsoft-connect) replaces the token on the right
+and leaves sign-in alone.
 
 ## The flow
 
@@ -197,3 +199,6 @@ The honest recommendation: **start with Part 1 even if you intend to end at Part
 negotiate, and the day the app registration exists you change where people sign
 in — and nothing else moves.
 
+If the token itself is the chore — creating it, pasting it, rotating it —
+[Part 3](/blog/azure-devops-microsoft-connect) removes it: each person clicks
+Connect and signs in with Microsoft, and api0 keeps the access fresh.
