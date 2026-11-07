@@ -10,7 +10,7 @@ tags: ["How-to Guide", "Azure DevOps", "Entra ID", "OAuth", "Teams"]
 
 By the end of this guide, you ask Claude or Teams to "create a bug 'Login fails on Safari' and assign it to me", and the work item shows up in Azure DevOps **under your name**, with **your** permissions. Nobody pastes a token: each person clicks **Connect** once and signs in with their Microsoft account. After that, api0 renews access on its own.
 
-Almost all of this is free: Azure DevOps is free for up to 5 users (Boards included), the Entra app and the Azure Bot cost nothing. The only paid piece is Teams itself, if your directory doesn't have it yet; a one-month trial covers a demo. Allow an hour for Azure DevOps and another for Teams, errors included.
+Allow an hour for Azure DevOps and another for Teams, errors included.
 
 Throughout the guide, replace:
 
@@ -62,7 +62,7 @@ The same picture as plain text, for places that don't draw diagrams:
 | `api0.ai` | api0 website | Privacy policy and terms the Teams app links to |
 | `login.microsoftonline.com/<tenant-id>` | Entra ID | Sign-in and consent page; issues and renews each person's token |
 | `entra.microsoft.com` | Entra admin center | App registration, consent, users, roles, sign-in logs |
-| `portal.azure.com` | Azure portal | The Azure Bot (Free tier) |
+| `portal.azure.com` | Azure portal | The Azure Bot |
 | `admin.microsoft.com` | Microsoft 365 admin center | Teams licence: trial, assignment, billing |
 | `admin.teams.microsoft.com` | Teams admin center | Approving the Teams app, custom-app policies |
 | `teams.microsoft.com` | Microsoft Teams | Where people chat with the bot |
@@ -180,6 +180,8 @@ Three things to watch:
 - **The scope isn't optional for Microsoft.** The field's grey text (`api://resource/.default`) is an example, not a value. An empty scope gives `AADSTS900144`.
 - **`offline_access` is required.** `499b84ac-…` is Azure DevOps. Without `offline_access`, Microsoft returns no refresh token, and api0 refuses the connection rather than let it expire after an hour.
 
+**What the wizard adds.** It imports an API named **Azure DevOps** into the workspace, the same way you would import a file of your own: 12 operations covering work items (create, read, query, comments), projects, teams, sprints and areas. It shows on the **API** page under **Custom API Groups**, where you can edit it like any other API. Its tools reach Claude as `azure-devops-create-work-item`, `azure-devops-query-work-items` and so on. Importing a file of your own later keeps it, unless your file has an API with the same name.
+
 **Reconfiguring later.** Your workspace's **Reconfigure** button reopens this wizard with the saved values filled in. Secrets are never shown back: paste a new one, or leave the field empty if it says it's saved, and the stored one is kept.
 
 5. The last screen tests the connection. **It should fail** with a message along the lines of "you haven't added your access yet": expected, since you haven't connected your account. The configuration is already saved. A **Connect your account** button sits right under the message: it does the same thing as step 5 below.
@@ -207,8 +209,8 @@ api0 now enforces this. **Connect** refuses an account that holds any directory 
 
 **Still the same 403 after opening Azure DevOps? Check for a personal account.** If your directory was created from a personal Microsoft account (common for a subscription opened for something else), that account sits in the directory as an *external member*. In **Entra admin center → Users**, its user principal name looks like `firstname_domain#EXT#@<directory>.onmicrosoft.com`. Connect gets a token for that directory identity, while dev.azure.com signs you in as the personal account itself, so Azure DevOps never meets the identity in the token. To find out, search for the ID quoted in the error under **Users**. The fix is a native work account:
 
-1. **Entra admin center → Users → New user → Create new user**, for example `demo@<directory>.onmicrosoft.com`. It's free.
-2. **Azure DevOps → Organization settings → Users → Add users**: that account, access level **Basic** (the first 5 are free), project `<project>`, group **Project Contributors**.
+1. **Entra admin center → Users → New user → Create new user**, for example `demo@<directory>.onmicrosoft.com`.
+2. **Azure DevOps → Organization settings → Users → Add users**: that account, access level **Basic**, project `<project>`, group **Project Contributors**.
 3. In a private window, open `https://dev.azure.com/<organization>/<project>` as that account and set its password.
 4. In api0, **Connect** again. On Microsoft's account picker, choose **Use another account** and sign in with the work account.
 
@@ -226,7 +228,7 @@ Teams reaches api0 through an **Azure Bot** of your own, in your directory. New 
 
 Teams is a Microsoft 365 licence on the **directory**, not part of an Azure subscription. To check, sign in at `https://teams.microsoft.com` with a work account from `<tenant-id>`. *"You don't have the required permissions to access this org"* means no licence.
 
-The cheapest way for a demo is a **Microsoft Teams Essentials trial**, bought from inside your directory:
+For a demo, use a **Microsoft Teams Essentials trial**, from inside your directory:
 
 1. Give the account that will buy it the **Billing Administrator** role (Entra admin center → Users → the user → Assigned roles). The self-service sign-up page refuses an account your organisation manages, with *"ask your administrator"*: buy from the admin center instead.
 2. **admin.microsoft.com → Billing → Purchase services → Microsoft Teams Essentials → Start free trial**.
@@ -248,7 +250,7 @@ In `https://portal.azure.com`, **Create → Azure Bot**:
 | Bot handle | any name, e.g. `api0-demo-bot` |
 | Resource group | a new one, e.g. `api0-demo` |
 | Data residency | **Global** |
-| Pricing tier | **Change plan → Free (F0)**. Teams messages cost nothing on it. |
+| Pricing tier | **Change plan → Free (F0)** |
 | Type of App | **Single Tenant** |
 | Creation type | **Create new Microsoft App ID** |
 
@@ -332,7 +334,3 @@ If the bot says the type doesn't exist, your project uses the Basic process: ask
 | Wizard buttons greyed out after coming back from Microsoft | Page restored by the browser's Back | Reload the page |
 | Bot: access "not set up, or has expired" the day after Connect; gateway log `invalid_grant`; Entra sign-in log **Interrupted** | The connected account holds an admin role and must use multi-factor sign-in, which a background renewal can't do | Remove the admin roles, then **Reconnect** |
 | `Work item type Bug does not exist in project` | The project uses the Basic process | Ask for an **Issue**, or use an Agile project |
-
----
-
-A question about your setup? [Get in touch](mailto:mb@mayorana.ch?subject=api0%20POC) — we'll do the setup with you during the POC.

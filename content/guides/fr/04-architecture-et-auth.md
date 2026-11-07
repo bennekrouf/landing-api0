@@ -157,7 +157,3 @@ La transmission de l'identité (`X-User-Email`, `X-Tenant-Id`) est un réglage *
 2. **Les actions doivent être attribuées à la personne, ou ses droits appliqués ?** → `per_user` (OAuth si le système le permet, sinon secret personnel).
 3. **API tierce avec une clé de service ?** → `static_bearer`, `header_injection` ou `client_credentials`, et transmission d'identité désactivée.
 4. **Des outils visent des services différents ?** → une connexion nommée par service.
-
----
-
-Questions d'architecture ou revue de sécurité ? [Écris-nous](mailto:mb@mayorana.ch?subject=api0%20POC) — on fait la revue avec ton équipe pendant le POC.

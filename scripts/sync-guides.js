@@ -12,6 +12,8 @@
 // - `[text](#)` links → the guide they name, the POC contact address, or
 //   plain text when there is nothing to link to yet (printed as a warning).
 //
+// Then every ```mermaid diagram is drawn as SVG (scripts/guides-diagrams.js).
+//
 // Source: GUIDES_SRC, default ../marketing/guides (French at the top level,
 // English in en/).
 
@@ -100,4 +102,7 @@ for (const [lang, dir] of Object.entries(sources)) {
   }
   console.log(`✅ ${lang}: ${kept.size} guides synced from ${dir}`);
 }
+// Mermaid diagrams, drawn once as SVG for the pages and the PDFs.
+require('./guides-diagrams').renderDiagrams();
+
 if (warnings) console.log(`${warnings} link(s) left as plain text: give them a target in scripts/sync-guides.js or in the guide.`);

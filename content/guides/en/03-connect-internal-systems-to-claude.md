@@ -18,7 +18,7 @@ The technical answer exists: the **Model Context Protocol (MCP)**. Claude connec
 2. **Where are the secrets?** Your systems' credentials must never pass through the AI.
 3. **What was done?** You need a log: who, which tool, when.
 4. **Who can sign in?** Employees, through the company identity provider. Not anyone with a link.
-5. **What does it cost, and who pays?** Usage must be measurable per team.
+5. **Who uses what?** Usage must be measurable per team.
 
 Writing an MCP server that ticks these five boxes, for every system, is an infrastructure project. api0 is that layer, ready-made, in front of your existing APIs.
 
@@ -103,4 +103,4 @@ One system, one team, two weeks:
 
 ---
 
-[Ask for a 14-day POC](mailto:mb@mayorana.ch?subject=api0%20POC) or [read the detailed architecture](/guides/architecture-and-auth).
+Next: [read the detailed architecture](/guides/architecture-and-auth).

@@ -10,6 +10,7 @@
     "build": "yarn generate-sitemap && next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "node --test 'src/**/*.test.mjs'",
     "generate-blog-data": "node scripts/generate-blog-data.js",
     "generate-sitemap": "node ./scripts/generate-sitemap.js",
     "generate-guides-data": "node scripts/generate-guides-data.js",

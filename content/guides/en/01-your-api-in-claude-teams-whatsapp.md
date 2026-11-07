@@ -103,9 +103,3 @@ Either way, you can give the bot a system prompt (short answers, confirm before 
 **My API is private, behind a VPN.** api0 needs to reach it. Put it behind a gateway that only accepts calls signed by api0 (the "signed identity token" option).
 
 **I want to limit what the AI can do.** Import only the operations that are useful, and prefer each person's own credential: your application then applies its own permissions.
-
-**How much does it cost?** A free plan with 50 credits to try it, then Starter, Growth or Business. Details at [api0.ai/pricing](https://api0.ai/pricing).
-
----
-
-Ready? [Import your API](https://app.api0.ai) — or [get in touch](mailto:mb@mayorana.ch?subject=api0%20POC) for a 14-day POC.

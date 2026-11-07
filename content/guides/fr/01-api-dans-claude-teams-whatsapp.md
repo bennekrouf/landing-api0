@@ -103,9 +103,3 @@ Dans les deux cas, tu peux donner au bot un prompt système (réponses courtes, 
 **Mon API est privée, derrière un VPN.** api0 doit pouvoir l'atteindre. Expose-la derrière une passerelle qui n'accepte que les appels signés par api0 (option « jeton d'identité signé »).
 
 **Je veux limiter ce que l'IA peut faire.** N'importe que les opérations utiles, et préfère l'identifiant de chaque personne : ton application applique alors ses propres droits.
-
-**Combien ça coûte ?** Plan gratuit avec 50 crédits pour essayer, puis Starter, Growth ou Business. Détails sur [api0.ai/pricing](https://api0.ai/pricing).
-
----
-
-Prêt ? [Importe ton API](https://app.api0.ai) — ou [écris-nous](mailto:mb@mayorana.ch?subject=api0%20POC) pour un POC de 14 jours.
