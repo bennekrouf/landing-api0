@@ -20,6 +20,8 @@
 # generated files
 /src/data/blog-posts.json
 /src/data/blog-slugs.json
+/src/data/guides.json
+/src/data/guide-pairs.json
 /public/sitemap.xml
 
 # production

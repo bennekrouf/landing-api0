@@ -1,4 +1,5 @@
 import { getBlogPosts } from './blog';
+import { getGuides, guideHref } from './guides';
 
 export async function generateSitemap() {
   const posts = await getBlogPosts();
@@ -56,7 +57,22 @@ export async function generateSitemap() {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...blogPages];
+  const guidePages = (['en', 'fr'] as const).flatMap((lang) => [
+    {
+      url: `${baseUrl}${lang === 'fr' ? '/fr' : ''}/guides/`,
+      lastModified: new Date().toISOString(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    },
+    ...getGuides(lang).map((g) => ({
+      url: `${baseUrl}${guideHref(g)}/`,
+      lastModified: new Date(g.date).toISOString(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    })),
+  ]);
+
+  return [...staticPages, ...blogPages, ...guidePages];
 }
 
 export function generateSitemapXML(urls: Array<{
