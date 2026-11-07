@@ -6,11 +6,12 @@ import { copyFor, langOf, localePath } from '@/i18n';
 import Link from 'next/link';
 import { Twitter, Linkedin, Github } from 'lucide-react';
 
-const footerLinks = (t: ReturnType<typeof copyFor>['footer'], nav: ReturnType<typeof copyFor>['nav'], useCasesHref: string) => [
+const footerLinks = (t: ReturnType<typeof copyFor>['footer'], nav: ReturnType<typeof copyFor>['nav'], useCasesHref: string, guidesHref: string) => [
   {
     title: t.product,
     links: [
       { label: nav.useCases, href: useCasesHref },
+      { label: nav.guides, href: guidesHref },
       { label: nav.blog, href: "/blog" },
       { label: nav.dashboard, href: "https://app.api0.ai" }
     ]
@@ -54,7 +55,7 @@ const Footer = () => {
           </div>
 
           {/* Dynamic Footer Links */}
-          {footerLinks(t, copy.nav, localePath(lang, '/use-cases')).map((section, index) => (
+          {footerLinks(t, copy.nav, localePath(lang, '/use-cases'), localePath(lang, '/guides')).map((section, index) => (
             <div key={index}>
               <h4 className="font-semibold text-white mb-4">{section.title}</h4>
               <ul className="space-y-2">

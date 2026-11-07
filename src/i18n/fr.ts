@@ -10,6 +10,9 @@ export const fr: Copy = {
     useCasesTitle: "Cas d'usage",
     useCasesDescription: "Comment les équipes utilisent api0 : interventions depuis WhatsApp, éditeurs dans Teams, outils internes dans Claude Enterprise.",
     pricingTitle: 'Tarifs',
+    guidesTitle: 'Guides',
+    guidesDescription:
+      'Les guides pas à pas d’api0 : votre API dans Claude, Teams et WhatsApp, l’architecture et les modèles d’authentification, Azure DevOps avec la connexion Microsoft. À lire en ligne ou à télécharger en PDF.',
     pricingDescription:
       'Les offres api0 par espace de travail : sièges et crédits inclus, votre API dans Telegram, WhatsApp et Teams. Facturé en CHF, conçu en Suisse.',
   },
@@ -18,6 +21,7 @@ export const fr: Copy = {
     howItWorks: 'Comment ça marche',
     pricing: 'Tarifs',
     blog: 'Blog',
+    guides: 'Guides',
     getStarted: 'Commencer',
     dashboard: 'Tableau de bord',
     switchTo: 'EN',
@@ -257,5 +261,18 @@ export const fr: Copy = {
     yoursBody: 'Un POC de 14 jours sur votre API : à la fin, vos équipes ou vos clients l’utilisent pour de vrai, ou on arrête.',
     yoursCta: 'Commencer avec votre API',
     contactCta: 'Nous écrire',
+  },
+  guides: {
+    kicker: 'Guides',
+    title: 'Mettre en place api0, pas à pas',
+    lead: 'Des guides pratiques pour votre équipe et votre IT : à lire ici, ou à télécharger en PDF pour les partager ou les garder.',
+    guide: 'Guide',
+    read: 'Lire le guide',
+    download: 'Télécharger le PDF',
+    updated: 'Mis à jour le',
+    contents: 'Sommaire',
+    all: 'Tous les guides',
+    otherLang: 'Read in English',
+    dateLocale: 'fr-CH',
   },
 };

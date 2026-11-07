@@ -8,6 +8,9 @@ export const en = {
     useCasesTitle: 'Use cases',
     useCasesDescription: 'How teams use api0: field service from WhatsApp, software vendors in Teams, internal tools in Claude Enterprise.',
     pricingTitle: 'Pricing',
+    guidesTitle: 'Guides',
+    guidesDescription:
+      'Step-by-step guides to api0: your API in Claude, Teams and WhatsApp, the architecture and authentication models, Azure DevOps with Microsoft sign-in. Read online or download as PDF.',
     pricingDescription:
       'api0 plans per workspace: seats and credits included, your API in Telegram, WhatsApp and Teams. Billed in CHF, Swiss-made.',
   },
@@ -16,6 +19,7 @@ export const en = {
     howItWorks: 'How it works',
     pricing: 'Pricing',
     blog: 'Blog',
+    guides: 'Guides',
     getStarted: 'Get started',
     dashboard: 'Dashboard',
     switchTo: 'FR',
@@ -255,5 +259,18 @@ export const en = {
     yoursBody: 'A 14-day POC on your own API: at the end, your team or customers use it for real, or we stop.',
     yoursCta: 'Start with your API',
     contactCta: 'Talk to us',
+  },
+  guides: {
+    kicker: 'Guides',
+    title: 'Set up api0, step by step',
+    lead: 'Practical guides for your team and your IT: read them here, or download the PDF to share or keep.',
+    guide: 'Guide',
+    read: 'Read the guide',
+    download: 'Download PDF',
+    updated: 'Updated',
+    contents: 'Contents',
+    all: 'All guides',
+    otherLang: 'Lire en français',
+    dateLocale: 'en-GB',
   },
 };

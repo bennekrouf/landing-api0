@@ -31,10 +31,10 @@ export function middleware(request: NextRequest) {
   }
 
 
-  // A French browser landing on the English home, pricing or use-cases page goes to the
+  // A French browser landing on the English home, pricing, use-cases or guides page goes to the
   // French one, once: a language chosen with the switch (cookie) wins, and a
   // crawler, which sends no French Accept-Language, keeps the English page.
-  if ((url.pathname === '/' || url.pathname === '/pricing' || url.pathname === '/use-cases') && !request.cookies.get(LANG_COOKIE) && prefersFrench(request)) {
+  if ((url.pathname === '/' || url.pathname === '/pricing' || url.pathname === '/use-cases' || url.pathname === '/guides') && !request.cookies.get(LANG_COOKIE) && prefersFrench(request)) {
     url.pathname = url.pathname === '/' ? '/fr' : `/fr${url.pathname}`;
     return NextResponse.redirect(url, 307);
   }
