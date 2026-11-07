@@ -2,10 +2,10 @@
 
 // The workspace plans, from the gateway (GET /api/workspace-plans, fetched by
 // the page on the server). Billed in CHF; prices show in the visitor's
-// currency, detected from their time zone (no picker), EUR and USD as
-// approximations.
+// currency, detected from the browser's languages and time zone (no picker),
+// EUR and USD as approximations.
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useSyncExternalStore } from 'react';
 import { Check, ArrowRight } from 'lucide-react';
 import { copyFor, type Lang } from '@/i18n';
 import { TeamsMark, TelegramMark, WhatsAppMark } from '@/components/brand-icons';
@@ -48,15 +48,32 @@ function Channels({ label }: { label: string }) {
   );
 }
 
+/** Re-read the currency when the visitor changes their browser languages. */
+function onLanguageChange(update: () => void) {
+  window.addEventListener('languagechange', update);
+  return () => window.removeEventListener('languagechange', update);
+}
+
+const serverCurrency = (): DisplayCurrency => 'chf';
+
+/** Drop the choice the old CHF/EUR/USD buttons saved; nothing reads it any more. */
+function forgetPickedCurrency() {
+  try {
+    window.localStorage.removeItem('api0.display-currency');
+  } catch {
+    // Storage blocked: nothing saved to drop.
+  }
+}
+
 const APP_URL = 'https://app.api0.ai/?view=settings&tab=workspace-plan';
 // Where Enterprise enquiries go.
 const ENTERPRISE_CONTACT = 'mailto:mb@mayorana.ch?subject=api0%20Enterprise';
 
 export function Pricing({ plans, rates, lang = 'en' }: { plans: PricingPlan[]; rates: Rates; lang?: Lang }) {
   const t = copyFor(lang).pricing;
-  // CHF on the server, the visitor's own after the first render.
-  const [currency, setCurrency] = useState<DisplayCurrency>('chf');
-  useEffect(() => setCurrency(guessCurrency()), []);
+  // CHF on the server and while hydrating, the visitor's own right after.
+  const currency = useSyncExternalStore(onLanguageChange, guessCurrency, serverCurrency);
+  useEffect(forgetPickedCurrency, []);
 
   const price = (cents: number, billed: string) => displayPrice(cents, billed, currency, rates, t.numberLocale);
   const billedIn = plans[0]?.currency.toUpperCase() ?? 'CHF';

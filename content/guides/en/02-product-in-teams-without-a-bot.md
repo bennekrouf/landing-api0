@@ -44,7 +44,7 @@ These are the same tools as in Claude or WhatsApp: you set up your API once.
 ## Step 1 — Create the Azure Bot resource
 
 1. Azure portal → *Create a resource* → **Azure Bot**.
-2. Bot name, subscription, resource group. Pricing tier: the free one (F0) is enough to start.
+2. Bot name, subscription, resource group. Pricing tier: **F0**.
 3. **App type: Single Tenant.** Note the **App ID** (a GUID) and the **tenant ID**.
 4. In the resource → *Configuration* → *Manage Password* → **New client secret**. Copy the value right away: Azure only shows it once.
 
@@ -114,7 +114,3 @@ You can do the setup for them (with an Azure account in their tenant) or send th
 | Microsoft rejects the App ID / secret pair | Expired secret, or wrong tenant ID. |
 | The bot doesn't answer | Messaging endpoint not pasted in Azure, or Teams channel not enabled. |
 | The app doesn't show up in Teams | Custom app upload is disabled: go through the Teams admin. |
-
----
-
-Want your product in Teams this week? [Start here](https://app.api0.ai) or [ask for a 14-day POC](mailto:mb@mayorana.ch?subject=api0%20POC).

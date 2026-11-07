@@ -10,7 +10,7 @@ tags: ["Guide pratique", "Azure DevOps", "Entra ID", "OAuth", "Teams"]
 
 À la fin de ce guide, tu demandes dans Claude ou dans Teams « crée un bug "La connexion échoue sous Safari" et assigne-le-moi », et le work item apparaît dans Azure DevOps **à ton nom**, avec **tes** droits. Personne ne colle de jeton : chacun clique une fois sur **Connect** et se connecte avec son compte Microsoft. api0 renouvelle ensuite l'accès tout seul.
 
-Presque tout ce qui suit est gratuit : Azure DevOps l'est jusqu'à 5 utilisateurs (Boards compris), l'application Entra et l'Azure Bot ne coûtent rien. Seul Teams est payant, si ton annuaire ne l'a pas encore ; un essai d'un mois suffit pour une démo. Compte une heure pour Azure DevOps et une autre pour Teams, erreurs comprises.
+Compte une heure pour Azure DevOps et une autre pour Teams, erreurs comprises.
 
 Dans le guide, remplace :
 
@@ -62,7 +62,7 @@ Le même schéma en texte, pour les endroits qui n'affichent pas les diagrammes 
 | `api0.ai` | Site d'api0 | Politique de confidentialité et conditions vers lesquelles pointe l'application Teams |
 | `login.microsoftonline.com/<tenant-id>` | Entra ID | Page de connexion et de consentement ; émet et renouvelle le jeton de chacun |
 | `entra.microsoft.com` | Centre d'administration Entra | Application, consentement, utilisateurs, rôles, journaux de connexion |
-| `portal.azure.com` | Portail Azure | L'Azure Bot (offre gratuite) |
+| `portal.azure.com` | Portail Azure | L'Azure Bot |
 | `admin.microsoft.com` | Centre d'administration Microsoft 365 | Licence Teams : essai, attribution, facturation |
 | `admin.teams.microsoft.com` | Centre d'administration Teams | Approbation de l'application Teams, règles des applications personnalisées |
 | `teams.microsoft.com` | Microsoft Teams | Là où l'on discute avec le bot |
@@ -180,6 +180,8 @@ Trois pièges :
 - **Le scope n'est pas facultatif chez Microsoft.** Le texte grisé du champ (`api://resource/.default`) est un exemple, pas une valeur. Un scope vide donne `AADSTS900144`.
 - **`offline_access` est indispensable.** `499b84ac-…` désigne Azure DevOps. Sans `offline_access`, Microsoft ne renvoie pas de jeton de rafraîchissement, et api0 refuse la connexion plutôt que de la laisser expirer au bout d'une heure.
 
+**Ce que l'assistant ajoute.** Il importe dans l'espace une API nommée **Azure DevOps**, comme tu importerais ton propre fichier : 12 opérations sur les work items (créer, lire, rechercher, commenter), les projets, les équipes, les sprints et les zones. Elle apparaît sur la page **API**, sous **Custom API Groups**, où tu peux la modifier comme n'importe quelle API. Ses outils arrivent dans Claude sous les noms `azure-devops-create-work-item`, `azure-devops-query-work-items`, etc. Importer plus tard ton propre fichier la conserve, sauf si ton fichier contient une API du même nom.
+
 **Reconfigurer plus tard.** Le bouton **Reconfigure** de ton espace rouvre cet assistant avec les valeurs enregistrées. Les secrets ne sont jamais réaffichés : colle un nouveau secret, ou laisse le champ vide s'il indique qu'un secret est enregistré, et l'ancien est conservé.
 
 5. Le dernier écran teste la connexion. **Il doit échouer** avec un message du type « tu n'as pas encore ajouté ton accès » : normal, tu n'as pas encore connecté ton compte. La configuration est déjà enregistrée. Un bouton **Connect your account** se trouve juste sous le message : il fait la même chose que l'étape 5 ci-dessous.
@@ -207,8 +209,8 @@ api0 l'impose désormais. **Connect** refuse un compte qui détient un rôle d'a
 
 **Toujours le même 403 après avoir ouvert Azure DevOps ? Vérifie s'il s'agit d'un compte personnel.** Si ton annuaire a été créé depuis un compte Microsoft personnel (fréquent pour un abonnement ouvert pour autre chose), ce compte figure dans l'annuaire comme *membre externe*. Dans **Entra admin center → Users**, son nom d'utilisateur principal ressemble à `prenom_domaine#EXT#@<annuaire>.onmicrosoft.com`. Connect obtient un jeton pour cette identité de l'annuaire, alors que dev.azure.com te connecte avec le compte personnel lui-même : Azure DevOps ne rencontre donc jamais l'identité du jeton. Pour le vérifier, cherche l'ID cité dans l'erreur sous **Users**. La solution est un compte professionnel natif :
 
-1. **Entra admin center → Users → New user → Create new user**, par exemple `demo@<annuaire>.onmicrosoft.com`. C'est gratuit.
-2. **Azure DevOps → Organization settings → Users → Add users** : ce compte, niveau d'accès **Basic** (les 5 premiers sont gratuits), projet `<projet>`, groupe **Project Contributors**.
+1. **Entra admin center → Users → New user → Create new user**, par exemple `demo@<annuaire>.onmicrosoft.com`.
+2. **Azure DevOps → Organization settings → Users → Add users** : ce compte, niveau d'accès **Basic**, projet `<projet>`, groupe **Project Contributors**.
 3. Dans une fenêtre privée, ouvre `https://dev.azure.com/<organisation>/<projet>` avec ce compte et définis son mot de passe.
 4. Dans api0, refais **Connect**. Dans le choix de compte Microsoft, prends **Use another account** et connecte-toi avec le compte professionnel.
 
@@ -226,7 +228,7 @@ Teams passe par un **Azure Bot** à toi, dans ton annuaire. Les nouveaux bots so
 
 Teams est une licence Microsoft 365 rattachée à l'**annuaire**, pas à un abonnement Azure. Pour vérifier, connecte-toi sur `https://teams.microsoft.com` avec un compte professionnel de `<tenant-id>`. *« You don't have the required permissions to access this org »* signifie : pas de licence.
 
-Pour une démo, le moins cher est un **essai Microsoft Teams Essentials**, acheté depuis ton annuaire :
+Pour une démo, prends un **essai Microsoft Teams Essentials**, depuis ton annuaire :
 
 1. Donne au compte qui achète le rôle **Billing Administrator** (Entra admin center → Users → l'utilisateur → Assigned roles). La page d'inscription en libre-service refuse un compte géré par ton organisation (*« demandez à votre administrateur »*) : achète plutôt depuis le centre d'administration.
 2. **admin.microsoft.com → Facturation → Acheter des services → Microsoft Teams Essentials → essai gratuit**.
@@ -248,7 +250,7 @@ Dans `https://portal.azure.com`, **Create → Azure Bot** :
 | Bot handle | un nom au choix, par exemple `api0-demo-bot` |
 | Resource group | un nouveau, par exemple `api0-demo` |
 | Data residency | **Global** |
-| Pricing tier | **Change plan → Free (F0)**. Les messages Teams n'y coûtent rien. |
+| Pricing tier | **Change plan → Free (F0)** |
 | Type of App | **Single Tenant** |
 | Creation type | **Create new Microsoft App ID** |
 
@@ -332,7 +334,3 @@ Si le bot dit que le type n'existe pas, ton projet utilise le processus Basic : 
 | Boutons de l'assistant grisés au retour de Microsoft | Page restaurée par le bouton Retour | Recharger la page |
 | Bot : accès « pas configuré, ou expiré » le lendemain de Connect ; journal de la passerelle `invalid_grant` ; journal de connexion Entra **Interrupted** | Le compte connecté a un rôle d'administrateur et doit passer par l'authentification multifacteur, impossible lors d'un renouvellement en arrière-plan | Retirer les rôles d'administrateur, puis **Reconnect** |
 | `Work item type Bug does not exist in project` | Le projet utilise le processus Basic | Demander une **Issue**, ou utiliser un projet Agile |
-
----
-
-Une question sur ta configuration ? [Écris-nous](mailto:mb@mayorana.ch?subject=api0%20POC) — on fait la mise en place avec toi pendant le POC.

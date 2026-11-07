@@ -157,7 +157,3 @@ Identity forwarding (`X-User-Email`, `X-Tenant-Id`) is a **per-tool** setting. I
 2. **Must actions be attributed to the person, or their permissions applied?** → `per_user` (OAuth if the system supports it, otherwise a personal secret).
 3. **Third-party API with a service key?** → `static_bearer`, `header_injection` or `client_credentials`, with identity forwarding off.
 4. **Tools targeting different services?** → one named connection per service.
-
----
-
-Architecture questions or a security review? [Get in touch](mailto:mb@mayorana.ch?subject=api0%20POC) — we'll run the review with your team during the POC.

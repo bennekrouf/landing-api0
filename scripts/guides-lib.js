@@ -15,6 +15,7 @@ const matter = require('gray-matter');
 const { Marked } = require('marked');
 const slugify = require('slugify');
 const readingTime = require('reading-time');
+const { diagramHtml } = require('./guides-diagrams');
 
 const LANGS = ['en', 'fr'];
 const CONTENT_DIR = path.join(process.cwd(), 'content/guides');
@@ -37,6 +38,10 @@ function render(markdown, { absolute = false } = {}) {
   const seen = new Map();
   marked.use({
     renderer: {
+      // A mermaid block becomes its drawn SVG (scripts/guides-diagrams.js).
+      code({ text, lang }) {
+        return (lang === 'mermaid' && diagramHtml(text)) || false;
+      },
       heading({ tokens, depth, text }) {
         let id = headingId(text);
         const n = seen.get(id) || 0;

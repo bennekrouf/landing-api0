@@ -44,7 +44,7 @@ Ce sont les mêmes outils que dans Claude ou WhatsApp : tu configures ton API un
 ## Étape 1 — Créer la ressource Azure Bot
 
 1. Portail Azure → *Créer une ressource* → **Azure Bot**.
-2. Nom du bot, abonnement, groupe de ressources. Plan tarifaire : le gratuit (F0) suffit pour commencer.
+2. Nom du bot, abonnement, groupe de ressources. Plan tarifaire : **F0**.
 3. **Type d'app : Single Tenant.** Note l'**App ID** (un GUID) et l'**ID du tenant**.
 4. Dans la ressource → *Configuration* → *Manage Password* → **New client secret**. Copie la valeur immédiatement : Azure ne la montre qu'une fois.
 
@@ -114,7 +114,3 @@ Tu peux faire la mise en place pour lui (avec un compte Azure de son tenant) ou 
 | Microsoft refuse le couple App ID / secret | Secret expiré, ou mauvais ID de tenant. |
 | Le bot ne répond pas | Messaging endpoint non collé dans Azure, ou canal Teams non activé. |
 | L'app n'apparaît pas dans Teams | Chargement d'apps personnalisées désactivé : passer par l'admin Teams. |
-
----
-
-Tu veux voir ton produit dans Teams cette semaine ? [Commence ici](https://app.api0.ai) ou [demande un POC de 14 jours](mailto:mb@mayorana.ch?subject=api0%20POC).

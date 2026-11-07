@@ -18,7 +18,7 @@ La réponse technique existe : le **Model Context Protocol (MCP)**. Claude se co
 2. **Où sont les secrets ?** Les identifiants de tes systèmes ne doivent jamais transiter par l'IA.
 3. **Qu'est-ce qui a été fait ?** Il faut un journal : qui, quel outil, quand.
 4. **Qui peut se connecter ?** Les employés, via le fournisseur d'identité de l'entreprise. Pas n'importe qui avec un lien.
-5. **Combien ça coûte, et à qui ?** L'usage doit être mesurable par équipe.
+5. **Qui consomme quoi ?** L'usage doit être mesurable par équipe.
 
 Écrire un serveur MCP qui coche ces cinq cases, pour chaque système, c'est un projet d'infrastructure. api0 est cette couche, toute faite, devant tes APIs existantes.
 
@@ -103,4 +103,4 @@ Un système, une équipe, deux semaines :
 
 ---
 
-[Demande un POC de 14 jours](mailto:mb@mayorana.ch?subject=api0%20POC) ou [lis l'architecture détaillée](/fr/guides/architecture-et-auth).
+Pour aller plus loin : [lis l'architecture détaillée](/fr/guides/architecture-et-auth).
