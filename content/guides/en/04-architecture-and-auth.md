@@ -20,18 +20,18 @@ This guide is for technical and security teams evaluating api0. It describes the
             ▼                                     │
    ┌────────────────────── api0 gateway ────────────────────┐
    │ 1. authenticates the caller    4. injects the credential│
-   │ 2. resolves workspace and tool 5. calls the application     │
+   │ 2. resolves tenant and tool 5. calls the application     │
    │ 3. checks credits              6. logs and meters       │
    └─────────────────────────────────────────────────────────┘
             │                                     │
          store (Postgres)                   your application
-   tools · workspaces · encrypted secrets   (or a third-party API)
+   tools · tenants · encrypted secrets   (or a third-party API)
 ```
 
 Three components, written in **Rust**:
 
 - **The gateway** receives every call, authenticates it, routes it and logs it. It's the only path to your systems.
-- **The store** holds the tool registry, workspaces, credentials (encrypted) and the usage ledger.
+- **The store** holds the tool registry, tenants, credentials (encrypted) and the usage ledger.
 - **The messaging bridge** receives webhooks from Teams, WhatsApp and Telegram and runs the assistant, which calls the same tools through the gateway.
 
 ## The MCP gateway
@@ -40,20 +40,20 @@ Three components, written in **Rust**:
 
 | Method | Behaviour |
 |---|---|
-| `initialize` | Negotiates the protocol version, advertises tools, returns the workspace's instructions |
-| `tools/list` | The caller's workspace's tools, and only those |
+| `initialize` | Negotiates the protocol version, advertises tools, returns the tenant's instructions |
+| `tools/list` | The caller's tenant's tools, and only those |
 | `tools/call` | Routes to the application, meters, returns the result |
 | `ping` | Empty result |
 
 Supported protocol versions: `2025-06-18`, `2025-03-26`, `2024-11-05`.
 
-**Workspace instructions.** `initialize` returns a text (4,000 characters max) that the client places in front of the model: shared usage rules (load a tool before calling it, take IDs from a listing tool rather than guessing…), the workspace's own text (2,000 characters max) and, for each tool group, its starting tools.
+**Tenant instructions.** `initialize` returns a text (4,000 characters max) that the client places in front of the model: shared usage rules (load a tool before calling it, take IDs from a listing tool rather than guessing…), the tenant's own text (2,000 characters max) and, for each tool group, its starting tools.
 
 **Errors.** A refusal from your application comes back as a **result** flagged `isError`, with your application's own message: the model reads it and can correct. JSON-RPC errors are reserved for api0's own refusals (unknown tool, invalid parameters, no credits). **A failed call is never billed.**
 
 ## What a tool is
 
-A tool is an entry in the registry, scoped to one workspace:
+A tool is an entry in the registry, scoped to one tenant:
 
 | Field | Role |
 |---|---|
@@ -62,7 +62,7 @@ A tool is an entry in the registry, scoped to one workspace:
 | HTTP verb | Set → REST call. Empty → the application speaks MCP natively |
 | content type, body template | For APIs whose body isn't the arguments object (JSON Patch…) |
 | static headers | The tool's own constants |
-| identity forwarding | Whether to send the user's email and workspace |
+| identity forwarding | Whether to send the user's email and tenant |
 | cost, timeout | Metering and patience |
 
 Importing an OpenAPI spec creates these entries automatically. **Body templates** cover the hard cases without code: an optional field that wasn't supplied disappears from the body (a whole JSON Patch operation in an array, a single key in an object). **Parameter names** MCP clients reject (`$filter`, `page[size]`) are exposed under a safe name and sent to the application under their real name.
@@ -81,19 +81,19 @@ The gateway never sends an internal secret to an application.
 
 | Model | Used by | Detail |
 |---|---|---|
-| **OAuth 2.1 + PKCE** | Claude and MCP clients | The client registers with the workspace's Client ID; the user signs in; the gateway issues a token bound to that user and that workspace |
+| **OAuth 2.1 + PKCE** | Claude and MCP clients | The client registers with the tenant's Client ID; the user signs in; the gateway issues a token bound to that user and that tenant |
 | **Google sign-in** | Default | For the dashboard and user sign-in |
-| **Your identity provider (OIDC)** | Enterprises | Entra ID or any OIDC IdP configured per workspace: your employees sign in with their account, MFA and conditional access included. The IdP client secret is encrypted |
-| **API key** | Server-to-server integrations | One key per workspace or per consumer |
+| **Your identity provider (OIDC)** | Enterprises | Entra ID or any OIDC IdP configured per tenant: your employees sign in with their account, MFA and conditional access included. The IdP client secret is encrypted |
+| **API key** | Server-to-server integrations | One key per tenant or per consumer |
 | **Messaging account linking** | Teams, WhatsApp, Telegram | On the first message, the user gets a short-lived link to tie their messaging identity to their account |
 
 ### Acting for an end user
 
-An application can call the gateway with its key **on behalf of one of its users**, by naming them. The gateway checks this is allowed before any call: the key's owner, always; a consumer key, never for anyone else; a workspace key, only for someone who joined that workspace themselves (through OAuth consent or their own key). Being added as a member is not enough. Otherwise: `403`.
+An application can call the gateway with its key **on behalf of one of its users**, by naming them. The gateway checks this is allowed before any call: the key's owner, always; a consumer key, never for anyone else; a tenant key, only for someone who joined that tenant themselves (through OAuth consent or their own key). Being added as a member is not enough. Otherwise: `403`.
 
 ## Outbound authentication: which credential calls your application?
 
-Each workspace has a **default connection**, and can add named ones when some tools target a service that needs a different sign-in.
+Each tenant has a **default connection**, and can add named ones when some tools target a service that needs a different sign-in.
 
 | Mode | What the application receives | When to choose it |
 |---|---|---|
@@ -110,17 +110,17 @@ Each workspace has a **default connection**, and can add named ones when some to
 
 For an application you run, the simplest option is often to store **no** secret at all: the gateway signs every call with api0's service account.
 
-One signer for every workspace means the **audience** is what separates them, and the workspace doesn't choose it. The gateway builds it from the application URL's origin and the calling workspace's ID:
+One signer for every tenant means the **audience** is what separates them, and the tenant doesn't choose it. The gateway builds it from the application URL's origin and the calling tenant's ID:
 
 ```
-https://api.example.com/orders  →  aud = https://api.example.com/api0/tenant/<workspace id>
+https://api.example.com/orders  →  aud = https://api.example.com/api0/tenant/<tenant id>
 ```
 
-Only the origin is kept: no path or query can spell out another workspace's audience. Your application checks two values, once:
+Only the origin is kept: no path or query can spell out another tenant's audience. Your application checks two values, once:
 
 | Check | Value |
 |---|---|
-| `aud` | `https://<your origin>/api0/tenant/<your workspace>` |
+| `aud` | `https://<your origin>/api0/tenant/<your tenant>` |
 | `email` (signer) | api0's service account |
 
 Pinning the signer is mandatory: any Google service account can mint a token for any audience.
@@ -137,7 +137,7 @@ Result: the target system sees the real person, applies their permissions and at
 
 ## Protecting secrets
 
-- **AES-256-GCM** encryption, sealed to the workspace and the secret's purpose: a secret copied into another context won't open.
+- **AES-256-GCM** encryption, sealed to the tenant and the secret's purpose: a secret copied into another context won't open.
 - Secrets are never returned to the MCP client, the model or the dashboard (metadata only).
 - With no encryption key configured, the store **refuses** to save a credential rather than keep it in plain text.
 
@@ -147,9 +147,9 @@ Identity forwarding (`X-User-Email`, `X-Tenant-Id`) is a **per-tool** setting. I
 
 ## Usage, credits and logs
 
-- Every call is logged: tool, user, workspace, status, latency.
+- Every call is logged: tool, user, tenant, status, latency.
 - Every successful call uses credits; a failure is never billed.
-- Billing mode per workspace: **the workspace pays**, or **each person pays** on their own plan.
+- Billing mode per tenant: **the tenant pays**, or **each person pays** on their own plan.
 
 ## Choosing a model: the decision tree
 

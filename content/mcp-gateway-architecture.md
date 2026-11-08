@@ -149,7 +149,7 @@ Now, Claude is fully authorized. Here is what happens under the hood when Claude
 6. **Downstream Proxying:** The Gateway proxies the request to the Acme application (`https://api.acme.example/search`). Crucially, it injects three things:
    * `Authorization: Bearer <oidc_token>` (for application security).
    * `X-User-Email: user@example.com` (for user-level context).
-   * `X-Tenant-Id: acme_tenant_id` (for workspace isolation).
+   * `X-Tenant-Id: acme_tenant_id` (for tenant isolation).
 7. **Execution & Billing:** The Acme application easily verifies the OIDC token using standard Google middleware, processes the request, and returns the results. The Gateway completes the flow by fire-and-forget deducting API0 credits and returning the final results to Claude.
 
 ## The Key Takeaway

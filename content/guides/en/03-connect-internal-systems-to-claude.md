@@ -38,7 +38,7 @@ Claude only talks to api0. api0 talks to your systems, with the credential **you
 
 ## Step 1 — Connect your identity provider
 
-In the **Access** tab, set your workspace's sign-in to your **OIDC** provider: Entra ID, Okta, Google Workspace or another. You need an issuer, a client ID and a secret, created in your IdP for api0.
+In the **Access** tab, set your tenant's sign-in to your **OIDC** provider: Entra ID, Okta, Google Workspace or another. You need an issuer, a client ID and a secret, created in your IdP for api0.
 
 Result: when an employee adds the connector in Claude, they sign in with their usual company account (MFA, conditional access and the rest included). The IdP client secret is stored encrypted.
 
@@ -60,13 +60,13 @@ This is the decision that matters most.
 
 Either way, the target system sees **the employee**, applies **their** permissions, and attributes the action to **them** (the author of an Azure DevOps work item really is the person who asked). An employee who hasn't linked their account yet gets a message explaining how — never a call made as someone else.
 
-**For your own services: the identity token signed by api0.** Your application verifies a Google identity token signed by api0, whose audience names your workspace. No secret to store on your side, and no other api0 customer can produce a token valid for you.
+**For your own services: the identity token signed by api0.** Your application verifies a Google identity token signed by api0, whose audience names your tenant. No secret to store on your side, and no other api0 customer can produce a token valid for you.
 
 **Last resort: a shared credential** (fixed token, headers, OAuth client credentials). Simple, but every action is taken by the same account. Keep it for reading non-sensitive data.
 
 ## Step 4 — Protect personal data
 
-By default, api0 can pass the user's email and workspace ID to your services (`X-User-Email`, `X-Tenant-Id`). Useful for your own applications; **turn it off for any tool pointed at a third party**: your employees' emails then stay inside the platform.
+By default, api0 can pass the user's email and tenant ID to your services (`X-User-Email`, `X-Tenant-Id`). Useful for your own applications; **turn it off for any tool pointed at a third party**: your employees' emails then stay inside the platform.
 
 ## Step 5 — Roll out in Claude
 
@@ -74,12 +74,12 @@ By default, api0 can pass the user's email and workspace ID to your services (`X
 2. Add the connector in Claude (Settings → Connectors). On Claude Enterprise, an admin can make it available to the whole organization.
 3. Create a **Claude Project** per team, with domain instructions: vocabulary, confirmation rules, answer format. A template is provided.
 
-You can also write **workspace instructions** in api0 (up to 2,000 characters) that Claude receives on every connection: the main project, naming conventions, what to always check.
+You can also write **tenant instructions** in api0 (up to 2,000 characters) that Claude receives on every connection: the main project, naming conventions, what to always check.
 
 ## Step 6 — Track usage
 
 - **Log** (Activity tab): every call, the tool, the person, the result, the latency.
-- **Credits**: every successful call is metered; a failed call is never billed. You choose whether the workspace pays or each person on their own plan.
+- **Credits**: every successful call is metered; a failed call is never billed. You choose whether the tenant pays or each person on their own plan.
 
 ## The security checklist
 

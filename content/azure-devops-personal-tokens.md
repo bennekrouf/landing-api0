@@ -110,7 +110,7 @@ Four steps, and only one of them involves an administrator of anything: none.
   <text class="num" x="30" y="128">2</text>
   <rect class="box" x="342" y="106" width="116" height="26" rx="7"/>
   <text class="ac" x="400" y="123" text-anchor="middle">approve · Google</text>
-  <text class="m" x="252" y="150" text-anchor="middle">api0 key, scoped to the workspace</text>
+  <text class="m" x="252" y="150" text-anchor="middle">api0 key, scoped to the tenant</text>
   <path class="ln" d="M398,158 L107,158" marker-end="url(#pl)"/>
   <text class="num" x="30" y="200">3</text>
   <rect class="box" x="637" y="180" width="116" height="26" rx="7"/>
@@ -159,7 +159,7 @@ One thing, and only one: the owner of the token that made the call.
 | **PAT owner** | **the Azure identity** | **yes — "Created By"** |
 
 Two people, two tokens, two names on the work items. api0 looks up the token by
-`(workspace, api0 account)`, so each person's calls carry their own credential
+`(tenant, api0 account)`, so each person's calls carry their own credential
 and their own Azure DevOps permissions. Someone without project access gets a
 403 from Azure, correctly — api0 grants nothing, it relays what a person already
 has.

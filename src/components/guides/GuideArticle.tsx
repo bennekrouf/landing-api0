@@ -52,7 +52,10 @@ export function GuideArticle({ guide }: { guide: Guide }) {
             dangerouslySetInnerHTML={{ __html: guide.contentHtml }}
           />
           {guide.headings.length > 0 && (
-            <nav className="md:w-1/4 md:sticky md:top-24 h-fit rounded-xl border border-border bg-accent/50 p-4 text-sm">
+            // Sticky, and never taller than the screen: a long guide's contents
+            // would otherwise run past the bottom, out of reach until the end of
+            // the article. It scrolls on its own instead, without moving the page.
+            <nav className="md:w-1/4 md:sticky md:top-24 h-fit md:max-h-[calc(100vh-7rem)] md:overflow-y-auto md:overscroll-contain rounded-xl border border-border bg-accent/50 p-4 text-sm">
               <p className="mb-3 font-semibold text-foreground">{t.contents}</p>
               <ul className="space-y-1.5">
                 {guide.headings.map((h) => (

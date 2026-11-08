@@ -45,14 +45,14 @@ These are the same tools as in Claude or WhatsApp: you set up your API once.
 
 1. Azure portal → *Create a resource* → **Azure Bot**.
 2. Bot name, subscription, resource group. Pricing tier: **F0**.
-3. **App type: Single Tenant.** Note the **App ID** (a GUID) and the **tenant ID**.
+3. **App type: Single Tenant.** Note the **App ID** (a GUID) and the **Microsoft tenant ID**.
 4. In the resource → *Configuration* → *Manage Password* → **New client secret**. Copy the value right away: Azure only shows it once.
 
 ## Step 2 — Register it in api0
 
 [app.api0.ai → **Channels** → **Teams**](https://app.api0.ai/?tab=channels&channel=teams):
 
-- App ID, secret, tenant ID;
+- App ID, secret, Microsoft tenant ID;
 - bot name (the one your users will see);
 - optional: a system prompt (tone, answer length, confirmations).
 
@@ -70,7 +70,7 @@ In the Azure Bot resource:
 
 A bot reaches nobody until a Teams app naming it is installed. That app is a zip: a `manifest.json` and two icons. This is often where projects stall.
 
-In [Channels → Teams](https://app.api0.ai/?tab=channels&channel=teams), api0 **generates the package** from what it already knows: App ID, bot name, your workspace's Get started page. You download it, and that's it.
+In [Channels → Teams](https://app.api0.ai/?tab=channels&channel=teams), api0 **generates the package** from what it already knows: App ID, bot name, your tenant's Get started page. You download it, and that's it.
 
 The app is **personal** scope: the bot answers in one-to-one chats, where it makes sense.
 
@@ -85,13 +85,13 @@ In api0, the **Test** button checks the chain. Then message the bot: on the firs
 
 ## Software vendors: one bot per customer
 
-If you sell software to several companies, the cleanest model is **one api0 workspace per customer**:
+If you sell software to several companies, the cleanest model is **one api0 tenant per customer**:
 
 - each customer has its own tools, users, credits and log;
 - its bot lives in **its** Azure tenant (Single Tenant), which its security team prefers;
 - you bill usage customer by customer.
 
-You can do the setup for them (with an Azure account in their tenant) or send them the steps above: about half an hour on their side.
+You can do the setup for them (with an Azure account in their Microsoft tenant) or send them the steps above: about half an hour on their side.
 
 ## What your customer gets
 
@@ -111,6 +111,6 @@ You can do the setup for them (with an Azure account in their tenant) or send th
 | Symptom | Likely cause |
 |---|---|
 | "Invalid App ID" in api0 | The secret was pasted into the App ID field. The App ID is a GUID. |
-| Microsoft rejects the App ID / secret pair | Expired secret, or wrong tenant ID. |
+| Microsoft rejects the App ID / secret pair | Expired secret, or wrong Microsoft tenant ID. |
 | The bot doesn't answer | Messaging endpoint not pasted in Azure, or Teams channel not enabled. |
 | The app doesn't show up in Teams | Custom app upload is disabled: go through the Teams admin. |

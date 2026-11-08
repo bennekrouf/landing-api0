@@ -36,10 +36,10 @@ export default function PrivacyPage() {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">2. Information We Collect</h2>
 
-          <h3 className="text-xl font-medium mb-3">2.1 Account and workspace</h3>
+          <h3 className="text-xl font-medium mb-3">2.1 Account and tenant</h3>
           <ul className="list-disc pl-6 mb-4">
             <li>Your email address and name, from Google sign-in or your company&apos;s identity provider (such as Microsoft Entra ID)</li>
-            <li>The workspaces you belong to and your role in each</li>
+            <li>The tenants you belong to and your role in each</li>
             <li>
               API keys you create. We store a hash that lets us check a key, not the key itself. A key you link to WhatsApp
               or Telegram is the exception: the assistant has to use it on your behalf, so it is stored encrypted.
@@ -92,8 +92,8 @@ export default function PrivacyPage() {
           <h2 className="text-2xl font-semibold mb-4">3. How We Use Your Information</h2>
           <ul className="list-disc pl-6">
             <li>To run the Service: authenticate callers, route tool calls, attach the right credential, and bill credits</li>
-            <li>To show workspace owners their usage and call logs</li>
-            <li>To send account emails: welcome, payment receipts, low-credit warnings, API key changes, workspace invites and licences</li>
+            <li>To show tenant owners their usage and call logs</li>
+            <li>To send account emails: welcome, payment receipts, low-credit warnings, API key changes, tenant invites and licences</li>
             <li>
               To send occasional emails about using the Service: a monthly usage summary, tips if you have not made a call
               yet, and news about new features. Each of these has an unsubscribe link; account emails do not stop.
@@ -131,8 +131,8 @@ export default function PrivacyPage() {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">5. Data Retention</h2>
           <ul className="list-disc pl-6">
-            <li>Account, workspace and configuration data: until you delete your account or workspace</li>
-            <li>Tool call logs: until the account or workspace they belong to is deleted</li>
+            <li>Account, tenant and configuration data: until you delete your account or tenant</li>
+            <li>Tool call logs: until the account or tenant they belong to is deleted</li>
             <li>WhatsApp and Telegram conversation history: 30 days after the last message</li>
             <li>Messages the assistant could not process: 90 days</li>
             <li>Purchase records: as long as the law requires us to keep them</li>
@@ -145,7 +145,7 @@ export default function PrivacyPage() {
           <ul className="list-disc pl-6">
             <li>All traffic to the Service is encrypted in transit (HTTPS)</li>
             <li>Application credentials and users&apos; secrets are encrypted with AES-256-GCM before they are stored</li>
-            <li>Workspaces are separated in the database with row-level security</li>
+            <li>Tenants are separated in the database with row-level security</li>
             <li>Connectors such as Claude sign in with OAuth 2.1 and PKCE; authorization codes work once</li>
           </ul>
           <p className="mt-4">No method of transmission or storage is completely secure, but we work to protect your data.</p>
@@ -166,7 +166,7 @@ export default function PrivacyPage() {
           </ul>
           <p className="mt-4">
             To exercise these rights, contact us at the address below. If you use api0 through your employer&apos;s
-            workspace, some requests may also need to go to your employer.
+            tenant, some requests may also need to go to your employer.
           </p>
         </section>
 

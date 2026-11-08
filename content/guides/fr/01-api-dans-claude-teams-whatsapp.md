@@ -49,18 +49,18 @@ Onglet **Access**. Deux questions.
 
 | Option | Pour qui |
 |---|---|
-| Jeton d'identité signé par api0 | Ta propre application : elle vérifie que l'appel vient d'api0 et pour quel espace de travail. Aucun secret à stocker. |
+| Jeton d'identité signé par api0 | Ta propre application : elle vérifie que l'appel vient d'api0 et pour quel tenant. Aucun secret à stocker. |
 | Jeton ou en-têtes fixes | Une API tierce avec une clé unique. |
 | OAuth client credentials | Une API qui délivre des jetons de service. |
 | Identifiant de chaque personne | Chaque utilisateur ajoute son propre jeton, ou connecte son compte en OAuth : chaque action est faite **en son nom**, avec **ses** droits. |
 
 Dans tous les cas, l'identifiant reste dans api0. Claude ne le voit jamais.
 
-Troisième réglage : **qui paie les outils payants**, l'espace de travail ou chaque personne avec son propre plan.
+Troisième réglage : **qui paie les outils payants**, le tenant ou chaque personne avec son propre plan.
 
 ## Étape 3 — Claude (2 minutes)
 
-Onglet [**Channels** → **MCP**](https://app.api0.ai/?tab=channels). Tu y trouves l'URL du serveur MCP de ton espace et un Client ID.
+Onglet [**Channels** → **MCP**](https://app.api0.ai/?tab=channels). Tu y trouves l'URL du serveur MCP de ton tenant et un Client ID.
 
 Dans claude.ai → Paramètres → Connecteurs → **Ajouter un connecteur personnalisé** :
 1. colle l'URL du serveur ;
