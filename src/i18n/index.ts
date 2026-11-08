@@ -1,6 +1,6 @@
 // src/i18n/index.ts
 //
-// The landing page in English (/, /pricing) and French (/fr, /fr/pricing).
+// The landing page in English (/, /pricing, /fit) and French (/fr, /fr/pricing, /fr/fit).
 // The guides are in both (/guides, /fr/guides). The blog and the legal pages
 // stay in English. A language's copy lives in
 // its own file (en.ts, fr.ts); both follow the `Copy` shape of en.ts, so a
@@ -24,10 +24,10 @@ export function langOf(pathname: string | null | undefined): Lang {
   return pathname === '/fr' || pathname?.startsWith('/fr/') ? 'fr' : 'en';
 }
 
-/** A page's path in `lang`: home, pricing, use cases and guides are translated; others stay English. */
-export type LocalPage = '/' | '/pricing' | '/use-cases' | '/guides';
+/** A page's path in `lang`: home, pricing, use cases, guides and the fit check are translated; others stay English. */
+export type LocalPage = '/' | '/pricing' | '/use-cases' | '/guides' | '/fit';
 
-const LOCAL_PAGES: string[] = ['/', '/pricing', '/use-cases', '/guides'];
+const LOCAL_PAGES: string[] = ['/', '/pricing', '/use-cases', '/guides', '/fit'];
 
 /** The same guide in the other language: guides are paired by number. */
 const pairs = guidePairs as { en?: string; fr?: string }[];

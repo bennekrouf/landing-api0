@@ -43,6 +43,18 @@ export async function generateSitemap() {
       priority: 0.7,
     },
     {
+      url: `${baseUrl}/fit/`,
+      lastModified: new Date().toISOString(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/fr/fit/`,
+      lastModified: new Date().toISOString(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    },
+    {
       url: `${baseUrl}/blog/`,
       lastModified: new Date().toISOString(),
       changeFrequency: 'weekly' as const,
