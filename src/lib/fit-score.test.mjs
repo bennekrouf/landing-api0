@@ -40,8 +40,8 @@ test('without an API, the questions about it are skipped', () => {
 });
 
 test('needs api0 does not cover yet show as gaps and cost a few points', () => {
-  const r = scoreFit({ ...best, needs: ['swissHosting', 'voice'] });
-  assert.deepEqual(r.gaps, ['swissHosting', 'voice']);
+  const r = scoreFit({ ...best, needs: ['voice', 'teamsChannels'] });
+  assert.deepEqual(r.gaps, ['teamsChannels', 'voice']);
   assert.ok(r.score < 100 && r.score >= 90);
   assert.equal(r.tier, 'strong');
 });
@@ -59,4 +59,13 @@ test('an exclusive option clears the others, and another option clears it', () =
   assert.deepEqual(toggle(channels, ['teams', 'claude'], 'unsure'), ['unsure']);
   assert.deepEqual(toggle(channels, ['unsure'], 'teams'), ['teams']);
   assert.deepEqual(toggle(channels, ['teams'], 'teams'), []);
+});
+
+test('another sign-in asks for details and shows as something to look at', () => {
+  const identity = QUESTIONS.find((q) => q.id === 'identity');
+  const other = identity.options.find((o) => o.id === 'other');
+  assert.ok(other && other.freeText);
+  const r = scoreFit({ ...best, identity: ['other'] });
+  assert.ok(r.gaps.includes('otherSignIn'));
+  assert.equal(r.tier, 'strong');
 });
