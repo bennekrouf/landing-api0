@@ -291,6 +291,8 @@ export const fr: Copy = {
     step: (n: number, total: number) => `Question ${n} sur ${total}`,
     pickOne: 'Un seul choix',
     pickMany: 'Plusieurs choix possibles',
+    otherLabel: 'Comment cela fonctionne-t-il ?',
+    otherNote: 'Ce texte figure dans les réponses que vous pouvez nous envoyer, et nous aide à choisir ce qu’api0 prendra en charge ensuite.',
     questions: {
       api: {
         title: 'Votre application a-t-elle une API ?',
@@ -323,7 +325,9 @@ export const fr: Copy = {
           sso: 'Via Microsoft Entra ID ou une autre authentification unique',
           shared: 'Une clé partagée ou un compte de service',
           none: 'Pas de connexion',
+          other: 'Autrement',
         },
+        otherPlaceholder: 'Par exemple : SAML avec Okta, LDAP, certificats client, une connexion sur mesure…',
       },
       workflow: {
         title: 'Savez-vous quelle est la première chose à faire depuis la messagerie ?',
@@ -342,10 +346,8 @@ export const fr: Copy = {
         title: 'Avez-vous besoin de l’un de ces points dès le départ ?',
         hint: 'Nous préférons vous dire tout de suite ce qu’api0 ne fait pas encore.',
         options: {
-          swissHosting: 'Des données hébergées en Suisse',
           teamsChannels: 'Les conversations de groupe ou canaux Teams',
           voice: 'Les messages vocaux',
-          logo: 'L’app sous notre propre logo',
           manyCustomers: 'Beaucoup de nos clients à la fois, depuis une seule app Teams',
           none: 'Aucun de ces points',
         },
@@ -378,10 +380,9 @@ export const fr: Copy = {
       apiUnknown: 'Vérifiez avec votre équipe si l’application expose une API.',
       privateApi: 'Une API privée a besoin d’un point d’entrée qui n’accepte que les appels signés par api0.',
       noWorkflow: 'Choisissez une action concrète faite chaque jour : le pilote devient mesurable.',
-      swissHosting: 'L’hébergement en Suisse n’est pas encore disponible. Demandez-nous la région actuelle.',
+      otherSignIn: 'Votre connexion fonctionne autrement : envoyez-nous vos réponses et nous verrons comment api0 peut agir au nom de chaque personne avec elle.',
       teamsChannels: 'Dans Teams, api0 fonctionne en conversation individuelle, pas encore en groupe ni dans les canaux.',
       voice: 'Les messages vocaux ne sont pas encore transcrits : texte uniquement pour l’instant.',
-      logo: 'L’app Teams porte votre nom, pas encore votre logo.',
       manyCustomers: 'Servir beaucoup de clients depuis une seule app Teams arrive bientôt. Un pilote avec un client fonctionne dès aujourd’hui.',
     },
     ctaPoc: 'Démarrer le POC de 14 jours',

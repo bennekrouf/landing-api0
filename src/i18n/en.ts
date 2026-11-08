@@ -289,6 +289,8 @@ export const en = {
     step: (n: number, total: number) => `Question ${n} of ${total}`,
     pickOne: 'Pick one',
     pickMany: 'Pick all that apply',
+    otherLabel: 'How does it work?',
+    otherNote: 'It goes into the answers you can send us, and helps us decide what api0 supports next.',
     questions: {
       api: {
         title: 'Does your application have an API?',
@@ -321,7 +323,9 @@ export const en = {
           sso: 'Through Microsoft Entra ID or another single sign-on',
           shared: 'One shared key or service account',
           none: 'No sign-in',
+          other: 'Another way',
         },
+        otherPlaceholder: 'For example: SAML with Okta, LDAP, client certificates, a custom login…',
       },
       workflow: {
         title: 'Do you know the first thing people should do from chat?',
@@ -340,10 +344,8 @@ export const en = {
         title: 'Do you need any of these from day one?',
         hint: "We'd rather tell you now what api0 doesn't do yet.",
         options: {
-          swissHosting: 'Data hosted in Switzerland',
           teamsChannels: 'Teams group chats or channels',
           voice: 'Voice messages',
-          logo: 'The app under our own logo',
           manyCustomers: 'Many of our customers at once, from one Teams app',
           none: 'None of these',
         },
@@ -376,10 +378,9 @@ export const en = {
       apiUnknown: 'Check with your team whether the application exposes an API.',
       privateApi: 'A private API needs an entry point that only accepts calls signed by api0.',
       noWorkflow: 'Pick one concrete action people do every day: it makes the pilot measurable.',
-      swissHosting: 'Hosting in Switzerland is not available yet. Ask us about the current region.',
+      otherSignIn: 'Your sign-in works differently: send us your answers and we will check how api0 can act as each person with it.',
       teamsChannels: 'In Teams, api0 works in one-to-one chats, not yet in group chats or channels.',
       voice: 'Voice messages are not transcribed yet: text only for now.',
-      logo: 'The Teams app carries your name, not yet your logo.',
       manyCustomers: 'Serving many customers from one Teams app is on the way. A pilot with one customer works today.',
     },
     ctaPoc: 'Start the 14-day POC',

@@ -34,6 +34,9 @@ export type Option = {
   exclusive?: boolean;
   /** No pilot is possible with this answer, whatever the score. */
   blocker?: boolean;
+  /** Picking it asks the visitor to describe their case in their own words;
+   *  the text goes into the email they send, so api0 learns what to support next. */
+  freeText?: boolean;
 };
 
 export type Question = {
@@ -103,6 +106,7 @@ export const QUESTIONS: Question[] = [
       { id: 'sso', points: 10, strength: 'sso' },
       { id: 'shared', points: 7 },
       { id: 'none', points: 5 },
+      { id: 'other', points: 6, gap: 'otherSignIn', freeText: true },
     ],
   },
   {
@@ -135,10 +139,8 @@ export const QUESTIONS: Question[] = [
     id: 'needs',
     multi: true,
     options: [
-      { id: 'swissHosting', points: 0, gap: 'swissHosting' },
       { id: 'teamsChannels', points: 0, gap: 'teamsChannels' },
       { id: 'voice', points: 0, gap: 'voice' },
-      { id: 'logo', points: 0, gap: 'logo' },
       { id: 'manyCustomers', points: 0, gap: 'manyCustomers' },
       { id: 'none', points: 0, exclusive: true },
     ],

@@ -12,7 +12,9 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Check, AlertTriangle, RotateCcw, Mail } from 'lucide-react';
 import { copyFor, localePath, type Lang } from '@/i18n';
-import { scoreFit, toggle, visibleQuestions, type Answers, type Tier } from '@/lib/fit-score';
+import { scoreFit, toggle, visibleQuestions, type Answers, type QuestionId, type Tier } from '@/lib/fit-score';
+
+type QuestionCopy = { title: string; hint?: string; options: Record<string, string>; otherPlaceholder?: string };
 
 const APP_URL = 'https://app.api0.ai';
 const CONTACT_EMAIL = 'mb@mayorana.ch';
@@ -34,14 +36,18 @@ const TIER_STROKE: Record<Tier, string> = {
 export function FitCheck({ lang = 'en' }: { lang?: Lang }) {
   const t = copyFor(lang).fit;
   const [answers, setAnswers] = useState<Answers>({});
+  // What the visitor typed for a free-text option ("Other"), per question.
+  const [details, setDetails] = useState<Partial<Record<QuestionId, string>>>({});
   // -1: the intro; 0..n-1: a question; n: the result.
   const [step, setStep] = useState(-1);
 
   const questions = useMemo(() => visibleQuestions(answers), [answers]);
   const total = questions.length;
   const q = step >= 0 && step < total ? questions[step] : null;
-  const qt = q ? (t.questions[q.id] as { title: string; hint?: string; options: Record<string, string> }) : null;
+  const qt = q ? (t.questions[q.id] as QuestionCopy) : null;
   const picked = q ? answers[q.id] ?? [] : [];
+  const askDetail = !!q && q.options.some((o) => o.freeText && picked.includes(o.id));
+  const detail = q ? details[q.id] ?? '' : '';
 
   const pick = (optionId: string) => {
     if (!q) return;
@@ -50,6 +56,7 @@ export function FitCheck({ lang = 'en' }: { lang?: Lang }) {
 
   const restart = () => {
     setAnswers({});
+    setDetails({});
     setStep(-1);
   };
 
@@ -112,6 +119,25 @@ export function FitCheck({ lang = 'en' }: { lang?: Lang }) {
           })}
         </div>
 
+        {askDetail && (
+          <div className="mt-4">
+            <label htmlFor={`fit-detail-${q.id}`} className="block text-sm font-medium text-foreground">
+              {t.otherLabel}
+            </label>
+            <textarea
+              id={`fit-detail-${q.id}`}
+              value={detail}
+              onChange={(e) => setDetails((d) => ({ ...d, [q.id]: e.target.value }))}
+              placeholder={qt.otherPlaceholder}
+              rows={3}
+              maxLength={500}
+              autoFocus
+              className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/30"
+            />
+            <p className="mt-1.5 text-sm text-muted-foreground">{t.otherNote}</p>
+          </div>
+        )}
+
         <div className="mt-8 flex items-center justify-between gap-3">
           <button
             type="button"
@@ -122,7 +148,7 @@ export function FitCheck({ lang = 'en' }: { lang?: Lang }) {
           </button>
           <button
             type="button"
-            disabled={picked.length === 0}
+            disabled={picked.length === 0 || (askDetail && !detail.trim())}
             onClick={() => setStep(step + 1)}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#FF6B00] text-white font-medium hover:bg-[#FF6B00]/90 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
           >
@@ -139,8 +165,11 @@ export function FitCheck({ lang = 'en' }: { lang?: Lang }) {
     t.mailIntro,
     '',
     ...questions.map((qq) => {
-      const c = t.questions[qq.id] as { title: string; options: Record<string, string> };
-      return `${c.title}\n→ ${(answers[qq.id] ?? []).map((id) => c.options[id]).join(', ')}`;
+      const c = t.questions[qq.id] as QuestionCopy;
+      const text = details[qq.id]?.trim();
+      const label = (id: string) =>
+        qq.options.find((o) => o.id === id)?.freeText && text ? `${c.options[id]}: ${text}` : c.options[id];
+      return `${c.title}\n→ ${(answers[qq.id] ?? []).map(label).join(', ')}`;
     }),
     '',
     `${t.scoreLabel}: ${result.score}/100 (${tier.title})`,
