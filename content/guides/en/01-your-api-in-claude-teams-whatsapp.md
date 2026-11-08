@@ -49,18 +49,18 @@ A few details handled for you:
 
 | Option | For |
 |---|---|
-| Identity token signed by api0 | Your own application: it verifies the call comes from api0 and for which workspace. No secret to store. |
+| Identity token signed by api0 | Your own application: it verifies the call comes from api0 and for which tenant. No secret to store. |
 | Fixed token or headers | A third-party API with a single key. |
 | OAuth client credentials | An API that issues service tokens. |
 | Each person's own credential | Each user adds their own token, or connects their account via OAuth: every action is taken **as them**, with **their** permissions. |
 
 In every case, the credential stays in api0. Claude never sees it.
 
-A third setting: **who pays for paid tools** — the workspace, or each person on their own plan.
+A third setting: **who pays for paid tools** — the tenant, or each person on their own plan.
 
 ## Step 3 — Claude (2 minutes)
 
-[**Channels** tab → **MCP**](https://app.api0.ai/?tab=channels). You'll find your workspace's MCP server URL and a Client ID.
+[**Channels** tab → **MCP**](https://app.api0.ai/?tab=channels). You'll find your tenant's MCP server URL and a Client ID.
 
 In claude.ai → Settings → Connectors → **Add custom connector**:
 1. paste the server URL;

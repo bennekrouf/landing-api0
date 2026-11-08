@@ -96,7 +96,7 @@ Here is the whole platform on one page.
   <text class="t" x="264" y="446">Store</text>
   <text class="m" x="264" y="466">internal service</text>
   <text class="m" x="264" y="484">Postgres, row-level security</text>
-  <text class="m" x="264" y="500">workspaces · keys · tools</text>
+  <text class="m" x="264" y="500">tenants · keys · tools</text>
   <rect class="ext" x="480" y="420" width="150" height="90" rx="8"/>
   <text class="t" x="494" y="446">Your applications</text>
   <text class="m" x="494" y="466">any REST API</text>
@@ -114,8 +114,8 @@ Solid boxes are api0. Dashed boxes are someone else: your users' clients, your a
 
 This is the product. A client speaks JSON-RPC to a single MCP endpoint.
 
-1. `initialize` returns your workspace's instructions for the model.
-2. `tools/list` returns the tools of the caller's workspace, or of the provider whose connector they came through.
+1. `initialize` returns your tenant's instructions for the model.
+2. `tools/list` returns the tools of the caller's tenant, or of the provider whose connector they came through.
 3. `tools/call` looks the tool up by name.
 4. The gateway picks the credential your application expects (flow 3).
 5. For a paid tool, it checks the balance first. If the balance can't be read, the call does not run.
@@ -123,7 +123,7 @@ This is the product. A client speaks JSON-RPC to a single MCP endpoint.
 
 ## 2. Who is calling
 
-Every way in ends with a known person in a known workspace.
+Every way in ends with a known person in a known tenant.
 
 - **API keys** for the SDK, the CLI, CI jobs and the messaging bridge.
 - **Consumer keys** for products built on api0: the provider names the end user, and credits come from that person.
@@ -133,7 +133,7 @@ Every way in ends with a known person in a known workspace.
 
 ## 3. What your application receives
 
-Each workspace chooses how its applications are called. The connection test in the dashboard runs the same logic as a real call, so a passing test means a working setup.
+Each tenant chooses how its applications are called. The connection test in the dashboard runs the same logic as a real call, so a passing test means a working setup.
 
 - No credential, a fixed bearer token, or custom headers
 - A Google identity token that proves the call came from api0
@@ -157,9 +157,9 @@ The bridge is just another MCP client, with Claude as its model. Both channels s
 
 Credits are bought in the dashboard and spent by paid tool calls. Licenses for the desktop app are settled by Stripe's webhook. A provider that bills on its own side can skip api0 credits entirely.
 
-## 7. Workspaces
+## 7. Tenants
 
-A workspace owner names the workspace, invites members and sets their roles, creates and revokes API keys, reads usage and call logs, writes instructions for the model, configures application credentials and sign-in, and connects WhatsApp or Telegram.
+A tenant owner names the tenant, invites members and sets their roles, creates and revokes API keys, reads usage and call logs, writes instructions for the model, configures application credentials and sign-in, and connects WhatsApp or Telegram.
 
 ## The takeaway
 

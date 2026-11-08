@@ -90,7 +90,7 @@ Connect is a standard authorization-code flow, with PKCE, against your directory
    verifier and the app's client secret. The stored state is deleted on use, so
    a replayed callback finds nothing.
 4. api0 seals the refresh token and the access token with AES-256-GCM, under
-   that person and that workspace, and sends them back to the dashboard with
+   that person and that tenant, and sends them back to the dashboard with
    *Your account is connected*.
 
 On a tool call, api0 uses the access token while it is valid and spends the
@@ -112,7 +112,7 @@ request without one (`AADSTS900144`). For Azure DevOps it is:
 499b84ac-1321-427f-aa17-267ca6975798/user_impersonation offline_access
 ```
 
-`499b84ac-…` is Azure DevOps' resource ID, and it is the same in every tenant.
+`499b84ac-…` is Azure DevOps' resource ID, and it is the same in every Microsoft tenant.
 
 ## What you register
 
@@ -129,7 +129,7 @@ directories require an administrator to grant that once for everyone, with
 the local entry for Azure DevOps, which `az ad sp create --id
 499b84ac-1321-427f-aa17-267ca6975798` adds.
 
-In api0, the workspace setup asks for the authorization and token endpoints,
+In api0, the tenant setup asks for the authorization and token endpoints,
 the client ID, the secret and the scope. When people also sign in through
 Entra, it fills these in from the directory you already entered. The step-by-step
 setup, with every error we hit along the way, is in our Azure DevOps guide.

@@ -38,7 +38,7 @@ Claude ne parle qu'à api0. api0 parle à tes systèmes, avec l'identifiant que 
 
 ## Étape 1 — Brancher ton fournisseur d'identité
 
-Dans l'onglet **Access**, configure la connexion de ton espace avec ton fournisseur **OIDC** : Entra ID, Okta, Google Workspace ou autre. Il te faut un émetteur (issuer), un client ID et un secret, créés dans ton IdP pour api0.
+Dans l'onglet **Access**, configure la connexion de ton tenant avec ton fournisseur **OIDC** : Entra ID, Okta, Google Workspace ou autre. Il te faut un émetteur (issuer), un client ID et un secret, créés dans ton IdP pour api0.
 
 Effet : quand un employé ajoute le connecteur dans Claude, il se connecte avec son compte d'entreprise habituel (MFA, accès conditionnel et tout le reste compris). Le secret client de l'IdP est stocké chiffré.
 
@@ -60,13 +60,13 @@ C'est la décision qui compte le plus.
 
 Dans les deux cas, le système cible voit **l'employé**, applique **ses** droits, et attribue l'action à **lui** (l'auteur d'un work item Azure DevOps est bien la personne qui a demandé). Un employé qui n'a pas encore relié son compte reçoit un message qui explique comment — jamais un appel fait au nom de quelqu'un d'autre.
 
-**Pour tes propres services : le jeton d'identité signé par api0.** Ton application vérifie un jeton Google signé par api0, dont l'audience désigne ton espace de travail. Aucun secret à stocker de ton côté, et un autre client d'api0 ne peut pas produire un jeton valable pour toi.
+**Pour tes propres services : le jeton d'identité signé par api0.** Ton application vérifie un jeton Google signé par api0, dont l'audience désigne ton tenant. Aucun secret à stocker de ton côté, et un autre client d'api0 ne peut pas produire un jeton valable pour toi.
 
 **En dernier recours : un identifiant partagé** (jeton fixe, en-têtes, OAuth client credentials). Simple, mais toutes les actions sont faites par le même compte. À réserver à la lecture de données non sensibles.
 
 ## Étape 4 — Protéger les données personnelles
 
-Par défaut, api0 peut transmettre à tes services l'email de l'utilisateur et l'identifiant de l'espace (`X-User-Email`, `X-Tenant-Id`). Utile pour tes propres applications, à **désactiver pour tout outil pointé vers un tiers** : les emails de tes employés restent alors dans la plateforme.
+Par défaut, api0 peut transmettre à tes services l'email de l'utilisateur et l'identifiant du tenant (`X-User-Email`, `X-Tenant-Id`). Utile pour tes propres applications, à **désactiver pour tout outil pointé vers un tiers** : les emails de tes employés restent alors dans la plateforme.
 
 ## Étape 5 — Déployer dans Claude
 
@@ -74,12 +74,12 @@ Par défaut, api0 peut transmettre à tes services l'email de l'utilisateur et l
 2. Ajoute le connecteur dans Claude (Paramètres → Connecteurs). Sur Claude Enterprise, un admin peut le rendre disponible pour toute l'organisation.
 3. Crée un **Projet Claude** par équipe, avec des instructions métier : vocabulaire, règles de confirmation, format des réponses. Un template est fourni.
 
-Tu peux aussi écrire, dans api0, des **instructions d'espace** (jusqu'à 2 000 caractères) que Claude reçoit à chaque connexion : le projet principal, les conventions de nommage, ce qu'il faut toujours vérifier.
+Tu peux aussi écrire, dans api0, des **instructions du tenant** (jusqu'à 2 000 caractères) que Claude reçoit à chaque connexion : le projet principal, les conventions de nommage, ce qu'il faut toujours vérifier.
 
 ## Étape 6 — Suivre l'usage
 
 - **Journal** (onglet Activity) : chaque appel, l'outil, la personne, le résultat, la latence.
-- **Crédits** : chaque appel réussi est décompté ; un appel en échec n'est jamais facturé. Tu choisis si c'est l'espace qui paie ou chaque personne avec son plan.
+- **Crédits** : chaque appel réussi est décompté ; un appel en échec n'est jamais facturé. Tu choisis si c'est le tenant qui paie ou chaque personne avec son plan.
 
 ## La checklist sécurité
 

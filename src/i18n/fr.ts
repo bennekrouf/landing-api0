@@ -14,7 +14,7 @@ export const fr: Copy = {
     guidesDescription:
       'Les guides pas à pas d’api0 : votre API dans Claude, Teams et WhatsApp, l’architecture et les modèles d’authentification, Azure DevOps avec la connexion Microsoft. À lire en ligne ou à télécharger en PDF.',
     pricingDescription:
-      'Les offres api0 par espace de travail : sièges et crédits inclus, votre API dans Telegram, WhatsApp et Teams. Facturé en CHF, conçu en Suisse.',
+      'Les offres api0 par tenant : sièges et crédits inclus, votre API dans Telegram, WhatsApp et Teams. Facturé en CHF, conçu en Suisse.',
   },
   nav: {
     useCases: "Cas d'usage",
@@ -78,7 +78,7 @@ export const fr: Copy = {
       },
       {
         title: 'Envoyez un seul lien à votre équipe',
-        body: 'Votre espace de travail a sa propre page de démarrage. Chacun se connecte une fois, puis l’ajoute à Claude ou à Teams, ou relie son WhatsApp ou son Telegram à votre propre bot.',
+        body: 'Votre tenant a sa propre page de démarrage. Chacun se connecte une fois, puis l’ajoute à Claude ou à Teams, ou relie son WhatsApp ou son Telegram à votre propre bot.',
         code: `app.api0.ai/link/acme
 
   ✓ Connecteur Claude
@@ -132,7 +132,7 @@ export const fr: Copy = {
         body: 'La passerelle et chaque service d’api0 sont écrits en Rust, pour une latence prévisible et une surface d’attaque réduite.',
       },
       {
-        title: 'Une offre par espace de travail',
+        title: 'Une offre par tenant',
         body: 'Sièges et crédits inclus, membres supplémentaires au siège, dépassement sur la facture suivante. Pas besoin d’un commercial pour commencer.',
       },
     ],
@@ -161,7 +161,7 @@ export const fr: Copy = {
         them: ['Via Azure, avec du code', false, false, 'Actions de l’agent seulement'],
       },
       {
-        feature: 'Un lien d’accès par espace',
+        feature: 'Un lien d’accès par tenant',
         them: ['Un par canal', 'URL de portail', false, 'Un par application'],
       },
       {
@@ -181,11 +181,11 @@ export const fr: Copy = {
     architecture: 'Voir toute l’architecture sur une page',
 
     finalTitle: 'Rendez votre application intelligente cette semaine',
-    finalLead: 'Connectez-vous avec Google, importez votre API et envoyez un lien à votre équipe. Une offre par espace de travail, sans rendez-vous commercial.',
+    finalLead: 'Connectez-vous avec Google, importez votre API et envoyez un lien à votre équipe. Une offre par tenant, sans rendez-vous commercial.',
     finalCta: 'Commencer',
   },
   pricing: {
-    title: 'Tarifs par espace de travail',
+    title: 'Tarifs par tenant',
     lead: 'Sièges et crédits inclus. Membres supplémentaires au siège ; crédits au-delà du forfait sur la facture suivante.',
     perMonth: '/ mois',
     channelsLabel: 'Votre API dans',
@@ -235,7 +235,7 @@ export const fr: Copy = {
           { who: 'Utilisateur client', text: 'Assigne #2291 à Paul et ajoute une note : on relance le fournisseur.' },
           { who: 'Assistant', text: 'Fait. Assigné à Paul, note interne ajoutée.' },
         ],
-        setup: ['Votre API publique, importée depuis sa spec OpenAPI', 'Un espace api0 par client : outils, utilisateurs, crédits, journal', 'Un package d’app Teams généré par api0'],
+        setup: ['Votre API publique, importée depuis sa spec OpenAPI', 'Un tenant api0 par client : outils, utilisateurs, crédits, journal', 'Un package d’app Teams généré par api0'],
         channels: 'Teams, Claude, WhatsApp, Telegram',
       },
       {
