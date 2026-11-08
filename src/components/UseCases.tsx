@@ -6,7 +6,7 @@
 
 import Link from 'next/link';
 import { ArrowRight, Check } from 'lucide-react';
-import { copyFor, type Lang } from '@/i18n';
+import { copyFor, localePath, type Lang } from '@/i18n';
 
 const APP_URL = 'https://app.api0.ai';
 const CONTACT = 'mailto:mb@mayorana.ch?subject=api0%20POC';
@@ -92,6 +92,9 @@ export function UseCases({ lang = 'en' }: { lang?: Lang }) {
             </a>
             <Link href={CONTACT} className="inline-flex items-center px-4 py-2 rounded-lg border border-white/30 text-white font-medium hover:bg-white/10 transition-all">
               {t.contactCta}
+            </Link>
+            <Link href={localePath(lang, '/fit')} className="inline-flex items-center px-4 py-2 rounded-lg text-white/80 font-medium hover:text-white transition-all">
+              {t.fitCta}
             </Link>
           </div>
         </div>

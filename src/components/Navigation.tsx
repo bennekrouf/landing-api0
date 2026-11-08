@@ -15,6 +15,7 @@ const Navigation = () => {
   const pricing = localePath(lang, '/pricing');
   const useCases = localePath(lang, '/use-cases');
   const guides = localePath(lang, '/guides');
+  const fit = localePath(lang, '/fit');
 
   // The root layout says lang="en"; a French page says so once it runs.
   React.useEffect(() => {
@@ -30,6 +31,7 @@ const Navigation = () => {
     if (path === home) return currentPath === home;
     if (path === pricing) return currentPath === pricing;
     if (path === useCases) return currentPath === useCases;
+    if (path === fit) return currentPath === fit;
     if (path === guides) return currentPath === guides || currentPath.startsWith(`${guides}/`);
     if (path === '/blog') return currentPath === '/blog' || currentPath.startsWith('/blog/');
     return false;
@@ -90,6 +92,12 @@ const Navigation = () => {
               className={`${isActive(guides) ? 'text-foreground font-medium' : 'text-muted-foreground'} hover:text-foreground transition-colors`}
             >
               {t.guides}
+            </Link>
+            <Link
+              href={fit}
+              className={`${isActive(fit) ? 'text-foreground font-medium' : 'text-muted-foreground'} hover:text-foreground transition-colors`}
+            >
+              {t.fitCheck}
             </Link>
             <Link
               href="/blog"
