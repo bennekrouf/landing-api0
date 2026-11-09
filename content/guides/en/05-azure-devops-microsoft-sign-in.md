@@ -178,7 +178,7 @@ In **Entra admin center → Identity → Applications → App registrations → 
 - **Supported account types**: *Accounts in any organizational directory (multitenant)*. Not personal accounts. "Multitenant" lets a customer later consent to the same app in their own directory.
 - **Redirect URI**: **Web** platform, `https://gateway.api0.ai/oauth/downstream/callback`
 
-If people will also **sign in to api0** with their Microsoft account (option *Microsoft work accounts* in step 4), the same app can do it: in **Authentication**, add a second Web redirect URI, `https://gateway.api0.ai/oauth/idp/callback`. One app, two redirect URIs, one secret.
+If people will also **sign in to api0** with their Microsoft account (option *Microsoft 365 (Entra ID)* in step 4), the same app can do it: in **Authentication**, add a second Web redirect URI, `https://gateway.api0.ai/oauth/idp/callback`. One app, two redirect URIs, one secret.
 
 Then, in the app:
 
@@ -220,36 +220,28 @@ Your api0 account's email has **nothing to do** with the Microsoft account: at *
 
 On [app.api0.ai](https://app.api0.ai), start the setup wizard (offered at first sign-in, or through your tenant's **Reconfigure** button):
 
-1. **What should this tenant connect to?**: *Azure DevOps*.
-2. **How do your people sign in?**: this only covers signing in to api0 (from Claude or Teams). The Azure DevOps sign-in comes later, with **Connect**. Either option works:
-   - *An api0 account*: nothing more to fill in.
-   - *Microsoft work accounts (Entra ID)*: people sign in to api0 as themselves. Enter the **Directory (tenant) ID** `<tenant-id>`, the **Application (client) ID** `<client-id>` and the secret from step 2. This needs the second redirect URI from step 2.
-3. **Whose account should the service see?**: *Each person connects their own account*. Not the "Recommended" option, which has each person paste a token.
-4. **Where is your Azure DevOps?**:
+1. **Where do your people's work accounts live?**: *Microsoft 365 (Entra ID)*. People then sign in to api0 as themselves, which needs the second redirect URI from step 2.
+2. **Import your API**: download [the Azure DevOps endpoints](https://api0.ai/downloads/azure-devops-endpoints.json), replace every `YOUR-ORGANIZATION` in the file with `<organization>`, and upload it. It lands as an API named **Azure DevOps**, under **Custom API Groups** on the **API** page, where you can edit it like any other API. Its tools reach Claude as `azure-devops-create-work-item`, `azure-devops-query-work-items` and so on. Importing another file later keeps it, unless that file has an API with the same name.
+3. **Whose account should the API see?**: *Each person connects their own account*.
+4. **Your application in Entra ID**:
 
 | Field | Value |
 |---|---|
-| Organisation | `<organization>` |
-| Test project | `<project>` |
-| Authorization endpoint | `https://login.microsoftonline.com/<tenant-id>/oauth2/v2.0/authorize` |
-| Token endpoint | `https://login.microsoftonline.com/<tenant-id>/oauth2/v2.0/token` |
-| Client ID | `<client-id>`, a GUID like `c481c32b-…` |
+| Entra directory (tenant) ID | `<tenant-id>` |
+| Application (client) ID | `<client-id>`, a GUID like `c481c32b-…` |
 | Client secret | the **Value** copied in step 2 |
 | Scope | `499b84ac-1321-427f-aa17-267ca6975798/user_impersonation offline_access` |
 
-If you chose Microsoft sign-in in screen 2, the wizard may have filled in the endpoints, the client ID and the scope already. Check them rather than retyping.
-
-Three things to watch:
+Two things to watch:
 
 - **Client ID and Client secret are easy to swap.** The client ID is always a GUID (`xxxxxxxx-xxxx-…`). A secret looks like `ofk8Q~…`. If you paste the secret into the Client ID field, Microsoft answers `AADSTS700016` at Connect.
-- **The scope isn't optional for Microsoft.** The field's grey text (`api://resource/.default`) is an example, not a value. An empty scope gives `AADSTS900144`.
-- **`offline_access` is required.** `499b84ac-…` is Azure DevOps. Without `offline_access`, Microsoft returns no refresh token, and api0 refuses the connection rather than let it expire after an hour.
+- **The scope isn't optional for Microsoft.** The field's grey text is an example, not a value. An empty scope gives `AADSTS900144`. `499b84ac-…` is Azure DevOps.
 
-**What the wizard adds.** It imports an API named **Azure DevOps** into the tenant, the same way you would import a file of your own: 12 operations covering work items (create, read, query, comments), projects, teams, sprints and areas. It shows on the **API** page under **Custom API Groups**, where you can edit it like any other API. Its tools reach Claude as `azure-devops-create-work-item`, `azure-devops-query-work-items` and so on. Importing a file of your own later keeps it, unless your file has an API with the same name.
+**Prefer api0 accounts for signing in?** On screen 1 choose *Neither*. On screen 3 choose *Someone else's service*, then *Other options* and *Each person connects their own account*. Screen 4 then also asks for the authorization endpoint `https://login.microsoftonline.com/<tenant-id>/oauth2/v2.0/authorize` and the token endpoint `https://login.microsoftonline.com/<tenant-id>/oauth2/v2.0/token`. The scope must then include `offline_access` as shown above.
 
 **Reconfiguring later.** Your tenant's **Reconfigure** button reopens this wizard with the saved values filled in. Secrets are never shown back: paste a new one, or leave the field empty if it says it's saved, and the stored one is kept.
 
-5. The last screen tests the connection. **It should fail** with a message along the lines of "you haven't added your access yet": expected, since you haven't connected your account. The configuration is already saved. A **Connect your account** button sits right under the message: it does the same thing as step 5 below.
+5. The last screen tests the connection with a read-only call. **It should fail** with a message along the lines of "you haven't added your access yet": expected, since you haven't connected your account. The configuration is already saved. A **Connect your account** button sits right under the message: it does the same thing as step 5 below.
 
 ## 5. Connect
 

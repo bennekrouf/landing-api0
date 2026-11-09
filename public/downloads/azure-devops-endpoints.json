@@ -1,0 +1,452 @@
+{
+  "api_groups": [
+    {
+      "name": "Azure DevOps",
+      "description": "Work items, projects, sprints and teams in Azure DevOps",
+      "base": "https://dev.azure.com/YOUR-ORGANIZATION",
+      "forward_identity": false,
+      "endpoints": [
+        {
+          "text": "list work item types",
+          "description": "List the work item types available in a project (Task, Bug, User Story, Issue…). Use this before creating one if unsure.",
+          "verb": "GET",
+          "path": "/{project}/_apis/wit/workitemtypes?api-version=7.1",
+          "response_fields": [
+            "count",
+            "value",
+            "name",
+            "referenceName",
+            "description"
+          ],
+          "parameters": [
+            {
+              "name": "project",
+              "description": "Azure DevOps project name.",
+              "required": "true"
+            }
+          ]
+        },
+        {
+          "text": "create work item",
+          "description": "Create a work item (Task, Bug, User Story, Issue, Feature, Epic…) in an Azure DevOps project. The type must exist in the project: see list work item types.",
+          "verb": "POST",
+          "path": "/{project}/_apis/wit/workitems/${type}?api-version=7.1",
+          "content_type": "application/json-patch+json",
+          "body_template": "[{\"op\":\"add\",\"path\":\"/fields/System.Title\",\"value\":\"{title}\"},{\"op\":\"add\",\"path\":\"/fields/System.Description\",\"value\":\"{description}\"},{\"op\":\"add\",\"path\":\"/fields/System.AreaPath\",\"value\":\"{area_path}\"},{\"op\":\"add\",\"path\":\"/fields/System.IterationPath\",\"value\":\"{iteration_path}\"},{\"op\":\"add\",\"path\":\"/fields/System.AssignedTo\",\"value\":\"{assigned_to}\"},{\"op\":\"add\",\"path\":\"/fields/System.Tags\",\"value\":\"{tags}\"}]",
+          "response_fields": [
+            "id",
+            "rev",
+            "fields",
+            "System.Id",
+            "System.WorkItemType",
+            "System.Title",
+            "System.State",
+            "System.Reason",
+            "System.AssignedTo",
+            "System.CreatedBy",
+            "System.CreatedDate",
+            "System.ChangedDate",
+            "System.Description",
+            "System.AreaPath",
+            "System.IterationPath",
+            "System.TeamProject",
+            "System.Tags",
+            "Microsoft.VSTS.Common.Priority",
+            "Microsoft.VSTS.Common.AcceptanceCriteria",
+            "Microsoft.VSTS.Scheduling.StoryPoints",
+            "Microsoft.VSTS.Scheduling.RemainingWork",
+            "displayName",
+            "uniqueName",
+            "_links",
+            "html",
+            "href"
+          ],
+          "parameters": [
+            {
+              "name": "project",
+              "description": "Azure DevOps project name.",
+              "required": "true"
+            },
+            {
+              "name": "type",
+              "description": "Work item type as the project names it, e.g. Task, Bug, User Story, Issue. Scrum projects use \"Product Backlog Item\".",
+              "required": "true"
+            },
+            {
+              "name": "title",
+              "description": "Title of the work item.",
+              "required": "true"
+            },
+            {
+              "name": "description",
+              "description": "HTML body of the work item.",
+              "required": "false"
+            },
+            {
+              "name": "area_path",
+              "description": "Area path, from list areas.",
+              "required": "false"
+            },
+            {
+              "name": "iteration_path",
+              "description": "Sprint path, from list iterations.",
+              "required": "false"
+            },
+            {
+              "name": "assigned_to",
+              "description": "Display name or email.",
+              "required": "false"
+            },
+            {
+              "name": "tags",
+              "description": "Semicolon-separated.",
+              "required": "false"
+            }
+          ]
+        },
+        {
+          "text": "update work item",
+          "description": "Change an existing work item: assign it, change its state, title, description, area, sprint or tags, or link it to another work item. Only the fields given are changed. To link, give both link_type and link_to_id.",
+          "verb": "PATCH",
+          "path": "/{project}/_apis/wit/workitems/{id}?api-version=7.1",
+          "content_type": "application/json-patch+json",
+          "body_template": "[{\"op\":\"add\",\"path\":\"/fields/System.AssignedTo\",\"value\":\"{assigned_to}\"},{\"op\":\"add\",\"path\":\"/fields/System.State\",\"value\":\"{state}\"},{\"op\":\"add\",\"path\":\"/fields/System.Title\",\"value\":\"{title}\"},{\"op\":\"add\",\"path\":\"/fields/System.Description\",\"value\":\"{description}\"},{\"op\":\"add\",\"path\":\"/fields/System.AreaPath\",\"value\":\"{area_path}\"},{\"op\":\"add\",\"path\":\"/fields/System.IterationPath\",\"value\":\"{iteration_path}\"},{\"op\":\"add\",\"path\":\"/fields/System.Tags\",\"value\":\"{tags}\"},{\"op\":\"add\",\"path\":\"/relations/-\",\"value\":{\"rel\":\"{link_type}\",\"url\":\"https://dev.azure.com/YOUR-ORGANIZATION/_apis/wit/workItems/{link_to_id}\"}}]",
+          "response_fields": [
+            "id",
+            "rev",
+            "fields",
+            "System.Id",
+            "System.WorkItemType",
+            "System.Title",
+            "System.State",
+            "System.Reason",
+            "System.AssignedTo",
+            "System.CreatedBy",
+            "System.CreatedDate",
+            "System.ChangedDate",
+            "System.Description",
+            "System.AreaPath",
+            "System.IterationPath",
+            "System.TeamProject",
+            "System.Tags",
+            "Microsoft.VSTS.Common.Priority",
+            "Microsoft.VSTS.Common.AcceptanceCriteria",
+            "Microsoft.VSTS.Scheduling.StoryPoints",
+            "Microsoft.VSTS.Scheduling.RemainingWork",
+            "displayName",
+            "uniqueName",
+            "_links",
+            "html",
+            "href"
+          ],
+          "parameters": [
+            {
+              "name": "project",
+              "description": "Azure DevOps project name.",
+              "required": "true"
+            },
+            {
+              "name": "id",
+              "description": "Id of the work item to change.",
+              "required": "true"
+            },
+            {
+              "name": "assigned_to",
+              "description": "Display name or email of the new assignee.",
+              "required": "false"
+            },
+            {
+              "name": "state",
+              "description": "New state, exactly as this work item's type names it. It depends on the project's process: Basic uses To Do, Doing, Done; Agile uses New, Active, Resolved, Closed; Scrum uses To Do, In Progress, Done.",
+              "required": "false"
+            },
+            {
+              "name": "title",
+              "description": "New title.",
+              "required": "false"
+            },
+            {
+              "name": "description",
+              "description": "New HTML body.",
+              "required": "false"
+            },
+            {
+              "name": "area_path",
+              "description": "Area path, from list areas.",
+              "required": "false"
+            },
+            {
+              "name": "iteration_path",
+              "description": "Sprint path, from list iterations.",
+              "required": "false"
+            },
+            {
+              "name": "tags",
+              "description": "Semicolon-separated. Replaces the current tags.",
+              "required": "false"
+            },
+            {
+              "name": "link_type",
+              "description": "How link_to_id relates to this work item: System.LinkTypes.Hierarchy-Reverse makes it the parent, System.LinkTypes.Hierarchy-Forward makes it a child, System.LinkTypes.Related is a plain link.",
+              "required": "false"
+            },
+            {
+              "name": "link_to_id",
+              "description": "Id of the work item to link to.",
+              "required": "false"
+            }
+          ]
+        },
+        {
+          "text": "get work item",
+          "description": "Fetch one Azure DevOps work item by id.",
+          "verb": "GET",
+          "path": "/_apis/wit/workitems/{id}?api-version=7.1",
+          "response_fields": [
+            "id",
+            "rev",
+            "fields",
+            "System.Id",
+            "System.WorkItemType",
+            "System.Title",
+            "System.State",
+            "System.Reason",
+            "System.AssignedTo",
+            "System.CreatedBy",
+            "System.CreatedDate",
+            "System.ChangedDate",
+            "System.Description",
+            "System.AreaPath",
+            "System.IterationPath",
+            "System.TeamProject",
+            "System.Tags",
+            "Microsoft.VSTS.Common.Priority",
+            "Microsoft.VSTS.Common.AcceptanceCriteria",
+            "Microsoft.VSTS.Scheduling.StoryPoints",
+            "Microsoft.VSTS.Scheduling.RemainingWork",
+            "displayName",
+            "uniqueName",
+            "_links",
+            "html",
+            "href"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "description": "Work item id.",
+              "required": "true"
+            }
+          ]
+        },
+        {
+          "text": "query work items",
+          "description": "Find work items with a WIQL query, e.g. SELECT [System.Id] FROM WorkItems WHERE [System.State] <> 'Closed' AND [System.AssignedTo] = @Me ORDER BY [System.ChangedDate] DESC. Returns ids only: follow with get work items batch.",
+          "verb": "POST",
+          "path": "/{project}/_apis/wit/wiql?api-version=7.1",
+          "response_fields": [
+            "queryType",
+            "workItems",
+            "id"
+          ],
+          "parameters": [
+            {
+              "name": "project",
+              "description": "Azure DevOps project name.",
+              "required": "true"
+            },
+            {
+              "name": "query",
+              "description": "The WIQL statement.",
+              "required": "true"
+            }
+          ]
+        },
+        {
+          "text": "get work items batch",
+          "description": "Read up to 200 work items at once by id, optionally limited to named fields. Pairs with query work items.",
+          "verb": "POST",
+          "path": "/_apis/wit/workitemsbatch?api-version=7.1",
+          "parameters": [
+            {
+              "name": "ids",
+              "description": "Array of work item ids, e.g. [1204, 1205].",
+              "required": "true"
+            },
+            {
+              "name": "fields",
+              "description": "Optional array of field names, e.g. [\"System.Id\",\"System.Title\",\"System.State\",\"System.AssignedTo\"].",
+              "required": "false"
+            }
+          ]
+        },
+        {
+          "text": "list work item comments",
+          "description": "Read the discussion on one work item.",
+          "verb": "GET",
+          "path": "/{project}/_apis/wit/workItems/{id}/comments?api-version=7.1-preview.4",
+          "response_fields": [
+            "totalCount",
+            "count",
+            "continuationToken",
+            "comments",
+            "id",
+            "text",
+            "createdBy",
+            "displayName",
+            "createdDate"
+          ],
+          "parameters": [
+            {
+              "name": "project",
+              "description": "Azure DevOps project name.",
+              "required": "true"
+            },
+            {
+              "name": "id",
+              "description": "Work item id.",
+              "required": "true"
+            }
+          ]
+        },
+        {
+          "text": "add work item comment",
+          "description": "Post a comment on a work item.",
+          "verb": "POST",
+          "path": "/{project}/_apis/wit/workItems/{id}/comments?api-version=7.1-preview.4",
+          "response_fields": [
+            "id",
+            "workItemId",
+            "text",
+            "createdBy",
+            "displayName",
+            "createdDate"
+          ],
+          "parameters": [
+            {
+              "name": "project",
+              "description": "Azure DevOps project name.",
+              "required": "true"
+            },
+            {
+              "name": "id",
+              "description": "Work item id.",
+              "required": "true"
+            },
+            {
+              "name": "text",
+              "description": "Comment body. HTML is allowed.",
+              "required": "true"
+            }
+          ]
+        },
+        {
+          "text": "list projects",
+          "description": "List the projects in the organisation.",
+          "verb": "GET",
+          "path": "/_apis/projects?api-version=7.1",
+          "response_fields": [
+            "count",
+            "value",
+            "id",
+            "name",
+            "description",
+            "state"
+          ],
+          "parameters": []
+        },
+        {
+          "text": "list teams",
+          "description": "List the teams in a project, for assignment and sprint queries.",
+          "verb": "GET",
+          "path": "/_apis/projects/{project}/teams?api-version=7.1",
+          "response_fields": [
+            "count",
+            "value",
+            "id",
+            "name",
+            "description"
+          ],
+          "parameters": [
+            {
+              "name": "project",
+              "description": "Azure DevOps project name or id.",
+              "required": "true"
+            }
+          ]
+        },
+        {
+          "text": "get current iteration",
+          "description": "The sprint a team is in right now, with its path. Use the path as System.IterationPath in a WIQL query or when creating a work item.",
+          "verb": "GET",
+          "path": "/{project}/{team}/_apis/work/teamsettings/iterations?$timeframe=current&api-version=7.1",
+          "response_fields": [
+            "count",
+            "value",
+            "id",
+            "name",
+            "path",
+            "attributes",
+            "startDate",
+            "finishDate",
+            "timeFrame"
+          ],
+          "parameters": [
+            {
+              "name": "project",
+              "description": "Azure DevOps project name.",
+              "required": "true"
+            },
+            {
+              "name": "team",
+              "description": "Team name, usually \"<Project> Team\"; exact names from list teams.",
+              "required": "true"
+            }
+          ]
+        },
+        {
+          "text": "list iterations",
+          "description": "List the sprint tree of a project. Use the paths as System.IterationPath.",
+          "verb": "GET",
+          "path": "/{project}/_apis/wit/classificationnodes/iterations?$depth=3&api-version=7.1",
+          "response_fields": [
+            "id",
+            "name",
+            "path",
+            "hasChildren",
+            "children",
+            "attributes",
+            "startDate",
+            "finishDate"
+          ],
+          "parameters": [
+            {
+              "name": "project",
+              "description": "Azure DevOps project name.",
+              "required": "true"
+            }
+          ]
+        },
+        {
+          "text": "list areas",
+          "description": "List the area path tree of a project. Use the paths as System.AreaPath.",
+          "verb": "GET",
+          "path": "/{project}/_apis/wit/classificationnodes/areas?$depth=3&api-version=7.1",
+          "response_fields": [
+            "id",
+            "name",
+            "path",
+            "hasChildren",
+            "children"
+          ],
+          "parameters": [
+            {
+              "name": "project",
+              "description": "Azure DevOps project name.",
+              "required": "true"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
