@@ -56,7 +56,7 @@ A few details handled for you:
 
 In every case, the credential stays in api0. Claude never sees it.
 
-A third setting: **who pays for paid tools** — the tenant, or each person on their own plan.
+A third setting: **who pays for tool calls** — the tenant, or each person on their own plan.
 
 ## Step 3 — Claude (2 minutes)
 

@@ -56,7 +56,7 @@ Onglet **Access**. Deux questions.
 
 Dans tous les cas, l'identifiant reste dans api0. Claude ne le voit jamais.
 
-Troisième réglage : **qui paie les outils payants**, le tenant ou chaque personne avec son propre plan.
+Troisième réglage : **qui paie les appels d'outils**, le tenant ou chaque personne avec son propre plan.
 
 ## Étape 3 — Claude (2 minutes)
 
