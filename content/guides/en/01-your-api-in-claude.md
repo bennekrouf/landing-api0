@@ -1,25 +1,24 @@
 ---
-title: "How to Put Your Existing API in Claude, Teams and WhatsApp in Under 15 Minutes"
-date: "2026-11-07"
-excerpt: "Your application already does the work. Here's how to make it usable from Claude, Microsoft Teams and WhatsApp — no MCP server or bot to write — with every action taken as the person who asked."
+title: "How to Put Your Existing API in Claude in Under 10 Minutes"
+date: "2026-11-11"
+excerpt: "Your application already does the work. Here's how to make it usable from Claude — no MCP server to write — with every action taken as the person who asked. The starting point for the Teams, WhatsApp and Telegram guides."
 author: { name: "API0 Team" }
-tags: ["Guide", "MCP", "Claude", "Teams", "WhatsApp", "OpenAPI"]
+tags: ["Guide", "MCP", "Claude", "OpenAPI"]
 ---
 
-# How to Put Your Existing API in Claude, Teams and WhatsApp in Under 15 Minutes
+# How to Put Your Existing API in Claude in Under 10 Minutes
 
-Your software has an API. It can create a ticket, pull an invoice, list today's jobs. But your users spend their day in Teams, on WhatsApp or in Claude. Between the two, there's no bridge.
+Your software has an API. It can create a ticket, pull an invoice, list today's jobs. But your users spend their day in Claude. Between the two, there's no bridge.
 
-Building that bridge yourself means writing an MCP server, handling OAuth for every user, storing your application's credentials somewhere the AI can't read them, logging every call — then doing it all again for Teams and for WhatsApp. Weeks of work.
+Building that bridge yourself means writing an MCP server, handling OAuth for every user, storing your application's credentials somewhere the AI can't read them, logging every call. Weeks of work.
 
-This guide shows the short version with api0: import the API once, choose who can sign in, and connect the channels.
+This guide shows the short version with api0: import the API once, choose who can sign in, and add it to Claude. The same tools then serve Teams, WhatsApp and Telegram.
 
 ## What you need
 
 - An HTTP API reachable from the internet (REST/JSON).
 - Its description: an OpenAPI spec (YAML or JSON), or failing that, the list of your endpoints.
 - A Google account to sign in to app.api0.ai.
-- For Teams: access to the Azure portal. For WhatsApp: a Meta Business account.
 
 No API at hand to try it? Take one of the sample specs (CRM, ticketing, invoicing, field service, HR) and point it at a mock server.
 
@@ -71,32 +70,23 @@ That's it. Ask Claude "what tools do you have?", then ask a real question. For a
 
 Cursor, Claude Desktop and other MCP clients connect the same way.
 
-## Step 4 — Teams (5 minutes, on the Azure side)
+## Next: Teams, WhatsApp, Telegram
 
-Microsoft doesn't let a third party set up a bot for you: you need an **Azure Bot** resource in your name. api0 does the rest.
+The same tools, with the same access, can answer in a messaging app. Each channel has its own guide:
 
-1. Azure portal → create an **Azure Bot** → note the App ID, create a secret.
-2. [app.api0.ai → Channels → **Teams**](https://app.api0.ai/?tab=channels&channel=teams): paste the App ID, secret and tenant ID. api0 checks with Microsoft that they work and gives you the **messaging endpoint**.
-3. Paste that endpoint into the Azure bot's configuration and enable the Teams channel.
-4. Download the **Teams app package** api0 generates (manifest and icons) and install it.
+- **Microsoft Teams**, with an Azure Bot in your name: [the Teams guide](/guides/your-api-in-teams).
+- **WhatsApp**, with your WhatsApp Business number: [the WhatsApp guide](/guides/your-api-in-whatsapp).
+- **Telegram**, with a bot made with @BotFather: [the Telegram guide](/guides/your-api-in-telegram).
 
-The full walkthrough is in [Put Your Product in Teams Without Building a Bot](/guides/product-in-teams-without-a-bot).
-
-## Step 5 — WhatsApp or Telegram (2 minutes)
-
-**Telegram**: create a bot with @BotFather and paste the token into [Channels → Telegram](https://app.api0.ai/?tab=channels&channel=telegram). api0 checks the token and sets up the webhook itself.
-
-**WhatsApp**: in [Channels → WhatsApp](https://app.api0.ai/?tab=channels&channel=whatsapp), enter the Phone Number ID, a permanent token and a verify token of your choice. Then paste the Webhook URL api0 gives you into your Meta app's WhatsApp configuration and subscribe to messages.
-
-Either way, you can give the bot a system prompt (short answers, confirm before acting…). On their first message, each person links their account once; after that they talk to your API like a colleague.
+In each channel, every person links their messaging account to their api0 account once; after that they talk to your API like a colleague, and every action is taken as them.
 
 ## What you get
 
-- **One setup** for Claude, Teams, WhatsApp and Telegram: the same tools everywhere.
+- **One setup**: the same tools in Claude and, next, in Teams, WhatsApp and Telegram.
 - **Every action taken as the person**, with their permissions in your system.
 - **No secrets in the AI**: credentials stay encrypted in api0.
 - **A log of every call** (Activity tab) and credits per call.
-- **Nothing to host**: no MCP server, no bot, no new interface.
+- **Nothing to host**: no MCP server, no new interface.
 
 ## FAQ
 

@@ -1,16 +1,16 @@
 ---
-title: "Azure DevOps in Claude and Teams, Each Person With Their Own Microsoft Account"
+title: "Azure DevOps in Claude, Each Person With Their Own Microsoft Account"
 date: "2026-11-07"
 excerpt: "The step-by-step setup for connecting Azure DevOps to api0 with each person's own Microsoft (Entra ID) sign-in: the organization, the Entra app, admin consent, the api0 wizard and the Connect button, with the errors you'll hit along the way and how to fix them."
 author: { name: "API0 Team" }
-tags: ["How-to Guide", "Azure DevOps", "Entra ID", "OAuth", "Teams"]
+tags: ["How-to Guide", "Azure DevOps", "Entra ID", "OAuth"]
 ---
 
-# Azure DevOps in Claude and Teams, Each Person With Their Own Microsoft Account
+# Azure DevOps in Claude, Each Person With Their Own Microsoft Account
 
-By the end of this guide, you ask Claude or Teams to "create a bug 'Login fails on Safari' and assign it to me", and the work item shows up in Azure DevOps **under your name**, with **your** permissions. Nobody pastes a token: each person clicks **Connect** once and signs in with their Microsoft account. After that, api0 renews access on its own.
+By the end of this guide, you ask Claude to "create a bug 'Login fails on Safari' and assign it to me", and the work item shows up in Azure DevOps **under your name**, with **your** permissions. Nobody pastes a token: each person clicks **Connect** once and signs in with their Microsoft account. After that, api0 renews access on its own.
 
-Allow an hour for Azure DevOps and another for Teams, errors included.
+Allow an hour, errors included. For the same thing in Teams, continue with [the Teams guide](/guides/your-api-in-teams) (guide 07).
 
 Throughout the guide, replace:
 
@@ -21,44 +21,9 @@ Throughout the guide, replace:
 | `<project>` | A project in that organization | `dev.azure.com/<organization>/<project>` |
 | `<client-id>` | The ID of the Entra app created in step 2 | The app's **Overview** page |
 
-## The systems involved
+## How it works
 
-api0 sits in the middle: it never holds anyone's Microsoft password, only each person's token, which Entra ID issues. Every piece carries its address; dotted lines are only used during setup.
-
-```mermaid
-%%{init: {"flowchart": {"nodeSpacing": 30, "rankSpacing": 45}}}%%
-flowchart TB
-  T[Microsoft Teams<br/>teams.microsoft.com]
-  C[Claude<br/>claude.ai]
-  A[api0 dashboard<br/>app.api0.ai]
-  BF[Microsoft Bot Framework<br/>smba.trafficmanager.net<br/>login.botframework.com]
-  subgraph API0[api0]
-    W[Teams assistant<br/>messaging endpoint]
-    G[Gateway<br/>gateway.api0.ai]
-    S[(Sealed tokens)]
-  end
-  subgraph MS[Microsoft, your directory]
-    E[Entra ID<br/>login.microsoftonline.com<br/>/&lt;tenant-id&gt;]
-    D[Azure DevOps<br/>dev.azure.com<br/>/&lt;organization&gt;]
-    E ~~~ D
-  end
-  ADM[Microsoft consoles<br/>for setup<br/>entra.microsoft.com<br/>portal.azure.com<br/>admin.microsoft.com<br/>admin.teams.microsoft.com<br/>aex.dev.azure.com]
-
-  T <--> BF
-  BF <--> W
-  W --> G
-  C -->|/mcp| G
-  A -->|Connect| G
-  G --- S
-  G -->|as the person| D
-  G <-->|each person's token| E
-  E ~~~ ADM
-  D ~~~ ADM
-```
-
-### The run, step by step
-
-Once per person, **Connect**:
+api0 never holds anyone's Microsoft password, only each person's token, which Entra ID issues and api0 keeps sealed. Once per person, **Connect**:
 
 ```mermaid
 %%{init: {"sequence": {"mirrorActors": false}}}%%
@@ -77,93 +42,32 @@ sequenceDiagram
   E-->>G: tokens, kept sealed
 ```
 
-Then on every request in Teams:
+- **1–3.** **Connect** sends the person to `login.microsoftonline.com/<tenant-id>/oauth2/v2.0/authorize`. If it breaks: step 5.
+- **4.** They sign in with their **work account** and accept. If it breaks: consent, step 3.
+- **5.** Entra ID returns a code to `gateway.api0.ai/oauth/downstream/callback`. If it breaks: the redirect URI, step 2.
+- **6–7.** The gateway trades the code and keeps the tokens sealed. If it breaks: the app's secret, step 2.
 
-```mermaid
-%%{init: {"sequence": {"mirrorActors": false}}}%%
-sequenceDiagram
-  autonumber 8
-  actor T as Person in Teams<br/>teams.microsoft.com
-  participant BF as Bot Framework<br/>smba.trafficmanager.net
-  participant G as api0<br/>messaging endpoint
-  participant E as Entra ID<br/>login.microsoftonline.com
-  participant D as Azure DevOps<br/>dev.azure.com
-  T->>BF: create a bug
-  BF->>G: signed POST
-  G->>G: checks the signature<br/>login.botframework.com
-  G->>G: the model picks the tool
-  G->>E: renews the token
-  E-->>G: the person's token
-  G->>D: POST work item
-  D-->>G: created, in their name
-  G->>E: the bot's token
-  G->>BF: reply
-  BF->>T: Bug created
-```
+After that, on every request in Claude, the gateway renews the person's token if it expired, without asking them, and calls `dev.azure.com/<organization>` with it. Azure DevOps therefore creates the work item in their name and with their rights. Without project access, Azure DevOps refuses, and api0 grants nothing on top. The full path of a request and all of api0's domains are in guide 04.
 
-- **1–3.** **Connect** sends the person to Microsoft: `login.microsoftonline.com/<tenant-id>/oauth2/v2.0/authorize`. If it breaks: section 5.
-- **4.** They sign in with their **work account** and accept: `login.microsoftonline.com`. If it breaks: consent, section 3.
-- **5.** Entra ID returns a code to api0: `gateway.api0.ai/oauth/downstream/callback`. If it breaks: the redirect URI, section 2.
-- **6–7.** The gateway trades the code and keeps the tokens sealed: `login.microsoftonline.com/<tenant-id>/oauth2/v2.0/token`. If it breaks: the app's secret, section 2.
-- **8–9.** Teams hands the message to the Bot Framework, which posts it, signed, to api0's messaging endpoint: `smba.trafficmanager.net`. If it breaks: the messaging endpoint, section 6.4.
-- **10.** api0 checks the message really comes from Microsoft: `login.botframework.com`. If it breaks: the Azure Bot, section 6.2.
-- **11.** The model picks the tool, for the linked person. If it breaks: link your Teams account, section 6.6.
-- **12–13.** The person's token is renewed if it expired, without asking: `login.microsoftonline.com/<tenant-id>/oauth2/v2.0/token`. If it breaks: press **Connect** again.
-- **14–15.** Azure DevOps creates the work item with that token, so in their name and with their rights: `dev.azure.com/<organization>/<project>/_apis/wit/workitems`. If it breaks: project access, section 1.
-- **16–18.** The reply goes back to Teams with the bot's token: `smba.trafficmanager.net`. If it breaks: the Azure Bot, section 6.2.
+Two kinds of Microsoft account are involved. Keep them apart:
 
-From Claude, steps 8 to 11 become one call from Claude to `gateway.api0.ai/mcp`, the result of step 15 goes back to Claude, and steps 16 to 18 don't happen.
-
-### Domains
-
-| Domain | System | Role in the flow |
-|---|---|---|
-| `app.api0.ai` | api0 dashboard | Setup wizard, **Channels**, **Settings → My access tokens** (Connect). The settings page is `app.api0.ai/?view=settings`. |
-| `gateway.api0.ai` | api0 gateway | Receives every call, picks the person's token, calls Azure DevOps |
-| `gateway.api0.ai/mcp` | api0 gateway | The connector URL you add in Claude |
-| `gateway.api0.ai/oauth/downstream/callback` | api0 gateway | Where Microsoft sends people back after **Connect**. Registered in the Entra app. |
-| `gateway.api0.ai/oauth/idp/callback` | api0 gateway | Where Microsoft sends people back after signing in to api0, if you chose Microsoft sign-in |
-| Teams messaging endpoint (shown in **Channels → Microsoft Teams**) | api0 gateway | Where the Azure Bot delivers Teams messages |
-| `api0.ai` | api0 website | Privacy policy and terms the Teams app links to |
-| `login.microsoftonline.com/<tenant-id>` | Entra ID | Sign-in and consent page; issues and renews each person's token |
-| `entra.microsoft.com` | Entra admin center | App registration, consent, users, roles, sign-in logs |
-| `portal.azure.com` | Azure portal | The Azure Bot |
-| `admin.microsoft.com` | Microsoft 365 admin center | Teams licence: trial, assignment, billing |
-| `admin.teams.microsoft.com` | Teams admin center | Approving the Teams app, custom-app policies |
-| `teams.microsoft.com` | Microsoft Teams | Where people chat with the bot |
-| `dev.azure.com/<organization>` | Azure DevOps | Where the work items live |
-| `aex.dev.azure.com` | Azure DevOps account page | Creating the organization on the right directory |
-
-### Accounts
-
-You need three kinds of account. Keep them apart.
-
-| Account | Example | Role |
-|---|---|---|
-| **api0 account** | `owner@gmail.com` | Owns the api0 tenant and signs in to `app.api0.ai`. Can be any email: it's not your Microsoft identity. |
-| **Directory administrator** | `you_domain#EXT#@<directory>.onmicrosoft.com` (a personal Microsoft account added to the directory) | Creates the Entra app, grants consent, creates users, assigns licences. **Never use it for Connect**: see section 5. |
-| **Work account** | `demo@<directory>.onmicrosoft.com` | What people use for Connect, Teams and Azure DevOps. A plain user: a Teams licence, **Basic** access in Azure DevOps, and **no admin role**. |
-
-### What a new, non-admin person does
-
-A new colleague with a plain work account:
-
-1. Their administrator adds them to Azure DevOps (**Basic**, project group **Contributors**) and gives them a Teams licence.
-2. They open `https://dev.azure.com/<organization>` once in a browser, so Azure DevOps knows them.
-3. They sign in to `app.api0.ai` (or follow the tenant's **Get started** page), then **Settings → My access tokens → Connect**, with their work account.
-4. In Teams, they open the bot, link their account with the code from api0 (section 6.6), and ask.
-
-They can only do what their own Azure DevOps permissions allow. What they create is attributed to them, never to someone else. Without project access, Azure DevOps refuses, and api0 grants nothing on top.
+| Account | Role |
+|---|---|
+| **Directory administrator** | Creates the Entra app and grants consent (steps 2 and 3). **Never use it for Connect**: see step 5. |
+| **Work account** | What each person uses for Connect and Azure DevOps. A plain user: **Basic** access in Azure DevOps, and **no admin role**. |
 
 ## 1. An Azure DevOps organization on the right directory
 
 The organization must be connected to **the same Entra directory** as the app you'll create in step 2. That directory is the one that issues the tokens.
 
+Check it in **Organization settings → Microsoft Entra**: the directory shown must be `<tenant-id>`.
+
+To create an organization on that directory:
+
 1. Open a **private window** and go to `https://aex.dev.azure.com/me`.
-2. Sign in with an account from that directory (ideally the one that administers it).
+2. Sign in with an account from that directory.
 3. In the directory drop-down, pick the one whose ID is `<tenant-id>`.
 4. **Create new organization**, then a project. Choose the **Agile** process if you want a **Bug** type: the **Basic** process only has Epic, Issue, Task and Test Case, so there you ask for an **Issue**.
-5. Check in **Organization settings → Microsoft Entra** that the directory shown is yours.
 
 > **Error `TF400813: The user is not authorized to access this resource. The user is not a member of the AAD directory that the target Organization is connected to.`**
 > The browser was signed in with another account (a personal one, or one from another directory), and Azure DevOps picked the wrong directory. The private window and explicitly choosing the directory on `aex.dev.azure.com/me` fix it.
@@ -178,14 +82,12 @@ In **Entra admin center → Identity → Applications → App registrations → 
 - **Supported account types**: *Accounts in any organizational directory (multitenant)*. Not personal accounts. "Multitenant" lets a customer later consent to the same app in their own directory.
 - **Redirect URI**: **Web** platform, `https://gateway.api0.ai/oauth/downstream/callback`
 
-If people will also **sign in to api0** with their Microsoft account (option *Microsoft 365 (Entra ID)* in step 4), the same app can do it: in **Authentication**, add a second Web redirect URI, `https://gateway.api0.ai/oauth/idp/callback`. One app, two redirect URIs, one secret.
+If people will also **sign in to api0** with their Microsoft account, you need a second redirect URI: see the variants below.
 
 Then, in the app:
 
 1. **Certificates & secrets** (left menu, *Manage* section) → **Client secrets** tab → **New client secret**. Copy the **Value** column right away, not the *Secret ID*: it won't be shown again. Keep it for step 4 and don't send it to anyone. If it ever ends up in a chat, an email or a screenshot, delete it and create a new one.
-2. **API permissions → Add a permission**, as **Delegated**:
-   - **Azure DevOps** → `user_impersonation`
-   - **Azure Service Management** → `user_impersonation`, only if you also want tools that read your Azure subscription (resources, costs).
+2. **API permissions → Add a permission** → **Azure DevOps** → **Delegated** → `user_impersonation`.
 
 > **Can't find "Certificates & secrets"?** You're probably in **Certificate authorities**, a directory-wide security setting. The secret is created *inside the app*: open **App registrations → All applications → api0 downstream**, and the menu appears on the left.
 
@@ -208,19 +110,13 @@ Still in **API permissions**, click **Grant admin consent for \<your directory\>
 
 ## 4. The api0 wizard
 
-### Which api0 account?
-
-Today an api0 account owns **a single tenant**, and the wizard replaces that tenant's default connection. If your account already serves another integration, create a second api0 account (another email address) for this one.
+The wizard replaces the tenant's **default connection**. If this tenant already calls another API through its default connection, add Azure DevOps as a **named connection** instead (guide 06, section 3.1), with the same values as screen 4 below.
 
 Your api0 account's email has **nothing to do** with the Microsoft account: at **Connect**, Microsoft asks you to sign in, and you pick the account from your directory. An api0 account on Gmail that connects to Azure DevOps as `firstname@your-company.com` works fine.
 
-> Coming soon: **named connections** will allow several connections in one tenant, for example Azure DevOps as the default plus an `arm` connection for Azure Resource Manager, without a second account.
-
-### The screens
-
 On [app.api0.ai](https://app.api0.ai), start the setup wizard (offered at first sign-in, or through your tenant's **Reconfigure** button):
 
-1. **Where do your people's work accounts live?**: *Microsoft 365 (Entra ID)*. People then sign in to api0 as themselves, which needs the second redirect URI from step 2.
+1. **Where do your people's work accounts live?**: *Microsoft 365 (Entra ID)*. People then sign in to api0 as themselves, which needs the second redirect URI (see the variants).
 2. **Import your API**: download [the Azure DevOps endpoints](https://api0.ai/downloads/azure-devops-endpoints.json), replace every `YOUR-ORGANIZATION` in the file with `<organization>`, and upload it. It lands as an API named **Azure DevOps**, under **Custom API Groups** on the **API** page, where you can edit it like any other API. Its tools reach Claude as `azure-devops-create-work-item`, `azure-devops-query-work-items` and so on. Importing another file later keeps it, unless that file has an API with the same name.
 3. **Whose account should the API see?**: *Each person connects their own account*.
 4. **Your application in Entra ID**:
@@ -237,134 +133,70 @@ Two things to watch:
 - **Client ID and Client secret are easy to swap.** The client ID is always a GUID (`xxxxxxxx-xxxx-…`). A secret looks like `ofk8Q~…`. If you paste the secret into the Client ID field, Microsoft answers `AADSTS700016` at Connect.
 - **The scope isn't optional for Microsoft.** The field's grey text is an example, not a value. An empty scope gives `AADSTS900144`. `499b84ac-…` is Azure DevOps.
 
-**Prefer api0 accounts for signing in?** On screen 1 choose *Neither*. On screen 3 choose *Someone else's service*, then *Other options* and *Each person connects their own account*. Screen 4 then also asks for the authorization endpoint `https://login.microsoftonline.com/<tenant-id>/oauth2/v2.0/authorize` and the token endpoint `https://login.microsoftonline.com/<tenant-id>/oauth2/v2.0/token`. The scope must then include `offline_access` as shown above.
+5. The last screen tests the connection with a read-only call. **It should fail** with a message along the lines of "you haven't added your access yet": expected, since you haven't connected your account. The configuration is already saved. A **Connect your account** button sits right under the message: it does the same thing as step 5 below.
 
 **Reconfiguring later.** Your tenant's **Reconfigure** button reopens this wizard with the saved values filled in. Secrets are never shown back: paste a new one, or leave the field empty if it says it's saved, and the stored one is kept.
 
-5. The last screen tests the connection with a read-only call. **It should fail** with a message along the lines of "you haven't added your access yet": expected, since you haven't connected your account. The configuration is already saved. A **Connect your account** button sits right under the message: it does the same thing as step 5 below.
-
 ## 5. Connect
 
-In **Settings → My access tokens**, your tenant shows **Not connected** and a **Connect** button:
+In **Settings → My access tokens** (or directly `app.api0.ai/?view=settings`), your tenant shows **Not connected** and a **Connect** button:
 
 1. Click **Connect**.
-2. Microsoft asks you to sign in: pick your account from the `<tenant-id>` directory.
+2. Microsoft asks you to sign in: pick your work account from the `<tenant-id>` directory.
 3. You land back on api0 with **Your account is connected**.
 
-Once connected, the button becomes **Reconnect**: use it to sign in again, or to switch to another work account. The settings page is also reachable directly at `app.api0.ai/?view=settings`.
-
-**Never connect with an account that holds an admin role.** On a directory with *Security defaults* (on by default in new directories), administrators must use multi-factor sign-in. api0 renews tokens in the background, where nobody can answer a multi-factor prompt, so Microsoft refuses the renewal. In our test, the work account was given Billing, License and Teams Administrator after it connected. The next morning:
-- the Entra sign-in log (**Monitoring & health → Sign-in logs → User sign-ins (non-interactive)**) showed the attempt for the app as **Interrupted**;
-- api0's gateway logged `invalid_grant`;
-- the bot answered that access wasn't set up.
-
-Fix: remove the admin roles, then **Reconnect**. Do the administration with a separate account.
-
-api0 now enforces this. **Connect** refuses an account that holds any directory role beyond an ordinary user's, and says so on **My access tokens**. If an account becomes an admin after connecting, the bot says so at the next renewal instead of "access not set up". The same happens when Microsoft demands a multi-factor sign-in.
-
-**The account must have opened Azure DevOps once.** Azure DevOps refuses API calls from an account that has never signed in to its website. The check then answers HTTP 403, and the reply's title says *"Identity … has not been materialized, please use interactive login over the browser first"*. Open `https://dev.azure.com/<organization>` once in a browser with that account, then run the check again. Each new person in the tenant needs to do this once too.
-
-**Still the same 403 after opening Azure DevOps? Check for a personal account.** If your directory was created from a personal Microsoft account (common for a subscription opened for something else), that account sits in the directory as an *external member*. In **Entra admin center → Users**, its user principal name looks like `firstname_domain#EXT#@<directory>.onmicrosoft.com`. Connect gets a token for that directory identity, while dev.azure.com signs you in as the personal account itself, so Azure DevOps never meets the identity in the token. To find out, search for the ID quoted in the error under **Users**. The fix is a native work account:
-
-1. **Entra admin center → Users → New user → Create new user**, for example `demo@<directory>.onmicrosoft.com`.
-2. **Azure DevOps → Organization settings → Users → Add users**: that account, access level **Basic**, project `<project>`, group **Project Contributors**.
-3. In a private window, open `https://dev.azure.com/<organization>/<project>` as that account and set its password.
-4. In api0, **Connect** again. On Microsoft's account picker, choose **Use another account** and sign in with the work account.
-
-In a real company, people already have work accounts, and this doesn't come up.
+Once connected, the button becomes **Reconnect**: use it to sign in again, or to switch to another work account.
 
 If Microsoft shows an error page, come back to api0 with **reload**, not just the browser's Back button: a page restored by Back may keep its buttons greyed out.
 
-Every person in the tenant does the same, once. They act only with their own Azure DevOps permissions, and nothing is ever attributed to someone else.
+**Never with an account that holds an admin role.** On a directory with *Security defaults* (on by default in new directories), administrators must use multi-factor sign-in. api0 renews tokens in the background, where nobody can answer a multi-factor prompt, so Microsoft refuses the renewal. **Connect** therefore refuses an account that holds any directory role beyond an ordinary user's, and says so on **My access tokens**. If an account is given an admin role after connecting, the next renewal fails: the Entra sign-in log (**Monitoring & health → Sign-in logs → User sign-ins (non-interactive)**) shows the attempt as **Interrupted**, and the bot or the tool says so. Fix: remove the admin roles, then **Reconnect**. Do the administration with a separate account.
 
-## 6. In Teams
+**The account must have opened Azure DevOps once.** Azure DevOps refuses API calls from an account that has never signed in to its website. The check then answers HTTP 403, and the reply's title says *"Identity … has not been materialized, please use interactive login over the browser first"*. Open `https://dev.azure.com/<organization>` once in a browser with that account, then run the check again.
 
-Teams reaches api0 through an **Azure Bot** of your own, in your directory. New bots are *single-tenant*: the people chatting with it must be in the same directory as the bot. Each person still connects their own Azure DevOps account (step 5); Teams only carries the conversation.
+**Still the same 403 after opening Azure DevOps?** You probably connected with a personal Microsoft account invited into the directory. In **Entra admin center → Users**, its user principal name looks like `firstname_domain#EXT#@<directory>.onmicrosoft.com` (search for the ID quoted in the error). Connect gets a token for that directory identity, while dev.azure.com signs you in as the personal account itself, so Azure DevOps never meets the identity in the token. **Connect** again with a real work account from the directory (**Use another account** on Microsoft's account picker). If the directory has none yet, the appendix shows how to create one.
 
-### 6.1 A Teams licence in your directory
+## 6. Try it, then open it to others
 
-Teams is a Microsoft 365 licence on the **directory**, not part of an Azure subscription. To check, sign in at `https://teams.microsoft.com` with a work account from `<tenant-id>`. *"You don't have the required permissions to access this org"* means no licence.
+Add the tenant's connector in Claude as described in the [main guide](/guides/your-api-in-claude), then ask for example:
 
-For a demo, use a **Microsoft Teams Essentials trial**, from inside your directory:
+```
+Create an issue "Login fails on Safari" in project <project> and assign it to firstname@your-company.com
+```
 
-1. Give the account that will buy it the **Billing Administrator** role (Entra admin center → Users → the user → Assigned roles). The self-service sign-up page refuses an account your organisation manages, with *"ask your administrator"*: buy from the admin center instead.
-2. **admin.microsoft.com → Billing → Purchase services → Microsoft Teams Essentials → Start free trial**.
-3. Licences are assigned in the Microsoft 365 admin center only (Entra now refuses). That needs the **License Administrator** role.
-4. Set the user's **Usage location** first (Entra → Users → the user → Edit properties → Settings), or the assignment fails with *"invalid usage location"*.
-5. **Billing → Licenses → Microsoft Teams Essentials → Assign licenses** → the user.
-6. **Billing → Your products**: turn **Recurring billing** off if it's offered.
+Open `https://dev.azure.com/<organization>/<project>/_workitems/recent`: the work item is there, **Created By** your work account.
 
-Wait about ten minutes, then check that `https://teams.microsoft.com` opens.
+**Name the assignee with the work email.** api0 knows you by your api0 email, which Azure DevOps doesn't know, so it can't work out "me".
 
-In a company that already has Teams, skip all of this.
+If the reply says the type doesn't exist, your project uses the Basic process: ask for an **Issue** instead of a **Bug**.
 
-### 6.2 The Azure Bot
+Each new person, with no admin rights:
 
-In `https://portal.azure.com`, **Create → Azure Bot**:
+1. Their administrator adds them to Azure DevOps (**Basic**, project group **Contributors**).
+2. They open `https://dev.azure.com/<organization>` once in a browser, so Azure DevOps knows them.
+3. They sign in to `app.api0.ai` (or follow the tenant's **Get started** page), then **Settings → My access tokens → Connect**, with their work account.
 
-| Field | Value |
-|---|---|
-| Bot handle | any name, e.g. `api0-demo-bot` |
-| Resource group | a new one, e.g. `api0-demo` |
-| Data residency | **Global** |
-| Pricing tier | **Change plan → Free (F0)** |
-| Type of App | **Single Tenant** |
-| Creation type | **Create new Microsoft App ID** |
+They can only do what their own Azure DevOps permissions allow, and what they create is attributed to them, never to someone else.
 
-Then, in the bot → **Configuration**: copy the **Microsoft App ID** and the **App Tenant ID**. Click **Manage Password → New client secret** and copy its **Value**.
+For Teams: [the Teams guide](/guides/your-api-in-teams) (guide 07). The bot uses the same connection, and each person links their account there once.
 
-### 6.3 Connect the bot in api0
+## Variants
 
-On [app.api0.ai → **Channels → Microsoft Teams**](https://app.api0.ai/?tab=channels&channel=teams), paste the App ID, the Microsoft tenant ID and the secret, and set a **Bot name**. That name is what everyone sees in Teams; left empty, it's the tenant name. Click **Connect**: api0 asks Microsoft for a token before saving, so a typo shows up here.
+**People sign in to api0 with their Microsoft account.** That's the *Microsoft 365 (Entra ID)* option on screen 1 of the wizard. The same Entra app handles it: in **Authentication**, add a second Web redirect URI, `https://gateway.api0.ai/oauth/idp/callback`. One app, two redirect URIs, one secret.
 
-### 6.4 Point the bot at api0
+**People sign in to api0 with their api0 account.** On screen 1 choose *Neither*. On screen 3 choose *Someone else's service*, then *Other options* and *Each person connects their own account*. Screen 4 then also asks for the authorization endpoint `https://login.microsoftonline.com/<tenant-id>/oauth2/v2.0/authorize` and the token endpoint `https://login.microsoftonline.com/<tenant-id>/oauth2/v2.0/token`. The scope must still include `offline_access`.
 
-1. In the **Microsoft Teams** block on api0's **Channels** page, the box **Finish in Azure and Teams** shows the **Messaging endpoint**. Copy it.
-2. In Azure, bot → **Configuration → Messaging endpoint**: paste it, **Apply**.
-3. Bot → **Channels → Microsoft Teams**: accept the terms, **Apply**. It should show as running.
+**Tools that also read your Azure subscription** (resources, costs). Add the delegated **Azure Service Management** → `user_impersonation` permission in step 2, and give those tools their own named connection, with the scope `https://management.azure.com/user_impersonation offline_access`: an Azure DevOps token isn't valid for Azure Resource Manager (guide 06, section 3).
 
-The same api0 block also offers to link your Teams account right away. Wait until the app is installed (6.5): before that, the bot can't receive the code.
+## Appendix: a work account in a test directory
 
-### 6.5 Install and approve the app
+A directory opened from a personal Microsoft account (common for an Azure subscription created for something else) often has no native work account. To create one:
 
-1. In the same **Finish in Azure and Teams** box, click **Download Teams app**. Keep the `.zip` as it is.
-2. In Teams, **Apps → Manage your apps → Upload an app**. If your directory doesn't allow personal uploads, Teams submits the app to your organisation instead, and it shows as **Pending**.
-3. A **Teams Administrator** approves it in `https://admin.teams.microsoft.com` → **Teams apps → Manage apps** → the app:
-   - **Publish** the submitted version;
-   - set **Status** to **Allowed** (a newly submitted app is **Blocked**);
-   - **Actions → Org-wide app settings → Custom apps → Let users interact with custom apps**: on.
+1. **Entra admin center → Users → New user → Create new user**, for example `demo@<directory>.onmicrosoft.com`. No admin role.
+2. **Azure DevOps → Organization settings → Users → Add users**: that account, access level **Basic**, project `<project>`, group **Project Contributors**.
+3. In a private window, open `https://dev.azure.com/<organization>/<project>` as that account and set its password.
+4. In api0, **Connect** again. On Microsoft's account picker, choose **Use another account** and sign in with that account.
 
-On a directory where Teams was just added, the admin center first shows *"We're setting up your new app management experience"*, and **Publish** stays grey for up to 30 minutes. Wait, then reload.
-
-Approved changes can take up to an hour to reach Teams. The app then appears under **Apps → Built for your org**.
-
-**If Publish stays grey for hours**, install the app for yourself instead: in the Teams admin center, **Teams apps → Setup policies → Global (Org-wide default) → Upload custom apps: On**, and keep custom apps allowed org-wide. About 15 minutes later, in Teams: **Apps** (the ⊞ icon in the left bar) → **Manage your apps → Upload an app → Upload a custom app**.
-
-**Renaming later** (or getting api0's logo on an app downloaded before it had it):
-
-1. api0 takes the **Bot name** only when connecting. On [**Channels → Microsoft Teams**](https://app.api0.ai/?tab=channels&channel=teams), click **Disconnect**, then fill in the form again: the same App ID and Microsoft tenant ID, the secret, and the new **Bot name**, e.g. `api0`. Linked accounts and the Messaging endpoint stay as they were. If you didn't keep the secret's **Value**, create a new one first (bot → **Configuration → Manage Password → New client secret**).
-2. Click **Download Teams app** again. Each download carries a higher version number, which Teams requires for an update.
-3. In `https://admin.teams.microsoft.com` → **Teams apps → Manage apps**, open the app, click **Upload file** and choose the new `.zip`. Don't add it as a new app: it has the same ID.
-4. **Publish** it if the admin center asks.
-
-Teams takes the name and the icon from this app, not from the Azure Bot: its **Bot profile** in Azure can stay as it is. The new name can take up to an hour to reach Teams.
-
-### 6.6 Link your Teams account and try it
-
-1. In api0, **Channels → Microsoft Teams → Link your own Teams account**. A short code appears. It is single-use and expires after a few minutes; open the box again for a new one.
-2. In Teams, click **Chat** and find the bot by its name. If it's not in the list, start a new chat and type its name.
-3. Paste the code in the message box and send it. The bot answers: *"Linked. You are now `<api0 email>` here."*
-4. Ask it something real, for example:
-   ```
-   Create an issue "Login fails on Safari" in project <project> and assign it to firstname@<directory>.onmicrosoft.com
-   ```
-5. Open `https://dev.azure.com/<organization>/<project>/_workitems/recent`: the work item is there, **Created By** your work account.
-
-**Name the assignee with the work email.** The bot knows you by your api0 email, which Azure DevOps doesn't know, so it can't work out "me".
-
-If the bot says the type doesn't exist, your project uses the Basic process: ask for an **Issue** instead of a **Bug**.
-
-**Roles in a test directory.** Above, the test account was given Billing Administrator, License Administrator and Teams Administrator to do all of this. In a real company, an existing administrator does these steps. In a test directory, remove those roles afterwards.
+Keep the personal account for administration (steps 2 and 3), and this one for Connect, Azure DevOps and Teams.
 
 ## Error recap
 
@@ -379,15 +211,7 @@ If the bot says the type doesn't exist, your project uses the Basic process: ask
 | `AADSTS900144: The request body must contain the following parameter: 'scope'` | Empty scope | `499b84ac-1321-427f-aa17-267ca6975798/user_impersonation offline_access` |
 | `AADSTS50011` (redirect URI mismatch) | The app lacks the api0 redirect URI | Add `…/oauth/downstream/callback` (and `…/oauth/idp/callback` for Microsoft sign-in) as **Web** |
 | HTTP 403, `Identity … has not been materialized, please use interactive login over the browser first` | The account has never opened Azure DevOps in a browser | Open `dev.azure.com/<organization>` once with that account, then check again |
-| The same 403, even after opening Azure DevOps | The token is for a personal account's `#EXT#` identity in the directory | Create a native work account, add it to the organization, Connect with it |
-| Teams: `You don't have the required permissions to access this org` | No Teams licence in the directory | 6.1: Teams Essentials trial |
-| Teams Essentials sign-up: "ask your administrator" | Self-service sign-up refuses managed accounts | Buy from admin.microsoft.com → Billing → Purchase services |
-| `You don't have access to assign licenses` | Billing Administrator can buy, not assign | Add **License Administrator** |
-| `License assignment cannot be done for user with invalid usage location` | The user has no country | Entra → the user → Edit properties → Settings → Usage location |
-| Entra: licence changes "only available within the M365 Admin Center" | Entra no longer assigns licences | admin.microsoft.com → Billing → Licenses |
-| Teams app **Pending** after upload | Personal uploads not allowed, so the app was submitted to the organisation | Teams admin center → Manage apps → Publish |
-| **Publish** greyed out, "setting up your new app management experience" | Teams admin center being prepared for the directory | Wait up to 30 minutes |
-| Teams app **Blocked** | Default for a newly submitted app | Status → Allowed; allow custom apps org-wide |
+| The same 403, even after opening Azure DevOps | The token is for a personal account's `#EXT#` identity in the directory | Connect again with a native work account (appendix) |
 | Wizard buttons greyed out after coming back from Microsoft | Page restored by the browser's Back | Reload the page |
-| Bot: access "not set up, or has expired" the day after Connect; gateway log `invalid_grant`; Entra sign-in log **Interrupted** | The connected account holds an admin role and must use multi-factor sign-in, which a background renewal can't do | Remove the admin roles, then **Reconnect** |
+| Access "not set up, or has expired" the day after Connect; gateway log `invalid_grant`; Entra sign-in log **Interrupted** | The connected account was given an admin role and must use multi-factor sign-in, which a background renewal can't do | Remove the admin roles, then **Reconnect** |
 | `Work item type Bug does not exist in project` | The project uses the Basic process | Ask for an **Issue**, or use an Agile project |

@@ -34,9 +34,11 @@ Teams user ──► Azure Bot (yours) ──► api0 ──► your API
 
 These are the same tools as in Claude or WhatsApp: you set up your API once.
 
+This guide covers the approach. The full step-by-step, with the Teams admin approval and the common errors, is in [the Teams guide](/guides/your-api-in-teams).
+
 ## Before you start
 
-- Your API imported into api0 (**Tools** tab) — see the [main guide](/guides/your-api-in-claude-teams-whatsapp).
+- Your API imported into api0 (**Tools** tab) — see the [main guide](/guides/your-api-in-claude).
 - Access set up (**Access** tab): ideally each person's own credential, so your application applies their permissions.
 - Access to the **Azure portal** with the right to create an *Azure Bot* resource.
 - On the customer side: a Teams admin who approves the app, or custom app upload allowed.

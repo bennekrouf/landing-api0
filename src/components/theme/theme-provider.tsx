@@ -86,11 +86,11 @@ export function ThemeProvider({
     toggleTheme,
   };
 
-  // Render empty div during SSR to avoid hydration mismatch
-  if (!mounted) {
-    return <div className="fixed inset-0 bg-background" />;
-  }
-
+  // Always render the page: the inline script in the root layout sets the
+  // theme class before first paint, and nothing here reads the theme while
+  // rendering (ThemeToggle waits for hydration on its own). Rendering a blank
+  // placeholder until mount hid every page, prices included, until all the
+  // JavaScript had loaded, and left crawlers an empty body.
   return (
     <ThemeContext.Provider value={value}>
       {children}

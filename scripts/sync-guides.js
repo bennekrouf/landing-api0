@@ -31,11 +31,19 @@ const GUIDE_LINKS = {
     'guide principal': 1,
     'mettre ton produit dans teams sans développer de bot': 2,
     "lis l'architecture détaillée": 4,
+    'connexion microsoft de chacun': 5,
+    'le guide teams': 7,
+    'le guide whatsapp': 8,
+    'le guide telegram': 9,
   },
   en: {
     'main guide': 1,
     'put your product in teams without building a bot': 2,
     'read the detailed architecture': 4,
+    "each person's microsoft sign-in": 5,
+    'the teams guide': 7,
+    'the whatsapp guide': 8,
+    'the telegram guide': 9,
   },
 };
 

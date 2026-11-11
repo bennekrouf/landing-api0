@@ -151,6 +151,23 @@ La transmission de l'identité (`X-User-Email`, `X-Tenant-Id`) est un réglage *
 - Chaque appel réussi décompte des crédits ; un échec n'est jamais facturé.
 - Mode de facturation par tenant : **le tenant paie**, ou **chaque personne paie** avec son plan.
 
+## Les domaines
+
+Pour une règle de pare-feu ou une revue de sécurité, voici les adresses en jeu. Celles de Microsoft ne concernent que les tenants qui utilisent la connexion Microsoft (Entra ID) ou Teams.
+
+| Domaine | Système | Rôle |
+|---|---|---|
+| `app.api0.ai` | Tableau de bord api0 | Configuration, **Channels**, **Settings → My access tokens** (Connect) |
+| `gateway.api0.ai` | Passerelle api0 | Reçoit chaque appel, choisit l'identifiant, appelle l'application |
+| `gateway.api0.ai/mcp` | Passerelle api0 | L'URL du connecteur à ajouter dans Claude |
+| `gateway.api0.ai/oauth/downstream/callback` | Passerelle api0 | Retour après **Connect**, quand chacun connecte son compte en OAuth |
+| `gateway.api0.ai/oauth/idp/callback` | Passerelle api0 | Retour après la connexion à api0 par le fournisseur d'identité du tenant |
+| Messaging endpoint et webhooks (affichés dans **Channels**) | Pont de messagerie api0 | Où Teams, WhatsApp et Telegram livrent les messages |
+| `api0.ai` | Site d'api0 | Politique de confidentialité et conditions, vers lesquelles pointe l'application Teams |
+| `login.microsoftonline.com/<tenant-id>` | Entra ID | Connexion et consentement ; émet et renouvelle le jeton de chacun |
+| `login.botframework.com`, `smba.trafficmanager.net` | Microsoft Bot Framework | Signature des messages Teams, et envoi des réponses |
+| `entra.microsoft.com`, `portal.azure.com`, `admin.microsoft.com`, `admin.teams.microsoft.com` | Consoles Microsoft | Configuration seulement : application Entra, Azure Bot, licences, approbation de l'application Teams |
+
 ## Choisir son modèle : l'arbre de décision
 
 1. **L'application est à toi ?** → jeton d'identité api0. Rien à stocker.

@@ -34,9 +34,11 @@ Utilisateur Teams ──► Azure Bot (le tien) ──► api0 ──► ton API
 
 Ce sont les mêmes outils que dans Claude ou WhatsApp : tu configures ton API une seule fois.
 
+Ce guide présente l'approche. Le pas-à-pas complet, avec l'approbation par l'admin Teams et les erreurs courantes, est dans [le guide Teams](/fr/guides/ton-api-dans-teams).
+
 ## Avant de commencer
 
-- Ton API importée dans api0 (onglet **Tools**) — voir le [guide principal](/fr/guides/api-dans-claude-teams-whatsapp).
+- Ton API importée dans api0 (onglet **Tools**) — voir le [guide principal](/fr/guides/ton-api-dans-claude).
 - L'accès réglé (onglet **Access**) : idéalement, l'identifiant de chaque personne, pour que ton application applique ses propres droits.
 - Un accès au **portail Azure** avec le droit de créer une ressource *Azure Bot*.
 - Côté client : un admin Teams qui autorise l'app, ou le chargement d'apps personnalisées autorisé.
