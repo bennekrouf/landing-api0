@@ -103,4 +103,4 @@ One system, one team, two weeks:
 
 ---
 
-Next: [read the detailed architecture](/guides/architecture-and-auth).
+Next: [read the detailed architecture](/guides/architecture).

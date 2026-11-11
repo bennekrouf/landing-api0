@@ -28,10 +28,12 @@ export async function generateMetadata(
   return {
     title: post.title,
     description: post.excerpt,
+    alternates: { canonical: `/blog/${slug}` },
     openGraph: {
       title: post.title,
       description: post.excerpt,
       type: 'article',
+      url: `/blog/${slug}`,
       publishedTime: post.date,
       tags: post.tags,
       images: [
@@ -51,6 +53,12 @@ export async function generateMetadata(
     },
   };
 }
+
+// Only the posts in content/ exist. Without this, a removed post's URL
+// rendered on demand and its notFound() came after the 200 had been sent: a
+// "Post Not Found" page with status 200, which Google flags as a soft 404.
+// The guide routes do the same.
+export const dynamicParams = false;
 
 // Static params generation
 export async function generateStaticParams() {
@@ -75,8 +83,9 @@ export default async function BlogPage({ params }: PageProps) {
     notFound();
   }
   
-  // Create canonical URL
-  const canonicalUrl = `https://api0.ai/blog/${slug}/`;
+  // No trailing slash: /blog/<slug>/ 308-redirects to /blog/<slug>, and a
+  // structured-data URL that redirects is how Google found the slash variant.
+  const canonicalUrl = `https://api0.ai/blog/${slug}`;
   
   return (
     <>
