@@ -12,9 +12,9 @@ This guide is for technical and security teams evaluating api0. It describes the
 
 ## Overview
 
-<svg class="g04-arch" viewBox="0 0 800 450" width="100%" style="height:auto;max-width:780px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="api0 architecture: Claude and MCP clients call the gateway over MCP, Teams, WhatsApp and Telegram go through the messaging bridge, and the gateway, the only way in, calls your application with the right credential.">
+<svg class="g04-arch g04-wide" viewBox="0 0 800 450" width="100%" style="height:auto;max-width:780px;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="api0 architecture: Claude and MCP clients call the gateway over MCP, Teams, WhatsApp and Telegram go through the messaging bridge, and the gateway, the only way in, calls your application with the right credential.">
 <style>
-.g04-arch{--bg:#f8fafc;--box:#ffffff;--tx:#1e293b;--mut:#64748b;--ln:#cbd5e1;--ac:#FF6B00}
+.g04-arch{display:block;--bg:#f8fafc;--box:#ffffff;--tx:#1e293b;--mut:#64748b;--ln:#cbd5e1;--ac:#FF6B00}
 :root.dark .g04-arch,[data-theme="dark"] .g04-arch{--bg:#0f172a;--box:#1e293b;--tx:#f8fafc;--mut:#94a3b8;--ln:#475569}
 .g04-arch text{font-family:ui-sans-serif,system-ui,sans-serif;fill:var(--tx)}
 .g04-arch .title{font-size:14px;font-weight:700}
@@ -69,6 +69,48 @@ This guide is for technical and security teams evaluating api0. It describes the
 <text x="570" y="406" text-anchor="middle" class="cap">or a third-party API</text>
 <!-- caption -->
 <text x="400" y="442" text-anchor="middle" class="cap">The gateway is the only way through to your systems.</text>
+</svg>
+<svg class="g04-arch g04-tall" viewBox="-2 -2 344 480" width="100%" style="height:auto;max-width:360px;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="api0 architecture: Claude and MCP clients call the gateway over MCP, Teams, WhatsApp and Telegram go through the messaging bridge, and the gateway, the only way in, calls your application with the right credential.">
+<style>
+.g04-tall{display:none}
+@media (max-width:600px){svg.g04-wide{display:none!important}svg.g04-tall{display:block!important}}
+</style>
+<defs>
+<marker id="g04t-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M0,0 L10,5 L0,10 z" fill="var(--ln)"></path>
+</marker>
+</defs>
+<rect class="box" x="0" y="0" width="165" height="50" rx="8"></rect>
+<text x="82" y="21" text-anchor="middle" class="title">Claude · Cursor</text>
+<text x="82" y="38" text-anchor="middle" class="cap">and any MCP client</text>
+<rect class="box" x="175" y="0" width="165" height="50" rx="8"></rect>
+<text x="257" y="21" text-anchor="middle" class="title">Messaging apps</text>
+<text x="257" y="38" text-anchor="middle" class="cap">Teams · WhatsApp · Telegram</text>
+<path class="ln" d="M257,50 L257,78" marker-end="url(#g04t-arrow)"></path>
+<rect class="box" x="175" y="80" width="165" height="50" rx="8"></rect>
+<text x="257" y="101" text-anchor="middle" class="title">Messaging bridge</text>
+<text x="257" y="118" text-anchor="middle" class="cap">api0's assistant</text>
+<path class="ln" d="M82,50 L82,168" marker-end="url(#g04t-arrow)"></path>
+<text x="90" y="113" class="cap">MCP</text>
+<path class="ln" d="M257,130 L257,168" marker-end="url(#g04t-arrow)"></path>
+<rect class="acbox" x="0" y="170" width="340" height="165" rx="8"></rect>
+<text x="170" y="195" text-anchor="middle" class="title on">api0 gateway</text>
+<text x="20" y="220" class="body on">1. authenticates the caller</text>
+<text x="20" y="240" class="body on">2. resolves the tenant and the tool</text>
+<text x="20" y="260" class="body on">3. checks credits</text>
+<text x="20" y="280" class="body on">4. injects the credential</text>
+<text x="20" y="300" class="body on">5. calls the application</text>
+<text x="20" y="320" class="body on">6. logs and meters</text>
+<path class="ln" d="M82,335 L82,373" marker-start="url(#g04t-arrow)" marker-end="url(#g04t-arrow)"></path>
+<path class="ln" d="M257,335 L257,373" marker-end="url(#g04t-arrow)"></path>
+<rect class="box" x="0" y="375" width="165" height="56" rx="8"></rect>
+<text x="82" y="399" text-anchor="middle" class="title">Store (Postgres)</text>
+<text x="82" y="417" text-anchor="middle" class="cap">tools · tenants · secrets</text>
+<rect class="box" x="175" y="375" width="165" height="56" rx="8"></rect>
+<text x="257" y="399" text-anchor="middle" class="title">Your application</text>
+<text x="257" y="417" text-anchor="middle" class="cap">or a third-party API</text>
+<text x="170" y="455" text-anchor="middle" class="cap">The gateway is the only way through</text>
+<text x="170" y="470" text-anchor="middle" class="cap">to your systems.</text>
 </svg>
 
 Three components, written in **Rust**:
