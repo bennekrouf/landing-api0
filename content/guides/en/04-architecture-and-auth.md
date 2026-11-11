@@ -151,6 +151,23 @@ Identity forwarding (`X-User-Email`, `X-Tenant-Id`) is a **per-tool** setting. I
 - Every successful call uses credits; a failure is never billed.
 - Billing mode per tenant: **the tenant pays**, or **each person pays** on their own plan.
 
+## Domains
+
+For a firewall rule or a security review, these are the addresses involved. Microsoft's only matter for tenants that use Microsoft (Entra ID) sign-in or Teams.
+
+| Domain | System | Role |
+|---|---|---|
+| `app.api0.ai` | api0 dashboard | Setup, **Channels**, **Settings → My access tokens** (Connect) |
+| `gateway.api0.ai` | api0 gateway | Receives every call, picks the credential, calls the application |
+| `gateway.api0.ai/mcp` | api0 gateway | The connector URL you add in Claude |
+| `gateway.api0.ai/oauth/downstream/callback` | api0 gateway | Where people come back after **Connect**, when each person connects their account with OAuth |
+| `gateway.api0.ai/oauth/idp/callback` | api0 gateway | Where people come back after signing in to api0 with the tenant's identity provider |
+| Messaging endpoint and webhooks (shown in **Channels**) | api0 messaging bridge | Where Teams, WhatsApp and Telegram deliver messages |
+| `api0.ai` | api0 website | Privacy policy and terms the Teams app links to |
+| `login.microsoftonline.com/<tenant-id>` | Entra ID | Sign-in and consent; issues and renews each person's token |
+| `login.botframework.com`, `smba.trafficmanager.net` | Microsoft Bot Framework | Signs Teams messages, and carries the replies |
+| `entra.microsoft.com`, `portal.azure.com`, `admin.microsoft.com`, `admin.teams.microsoft.com` | Microsoft consoles | Setup only: Entra app, Azure Bot, licences, approving the Teams app |
+
 ## Choosing a model: the decision tree
 
 1. **Is the application yours?** → api0 identity token. Nothing to store.

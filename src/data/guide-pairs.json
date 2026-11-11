@@ -1,7 +1,7 @@
 [
   {
-    "en": "your-api-in-claude-teams-whatsapp",
-    "fr": "api-dans-claude-teams-whatsapp"
+    "en": "your-api-in-claude",
+    "fr": "ton-api-dans-claude"
   },
   {
     "en": "product-in-teams-without-a-bot",
@@ -18,5 +18,21 @@
   {
     "en": "azure-devops-microsoft-sign-in",
     "fr": "azure-devops-connexion-microsoft"
+  },
+  {
+    "en": "connect-azure-services",
+    "fr": "connecter-services-azure"
+  },
+  {
+    "en": "your-api-in-teams",
+    "fr": "ton-api-dans-teams"
+  },
+  {
+    "en": "your-api-in-whatsapp",
+    "fr": "ton-api-dans-whatsapp"
+  },
+  {
+    "en": "your-api-in-telegram",
+    "fr": "ton-api-dans-telegram"
   }
 ]

@@ -37,6 +37,16 @@ const nextConfig = {
       },
     ];
   },
+  // Guide 01 covered Claude, Teams and WhatsApp; each channel now has its own
+  // guide (07 Teams, 08 WhatsApp, 09 Telegram), and 01 is about Claude only.
+  async redirects() {
+    return [
+      { source: '/guides/your-api-in-claude-teams-whatsapp', destination: '/guides/your-api-in-claude', permanent: true },
+      { source: '/fr/guides/api-dans-claude-teams-whatsapp', destination: '/fr/guides/ton-api-dans-claude', permanent: true },
+      { source: '/downloads/guides/en/api0-guide-01-your-api-in-claude-teams-whatsapp.pdf', destination: '/downloads/guides/en/api0-guide-01-your-api-in-claude.pdf', permanent: true },
+      { source: '/downloads/guides/fr/api0-guide-01-api-dans-claude-teams-whatsapp.pdf', destination: '/downloads/guides/fr/api0-guide-01-ton-api-dans-claude.pdf', permanent: true },
+    ];
+  },
   // Generate OG images at build time to improve performance
   async rewrites() {
     return [
