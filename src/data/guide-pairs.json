@@ -12,8 +12,8 @@
     "fr": "claude-enterprise-systemes-internes"
   },
   {
-    "en": "architecture-and-auth",
-    "fr": "architecture-et-auth"
+    "en": "architecture",
+    "fr": "architecture"
   },
   {
     "en": "azure-devops-microsoft-sign-in",
@@ -34,5 +34,13 @@
   {
     "en": "your-api-in-telegram",
     "fr": "ton-api-dans-telegram"
+  },
+  {
+    "en": "inbound-authentication",
+    "fr": "authentification-entrante"
+  },
+  {
+    "en": "outbound-authentication",
+    "fr": "authentification-sortante"
   }
 ]

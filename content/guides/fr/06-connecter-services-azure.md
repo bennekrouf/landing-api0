@@ -1,12 +1,12 @@
 ---
-title: "Connecter des services Azure à api0 : SharePoint, Azure SQL et Logic Apps"
+title: "Connecter des services Azure à api0 : Azure DevOps, SharePoint, Azure SQL et Logic Apps"
 date: "2026-11-11"
 excerpt: "Comment exposer des données métier, des contenus et des processus Azure via api0, uniquement avec des endpoints d'API : au nom de qui part chaque appel, comment régler chaque composant Microsoft, et les erreurs que vous rencontrerez."
 author: { name: "API0 Team" }
-tags: ["Guide technique", "Azure", "Entra ID", "SharePoint", "Logic Apps", "OAuth"]
+tags: ["Guide technique", "Azure", "Entra ID", "Azure DevOps", "SharePoint", "Logic Apps", "OAuth"]
 ---
 
-# Connecter des services Azure à api0 : SharePoint, Azure SQL et Logic Apps
+# Connecter des services Azure à api0 : Azure DevOps, SharePoint, Azure SQL et Logic Apps
 
 api0 appelle des endpoints HTTP. Il n'y a aucun connecteur Azure à installer : pour chaque service, vous déclarez ses endpoints dans api0 et vous indiquez comment api0 obtient le jeton qui les signe.
 
@@ -29,7 +29,7 @@ La première décision est de savoir au nom de qui part chaque appel. Ce guide r
 | Traces dans Azure | Le nom de chaque personne | Le nom de l'application |
 | Première utilisation | Chacun clique une fois sur **Connect** | Rien |
 
-Utilisez la connexion de chaque personne pour SharePoint, OneDrive, Outlook et tout ce qui passe par Microsoft Graph. Avec une identité de service, toute personne qui parle à l'assistant agit avec les droits de l'application, et un nom écrit dans une demande n'est que du texte.
+Utilisez la connexion de chaque personne pour Azure DevOps, SharePoint, OneDrive, Outlook et tout ce qui passe par Microsoft Graph. Avec une identité de service, toute personne qui parle à l'assistant agit avec les droits de l'application, et un nom écrit dans une demande n'est que du texte.
 
 Gardez une identité de service seulement quand le service ne connaît pas les personnes, ou quand tout le monde doit voir la même chose : une base de reporting en lecture seule, ou un Logic App qui exécute un processus avec sa propre identité.
 
@@ -39,9 +39,9 @@ Dans Teams, chaque personne a toujours sa propre conversation individuelle et so
 
 | Service | API HTTP | Ce qu'il faut ajouter |
 |---|---|---|
+| Azure DevOps | Oui | Rien |
 | SharePoint | Oui, Microsoft Graph | Rien |
 | Logic App | Oui, son déclencheur Request | Rien |
-| Azure DevOps | Oui | Rien, voir le guide 05 |
 | Azure SQL | Non, il parle TDS | Une API devant, comme Data API builder |
 
 Si un service n'a pas d'API HTTP, api0 ne peut pas l'atteindre directement : mettez d'abord une API devant.
@@ -66,6 +66,7 @@ Sur app.api0.ai, ouvrez la carte **Connections** de la page **API**, puis clique
 
 | Service appelé | Scope |
 |---|---|
+| Azure DevOps | `499b84ac-1321-427f-aa17-267ca6975798/user_impersonation offline_access` |
 | Microsoft Graph, SharePoint en lecture et écriture | `https://graph.microsoft.com/Sites.ReadWrite.All offline_access` |
 | Microsoft Graph, SharePoint en lecture seule | `https://graph.microsoft.com/Sites.Read.All offline_access` |
 | Votre propre API ou Logic App | `api://<client-id>/access_as_user offline_access` |
@@ -104,7 +105,7 @@ Une seule application peut servir toutes les connexions. Elle porte les permissi
 1. Dans le centre d'administration Entra, ouvrez **Inscriptions d'applications → Nouvelle inscription**, nommez l'application et inscrivez-la.
 2. Ouvrez **Certificats et secrets → Nouveau secret client**. Copiez la *Valeur* du secret, pas son *ID de secret*. Un nouveau secret peut mettre quelques minutes à être accepté. Saisissez-le uniquement sur app.api0.ai.
 3. Pour la connexion par personne, ouvrez **Authentification → Ajouter une plateforme → Web** et ajoutez l'URI de redirection `https://gateway.api0.ai/oauth/downstream/callback`. Laissez *Jetons d'accès* et *Jetons d'ID* décochés.
-4. Ouvrez **Autorisations de l'API → Ajouter une autorisation** et ajoutez ce dont chaque service a besoin : des **Autorisations déléguées** pour la connexion par personne, des **Autorisations d'application** pour une identité de service. Les sections 4.2 à 4.4 les listent.
+4. Ouvrez **Autorisations de l'API → Ajouter une autorisation** et ajoutez ce dont chaque service a besoin : des **Autorisations déléguées** pour la connexion par personne, des **Autorisations d'application** pour une identité de service. Les sections 4.2 à 4.5 les listent.
 5. Cliquez sur **Accorder un consentement d'administrateur pour <votre annuaire>**. Chaque ligne doit afficher un état vert *Accordé*.
 
 Le consentement administrateur compte aussi pour les permissions déléguées. Beaucoup d'annuaires ne laissent pas les personnes consentir elles-mêmes aux applications : sans le consentement de l'administrateur, chacun voit *Need admin approval* au moment de Connect.
@@ -113,7 +114,22 @@ Vérification : dans **Autorisations de l'API**, chaque permission affiche *Acco
 
 Le secret expire au bout d'un ou deux ans. Créez alors un nouveau secret et mettez à jour chaque connexion api0 qui l'utilise.
 
-### 4.2 SharePoint via Microsoft Graph
+### 4.2 Azure DevOps
+
+Azure DevOps connaît chaque personne : utilisez la connexion par personne, pour que chaque work item soit créé à son nom et avec ses droits.
+
+1. Dans l'application Entra, ajoutez la permission **Azure DevOps** → `user_impersonation`, en **Autorisations déléguées**, et accordez le consentement administrateur.
+2. L'organisation Azure DevOps doit être rattachée au même annuaire que l'application : **Organization settings → Microsoft Entra**.
+3. Dans api0, importez [les endpoints Azure DevOps](https://api0.ai/downloads/azure-devops-endpoints.json) après avoir remplacé chaque `YOUR-ORGANIZATION` par le nom de votre organisation, et reliez-les à une connexion de la section 3.1 avec le scope `499b84ac-1321-427f-aa17-267ca6975798/user_impersonation offline_access`.
+4. Chaque personne ouvre une fois `https://dev.azure.com/<organisation>` dans un navigateur : Azure DevOps refuse les appels d'API d'un compte qui ne s'y est jamais connecté.
+
+Ne cliquez jamais sur **Connect** avec un compte qui a un rôle d'administrateur : Microsoft exige alors une authentification multifacteur que le renouvellement en arrière-plan ne peut pas fournir.
+
+Le pas-à-pas complet, avec l'assistant d'api0 et chaque erreur rencontrée en chemin, est dans le guide 05 : [connexion Microsoft de chacun](/fr/guides/azure-devops-connexion-microsoft).
+
+Vérification : une personne clique sur **Connect**, puis demande à créer une issue dans Claude ou Teams. Dans Azure DevOps, le work item porte son nom dans **Created By**.
+
+### 4.3 SharePoint via Microsoft Graph
 
 1. Dans l'application Entra, ajoutez la permission Microsoft Graph `Sites.ReadWrite.All`, ou `Sites.Read.All` pour la lecture seule. Choisissez **Autorisations déléguées** pour la connexion par personne, le choix recommandé, ou **Autorisations d'application** pour une identité de service. Avec des permissions d'application, `Sites.Selected` limite l'accès à certains sites.
 2. Accordez le consentement administrateur.
@@ -134,7 +150,7 @@ Nommez un paramètre `$filter` pour que l'agent puisse filtrer une liste. Seules
 
 Vérification : une personne qui a accès au site clique sur **Connect**, puis demande une liste dans Teams ou Claude.
 
-### 4.3 Azure SQL via Data API builder
+### 4.4 Azure SQL via Data API builder
 
 Data API builder transforme des tables et des vues en endpoints REST avec `$filter`, `$orderby` et `$first`.
 
@@ -152,7 +168,7 @@ La base, et une Container App réduite à zéro, peuvent s'endormir sans activit
 
 Vérification : demandez les lignes d'une table dans Claude ou Teams. Si Data API builder refuse, voyez le récapitulatif des erreurs.
 
-### 4.4 Un Logic App via son déclencheur Request
+### 4.5 Un Logic App via son déclencheur Request
 
 1. Utilisez un Logic App Consumption avec un déclencheur **When an HTTP request is received**, et terminez-le par une action **Response**.
 2. Dans **Paramètres → Autorisation**, ajoutez une stratégie avec l'émetteur `https://login.microsoftonline.com/<tenant-id>/v2.0` et l'audience `<client-id>`.
@@ -160,15 +176,15 @@ Vérification : demandez les lignes d'une table dans Claude ou Teams. Si Data AP
 4. Dans api0, utilisez l'URL du déclencheur jusqu'à `/paths`, avec le chemin `/invoke?api-version=2016-10-01`.
 5. Si le Logic App appelle une autre API, donnez-lui une identité managée et accordez à cette identité la permission de l'API.
 
-L'application demande les mêmes réglages qu'aux étapes 3 à 5 de la section 4.3, sans Data API builder.
+L'application demande les mêmes réglages qu'aux étapes 3 à 5 de la section 4.4, sans Data API builder.
 
 Un Logic App agit avec sa propre identité managée, quelle que soit la personne qui l'appelle. Si la personne compte, par exemple pour savoir qui a fait une demande, envoyez-la dans la requête et vérifiez-la dans le workflow : ne vous fiez pas à un nom que la personne tape.
 
 Vérification : ouvrez l'**historique des exécutions** du Logic App après un appel. Chaque appel y est une exécution, avec son entrée et le résultat de chaque action.
 
-### 4.5 Le bot Teams
+### 4.6 Le bot Teams
 
-[Le guide Teams](/fr/guides/ton-api-dans-teams) (guide 07) couvre la licence Teams, l'Azure Bot, sa connexion dans api0 et l'installation de l'application. Une fois qu'il fonctionne pour une API, il fonctionne pour toutes les API du tenant : rien ne change dans Teams quand vous ajoutez SharePoint, SQL ou un Logic App.
+[Le guide Teams](/fr/guides/ton-api-dans-teams) (guide 07) couvre la licence Teams, l'Azure Bot, sa connexion dans api0 et l'installation de l'application. Une fois qu'il fonctionne pour une API, il fonctionne pour toutes les API du tenant : rien ne change dans Teams quand vous ajoutez Azure DevOps, SharePoint, SQL ou un Logic App.
 
 Chaque personne lie une fois son compte Teams à son compte api0, en envoyant au bot le code affiché sur la page de liaison. Le bot ne répond que dans les conversations individuelles.
 

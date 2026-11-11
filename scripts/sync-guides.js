@@ -35,6 +35,9 @@ const GUIDE_LINKS = {
     'le guide teams': 7,
     'le guide whatsapp': 8,
     'le guide telegram': 9,
+    "l'architecture détaillée": 4,
+    "l'authentification entrante": 10,
+    "l'authentification sortante": 11,
   },
   en: {
     'main guide': 1,
@@ -44,6 +47,9 @@ const GUIDE_LINKS = {
     'the teams guide': 7,
     'the whatsapp guide': 8,
     'the telegram guide': 9,
+    'the detailed architecture': 4,
+    'inbound authentication': 10,
+    'outbound authentication': 11,
   },
 };
 

@@ -103,4 +103,4 @@ Un système, une équipe, deux semaines :
 
 ---
 
-Pour aller plus loin : [lis l'architecture détaillée](/fr/guides/architecture-et-auth).
+Pour aller plus loin : [lis l'architecture détaillée](/fr/guides/architecture).

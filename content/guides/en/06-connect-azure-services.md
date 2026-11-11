@@ -1,12 +1,12 @@
 ---
-title: "Connect Azure Services to api0: SharePoint, Azure SQL and Logic Apps"
+title: "Connect Azure Services to api0: Azure DevOps, SharePoint, Azure SQL and Logic Apps"
 date: "2026-11-11"
 excerpt: "How to expose business data, content and processes from Azure through api0, using only API endpoints: who each call runs as, how to set up each Microsoft component, and the errors you'll hit along the way."
 author: { name: "API0 Team" }
-tags: ["Technical Guide", "Azure", "Entra ID", "SharePoint", "Logic Apps", "OAuth"]
+tags: ["Technical Guide", "Azure", "Entra ID", "Azure DevOps", "SharePoint", "Logic Apps", "OAuth"]
 ---
 
-# Connect Azure Services to api0: SharePoint, Azure SQL and Logic Apps
+# Connect Azure Services to api0: Azure DevOps, SharePoint, Azure SQL and Logic Apps
 
 api0 calls HTTP endpoints. There is no Azure connector to install: for each service, you declare its endpoints in api0 and say how api0 gets the token that signs them.
 
@@ -29,7 +29,7 @@ The first decision is who each call runs as. This guide recommends each person's
 | Audit trail in Azure | Each person's name | The application's name |
 | First use | Each person clicks **Connect** once | Nothing |
 
-Use each person's sign-in for SharePoint, OneDrive, Outlook and anything else in Microsoft Graph. With one service identity, anyone who can talk to the assistant acts with the application's rights, and a name written in a request is only text.
+Use each person's sign-in for Azure DevOps, SharePoint, OneDrive, Outlook and anything else in Microsoft Graph. With one service identity, anyone who can talk to the assistant acts with the application's rights, and a name written in a request is only text.
 
 Keep a service identity only where the service has no notion of people, or where everyone must see the same thing: a read-only reporting database, or a Logic App that runs a process with its own identity.
 
@@ -39,9 +39,9 @@ In Teams, each person always has their own one-to-one chat and history with the 
 
 | Service | HTTP API | What to add |
 |---|---|---|
+| Azure DevOps | Yes | Nothing |
 | SharePoint | Yes, Microsoft Graph | Nothing |
 | Logic App | Yes, its Request trigger | Nothing |
-| Azure DevOps | Yes | Nothing, see guide 05 |
 | Azure SQL | No, it speaks TDS | An API in front of it, such as Data API builder |
 
 If a service has no HTTP API, api0 cannot reach it directly: put an API in front of it first.
@@ -66,6 +66,7 @@ On app.api0.ai, open the **Connections** card on the **API** page, click **Add a
 
 | Calling | Scope |
 |---|---|
+| Azure DevOps | `499b84ac-1321-427f-aa17-267ca6975798/user_impersonation offline_access` |
 | Microsoft Graph, SharePoint read and write | `https://graph.microsoft.com/Sites.ReadWrite.All offline_access` |
 | Microsoft Graph, SharePoint read only | `https://graph.microsoft.com/Sites.Read.All offline_access` |
 | Your own API or Logic App | `api://<client-id>/access_as_user offline_access` |
@@ -104,7 +105,7 @@ One application can serve every connection. It holds the permissions, the secret
 1. In the Entra admin center, open **App registrations → New registration**, name the application and register it.
 2. Open **Certificates & secrets → New client secret**. Copy the secret's *Value*, not its *Secret ID*. A new secret can take a few minutes to be accepted. Type it only into app.api0.ai.
 3. For per-person sign-in, open **Authentication → Add a platform → Web** and add the redirect URI `https://gateway.api0.ai/oauth/downstream/callback`. Leave *Access tokens* and *ID tokens* unchecked.
-4. Open **API permissions → Add a permission** and add what each service needs: **Delegated permissions** for per-person sign-in, **Application permissions** for a service identity. Sections 4.2 to 4.4 list them.
+4. Open **API permissions → Add a permission** and add what each service needs: **Delegated permissions** for per-person sign-in, **Application permissions** for a service identity. Sections 4.2 to 4.5 list them.
 5. Click **Grant admin consent for <your directory>**. Every line must show a green *Granted*.
 
 Admin consent matters for delegated permissions too. Many directories do not let people consent to applications themselves: without the admin's consent, each person sees *Need admin approval* at Connect.
@@ -113,7 +114,22 @@ Check: on **API permissions**, every permission shows *Granted*, with the type y
 
 The secret expires, after one or two years. When it does, create a new one and update every api0 connection that uses it.
 
-### 4.2 SharePoint through Microsoft Graph
+### 4.2 Azure DevOps
+
+Azure DevOps knows each person: use per-person sign-in, so every work item is created in their name and with their rights.
+
+1. In the Entra application, add the **Azure DevOps** → `user_impersonation` permission, as **Delegated permissions**, and grant admin consent.
+2. The Azure DevOps organization must be connected to the same directory as the application: **Organization settings → Microsoft Entra**.
+3. In api0, import [the Azure DevOps endpoints](https://api0.ai/downloads/azure-devops-endpoints.json) after replacing every `YOUR-ORGANIZATION` with your organization's name, and bind them to a section 3.1 connection with the scope `499b84ac-1321-427f-aa17-267ca6975798/user_impersonation offline_access`.
+4. Each person opens `https://dev.azure.com/<organization>` once in a browser: Azure DevOps refuses API calls from an account that has never signed in there.
+
+Never click **Connect** with an account that holds an admin role: Microsoft then demands a multi-factor sign-in that background renewal can't provide.
+
+The full step-by-step, with api0's wizard and every error along the way, is in guide 05: [each person's Microsoft sign-in](/guides/azure-devops-microsoft-sign-in).
+
+Check: a person clicks **Connect**, then asks Claude or Teams to create an issue. In Azure DevOps, the work item shows their name under **Created By**.
+
+### 4.3 SharePoint through Microsoft Graph
 
 1. In the Entra application, add the Microsoft Graph permission `Sites.ReadWrite.All`, or `Sites.Read.All` to read only. Pick **Delegated permissions** for per-person sign-in, the recommended choice, or **Application permissions** for a service identity. With application permissions, `Sites.Selected` limits access to chosen sites.
 2. Grant admin consent.
@@ -134,7 +150,7 @@ Name a parameter `$filter` to let the agent filter a list. Only indexed columns 
 
 Check: someone with access to the site clicks **Connect**, then asks for a list in Teams or Claude.
 
-### 4.3 Azure SQL through Data API builder
+### 4.4 Azure SQL through Data API builder
 
 Data API builder turns tables and views into REST endpoints with `$filter`, `$orderby` and `$first`.
 
@@ -152,7 +168,7 @@ The database, and a Container App scaled to zero, may sleep when idle. Expect th
 
 Check: ask for one table's rows in Claude or Teams. If Data API builder refuses, see the error recap.
 
-### 4.4 A Logic App through its Request trigger
+### 4.5 A Logic App through its Request trigger
 
 1. Use a Consumption Logic App with a **When an HTTP request is received** trigger, and end it with a **Response** action.
 2. In **Settings → Authorization**, add a policy with issuer `https://login.microsoftonline.com/<tenant-id>/v2.0` and audience `<client-id>`.
@@ -160,15 +176,15 @@ Check: ask for one table's rows in Claude or Teams. If Data API builder refuses,
 4. In api0, use the trigger URL up to `/paths`, with the path `/invoke?api-version=2016-10-01`.
 5. If the Logic App calls another API, give it a managed identity and grant that identity the API's permission.
 
-The application needs the same setup as in steps 3 to 5 of section 4.3, without Data API builder.
+The application needs the same setup as in steps 3 to 5 of section 4.4, without Data API builder.
 
 A Logic App acts with its own managed identity, whoever calls it. If the person matters, for example who requested something, send it in the request and check it in the workflow; do not rely on a name the person types.
 
 Check: open the Logic App's **Run history** after a call. Each call is a run, with its input and each action's result.
 
-### 4.5 The Teams bot
+### 4.6 The Teams bot
 
-[The Teams guide](/guides/your-api-in-teams) (guide 07) covers the Teams licence, the Azure Bot, connecting it in api0 and installing the app. Once it works for one API, it works for every API of the tenant: nothing changes in Teams when you add SharePoint, SQL or a Logic App.
+[The Teams guide](/guides/your-api-in-teams) (guide 07) covers the Teams licence, the Azure Bot, connecting it in api0 and installing the app. Once it works for one API, it works for every API of the tenant: nothing changes in Teams when you add Azure DevOps, SharePoint, SQL or a Logic App.
 
 Each person links their Teams account to their api0 account once, by sending the bot the code shown on the linking page. The bot answers only in one-to-one chats.
 
