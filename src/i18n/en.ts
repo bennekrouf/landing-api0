@@ -276,6 +276,7 @@ export const en = {
     all: 'All guides',
     otherLang: 'Lire en français',
     dateLocale: 'en-GB',
+    platforms: 'Covers',
   },
   fit: {
     kicker: 'Fit check',

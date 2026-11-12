@@ -25,3 +25,42 @@ export const TeamsMark: React.FC<{ className?: string }> = ({ className }) => (
     <path d="M5.5 8.5h6v1.8H9.4V16H7.6v-5.7H5.5z" fill="white" />
   </svg>
 );
+
+/** A twelve-ray spark — evokes Claude without copying its logo. */
+export const ClaudeMark: React.FC<{ className?: string }> = ({ className }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+    {Array.from({ length: 12 }, (_, i) => {
+      const a = (i * Math.PI) / 6;
+      const r = i % 2 ? 7.5 : 10;
+      return (
+        <line key={i} x1={12 + 2 * Math.cos(a)} y1={12 + 2 * Math.sin(a)} x2={12 + r * Math.cos(a)} y2={12 + r * Math.sin(a)} />
+      );
+    })}
+  </svg>
+);
+
+/** Four tiles, for Microsoft sign-in (Entra ID). Draws in its own colours. */
+export const MicrosoftMark: React.FC<{ className?: string }> = ({ className }) => (
+  <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+    <rect x="2.5" y="2.5" width="9" height="9" fill="#F25022" />
+    <rect x="12.5" y="2.5" width="9" height="9" fill="#7FBA00" />
+    <rect x="2.5" y="12.5" width="9" height="9" fill="#00A4EF" />
+    <rect x="12.5" y="12.5" width="9" height="9" fill="#FFB900" />
+  </svg>
+);
+
+/** A two-stroke "A", for Azure services. */
+export const AzureMark: React.FC<{ className?: string }> = ({ className }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+    <path d="M9 3h5.2L7.4 21H2z" />
+    <path d="M15.2 7.5L22 21H9.8l6.1-1.9-3.3-5.6z" />
+  </svg>
+);
+
+/** A plain "G", for Google sign-in. */
+export const GoogleMark: React.FC<{ className?: string }> = ({ className }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" aria-hidden="true">
+    <path d="M19.5 12h-7" />
+    <path d="M19.5 12a7.5 7.5 0 11-2.2-5.3" />
+  </svg>
+);

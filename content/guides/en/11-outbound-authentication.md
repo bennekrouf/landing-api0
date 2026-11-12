@@ -12,6 +12,115 @@ Once the caller is identified ([inbound authentication](/guides/inbound-authenti
 
 In every case, the credential stays in api0. The AI model never sees it, and it is never sent back to the dashboard.
 
+## The actors
+
+<svg class="g11-auth g11-auth-wide" viewBox="0 0 800 452" width="100%" style="height:auto;max-width:780px;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Outbound authentication: once the caller is identified, the api0 gateway reads the tool&#x27;s credential from its secret store and calls the target with it: an identity token signed by api0 for your own application, a service credential for a third-party API, or each person&#x27;s own credential for systems such as Azure DevOps or Microsoft Graph. The AI model never sees the credential.">
+<style>
+.g11-auth{display:block;--bg:#f8fafc;--box:#ffffff;--tx:#1e293b;--mut:#64748b;--ln:#cbd5e1;--ac:#FF6B00}
+:root.dark .g11-auth,[data-theme="dark"] .g11-auth{--bg:#0f172a;--box:#1e293b;--tx:#f8fafc;--mut:#94a3b8;--ln:#475569}
+.g11-auth text{font-family:ui-sans-serif,system-ui,sans-serif;fill:var(--tx)}
+.g11-auth .title{font-size:14px;font-weight:700}
+.g11-auth .body{font-size:12px;font-weight:600}
+.g11-auth .cap{font-size:11px;fill:var(--mut)}
+.g11-auth .box{fill:var(--box);stroke:var(--ln);stroke-width:1.5}
+.g11-auth .cred{fill:var(--box);stroke:var(--ac);stroke-width:1.5}
+.g11-auth .acbox{fill:var(--ac);stroke:var(--ac)}
+.g11-auth .ln{stroke:var(--ln);stroke-width:1.5;fill:none}
+.g11-auth .on{fill:#ffffff}
+.g11-auth .oncap{font-size:11px;fill:#ffffff;opacity:.9}
+</style>
+<defs>
+<marker id="g11-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M0,0 L10,5 L0,10 z" fill="var(--ln)"></path>
+</marker>
+</defs>
+<rect class="box" x="20" y="20" width="360" height="56" rx="8"></rect>
+<text x="200" y="45" text-anchor="middle" class="title">Identified caller</text>
+<text x="200" y="62" text-anchor="middle" class="cap">a person and a tenant (guide 10)</text>
+<rect class="box" x="420" y="20" width="360" height="56" rx="8"></rect>
+<text x="600" y="45" text-anchor="middle" class="title">Secret store</text>
+<text x="600" y="62" text-anchor="middle" class="cap">sealed per tenant and per person</text>
+<path class="ln" d="M200,76 L200,118" marker-end="url(#g11-arrow)"></path>
+<path class="ln" d="M600,76 L600,118" marker-start="url(#g11-arrow)" marker-end="url(#g11-arrow)"></path>
+<text x="610" y="101" class="cap">decrypted for the call only</text>
+<rect class="acbox" x="20" y="120" width="760" height="72" rx="8"></rect>
+<text x="400" y="148" text-anchor="middle" class="title on">api0 gateway</text>
+<text x="400" y="172" text-anchor="middle" class="body on">picks the tool's connection (default or named) and injects its credential</text>
+<path class="ln" d="M140,192 L140,238" marker-end="url(#g11-arrow)"></path>
+<rect class="cred" x="20" y="240" width="240" height="60" rx="8"></rect>
+<text x="140" y="267" text-anchor="middle" class="title">api0 identity token</text>
+<text x="140" y="284" text-anchor="middle" class="cap">signed by api0, nothing stored</text>
+<path class="ln" d="M140,300 L140,346" marker-end="url(#g11-arrow)"></path>
+<rect class="box" x="20" y="348" width="240" height="60" rx="8"></rect>
+<text x="140" y="375" text-anchor="middle" class="title">Your application</text>
+<text x="140" y="392" text-anchor="middle" class="cap">checks aud and signer</text>
+<path class="ln" d="M400,192 L400,238" marker-end="url(#g11-arrow)"></path>
+<rect class="cred" x="280" y="240" width="240" height="60" rx="8"></rect>
+<text x="400" y="267" text-anchor="middle" class="title">Service credential</text>
+<text x="400" y="284" text-anchor="middle" class="cap">bearer · headers · client credentials</text>
+<path class="ln" d="M400,300 L400,346" marker-end="url(#g11-arrow)"></path>
+<rect class="box" x="280" y="348" width="240" height="60" rx="8"></rect>
+<text x="400" y="375" text-anchor="middle" class="title">Third-party API</text>
+<text x="400" y="392" text-anchor="middle" class="cap">sees one service identity</text>
+<path class="ln" d="M660,192 L660,238" marker-end="url(#g11-arrow)"></path>
+<rect class="cred" x="540" y="240" width="240" height="60" rx="8"></rect>
+<text x="660" y="267" text-anchor="middle" class="title">Each person's credential</text>
+<text x="660" y="284" text-anchor="middle" class="cap">personal secret or OAuth, renewed</text>
+<path class="ln" d="M660,300 L660,346" marker-end="url(#g11-arrow)"></path>
+<rect class="box" x="540" y="348" width="240" height="60" rx="8"></rect>
+<text x="660" y="375" text-anchor="middle" class="title">Azure DevOps · Graph…</text>
+<text x="660" y="392" text-anchor="middle" class="cap">sees the real person</text>
+<text x="400" y="440" text-anchor="middle" class="cap">The credential stays in api0: the AI model never sees it.</text>
+</svg>
+<svg class="g11-auth g11-auth-tall" viewBox="-2 -2 384 390" width="100%" style="height:auto;max-width:400px;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Outbound authentication: once the caller is identified, the api0 gateway reads the tool&#x27;s credential from its secret store and calls the target with it: an identity token signed by api0 for your own application, a service credential for a third-party API, or each person&#x27;s own credential for systems such as Azure DevOps or Microsoft Graph. The AI model never sees the credential.">
+<style>
+.g11-auth-tall{display:none}
+@media (max-width:600px){svg.g11-auth-wide{display:none!important}svg.g11-auth-tall{display:block!important}}
+</style>
+<defs>
+<marker id="g11t-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M0,0 L10,5 L0,10 z" fill="var(--ln)"></path>
+</marker>
+</defs>
+<rect class="box" x="0" y="0" width="180" height="50" rx="8"></rect>
+<text x="90" y="22" text-anchor="middle" class="title">Identified caller</text>
+<text x="90" y="39" text-anchor="middle" class="cap">person + tenant</text>
+<rect class="box" x="200" y="0" width="180" height="50" rx="8"></rect>
+<text x="290" y="22" text-anchor="middle" class="title">Secret store</text>
+<text x="290" y="39" text-anchor="middle" class="cap">sealed</text>
+<path class="ln" d="M90,50 L90,78" marker-end="url(#g11t-arrow)"></path>
+<path class="ln" d="M290,50 L290,78" marker-start="url(#g11t-arrow)" marker-end="url(#g11t-arrow)"></path>
+<rect class="acbox" x="0" y="80" width="380" height="56" rx="8"></rect>
+<text x="190" y="103" text-anchor="middle" class="title on">api0 gateway</text>
+<text x="190" y="124" text-anchor="middle" class="body on">injects the tool's credential</text>
+<path class="ln" d="M6,136 L6,327"></path>
+<path class="ln" d="M6,185 L16,185" marker-end="url(#g11t-arrow)"></path>
+<rect class="cred" x="18" y="160" width="172" height="50" rx="8"></rect>
+<text x="104" y="182" text-anchor="middle" class="title">Identity token</text>
+<text x="104" y="199" text-anchor="middle" class="cap">signed by api0</text>
+<path class="ln" d="M190,185 L206,185" marker-end="url(#g11t-arrow)"></path>
+<rect class="box" x="208" y="160" width="172" height="50" rx="8"></rect>
+<text x="294" y="182" text-anchor="middle" class="title">Your application</text>
+<text x="294" y="199" text-anchor="middle" class="cap">checks aud + signer</text>
+<path class="ln" d="M6,251 L16,251" marker-end="url(#g11t-arrow)"></path>
+<rect class="cred" x="18" y="226" width="172" height="50" rx="8"></rect>
+<text x="104" y="248" text-anchor="middle" class="title">Service credential</text>
+<text x="104" y="265" text-anchor="middle" class="cap">key · headers · OAuth</text>
+<path class="ln" d="M190,251 L206,251" marker-end="url(#g11t-arrow)"></path>
+<rect class="box" x="208" y="226" width="172" height="50" rx="8"></rect>
+<text x="294" y="248" text-anchor="middle" class="title">Third-party API</text>
+<text x="294" y="265" text-anchor="middle" class="cap">one service identity</text>
+<path class="ln" d="M6,317 L16,317" marker-end="url(#g11t-arrow)"></path>
+<rect class="cred" x="18" y="292" width="172" height="50" rx="8"></rect>
+<text x="104" y="314" text-anchor="middle" class="title">Person's credential</text>
+<text x="104" y="331" text-anchor="middle" class="cap">secret or OAuth</text>
+<path class="ln" d="M190,317 L206,317" marker-end="url(#g11t-arrow)"></path>
+<rect class="box" x="208" y="292" width="172" height="50" rx="8"></rect>
+<text x="294" y="314" text-anchor="middle" class="title">Azure DevOps · Graph</text>
+<text x="294" y="331" text-anchor="middle" class="cap">sees the real person</text>
+<text x="190" y="378" text-anchor="middle" class="cap">The AI model never sees the credential.</text>
+</svg>
+
 ## The modes
 
 | Mode | What the application receives | When to choose it |

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { ArrowRight, Download } from 'lucide-react';
 import { copyFor, type Lang } from '@/i18n';
 import { formatGuideDate, getGuides, guideHref } from '@/lib/guides';
+import { GuidePlatforms } from '@/components/guides/GuidePlatforms';
 
 export function GuideList({ lang = 'en' }: { lang?: Lang }) {
   const t = copyFor(lang).guides;
@@ -34,7 +35,7 @@ export function GuideList({ lang = 'en' }: { lang?: Lang }) {
             <p className="mt-4 text-xs text-muted-foreground">
               {t.updated} {formatGuideDate(g.date, t.dateLocale)} · {g.readingTime}
             </p>
-            <div className="mt-4 flex flex-wrap gap-3">
+            <div className="mt-4 flex flex-wrap items-center gap-3">
               <Link
                 href={guideHref(g)}
                 className="inline-flex items-center gap-1.5 rounded-lg bg-[#FF6B00] px-4 py-2 text-sm font-medium text-white hover:bg-[#FF6B00]/90 transition-colors"
@@ -48,6 +49,7 @@ export function GuideList({ lang = 'en' }: { lang?: Lang }) {
               >
                 <Download size={16} /> {t.download}
               </a>
+              <GuidePlatforms number={g.number} label={t.platforms} />
             </div>
           </li>
         ))}
