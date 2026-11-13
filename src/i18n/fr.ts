@@ -278,6 +278,7 @@ export const fr: Copy = {
     all: 'Tous les guides',
     otherLang: 'Read in English',
     dateLocale: 'fr-CH',
+    platforms: 'Concerne',
   },
   fit: {
     kicker: 'Test d’adéquation',
