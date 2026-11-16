@@ -80,7 +80,7 @@ Prefer to build it yourself (branded icons, your own text)? A manifest template 
 
 ## Step 5 — Install and test
 
-- For yourself: Teams → *Apps* → *Manage your apps* → **Upload an app**.
+- For yourself: Teams → *Apps* (or *Store*) → *Manage your apps* (gear button, top right) → **Upload an app**.
 - For an organization: the Teams admin publishes it from the *Teams admin center*.
 
 In api0, the **Test** button checks the chain. Then message the bot: on the first message, it sends the person a link to **link their account**. Once linked, every action is taken with their identity.
