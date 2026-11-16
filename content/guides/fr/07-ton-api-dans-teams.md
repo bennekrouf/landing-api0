@@ -83,7 +83,7 @@ Le même bloc d'api0 propose aussi de lier tout de suite ton compte Teams. Atten
 ## 5. Installer et approuver l'application
 
 1. Dans le même encadré **Finish in Azure and Teams**, clique **Download Teams app**. Garde le `.zip` tel quel.
-2. Dans Teams, **Apps → Manage your apps → Upload an app**. Si ton annuaire n'autorise pas l'envoi personnel, Teams soumet l'application à ton organisation, et elle apparaît **Pending**.
+2. Dans Teams, **Apps** (appelé **Store** dans les versions récentes, barre de gauche) → **Manage your apps** (le bouton engrenage en haut à droite) → **Upload an app**. Si ton annuaire n'autorise pas l'envoi personnel, Teams soumet l'application à ton organisation, et elle apparaît **Pending**.
 3. Un **Teams Administrator** l'approuve dans `https://admin.teams.microsoft.com` → **Teams apps → Manage apps** → l'application :
    - **Publish** la version soumise ;
    - passe **Status** à **Allowed** (une application tout juste soumise est **Blocked**) ;
@@ -93,7 +93,7 @@ Les changements approuvés peuvent mettre jusqu'à une heure à arriver dans Tea
 
 Sur un annuaire où Teams vient d'arriver, le centre d'administration affiche d'abord *« We're setting up your new app management experience »*, et **Publish** reste grisé jusqu'à 30 minutes. Attends, puis recharge.
 
-**Si Publish reste grisé pendant des heures**, installe l'application pour toi seul : dans le centre d'administration Teams, **Teams apps → Setup policies → Global (Org-wide default) → Upload custom apps : On**, et garde les applications personnalisées autorisées pour l'organisation. Une quinzaine de minutes plus tard, dans Teams : **Apps** (l'icône ⊞ de la barre de gauche) → **Manage your apps → Upload an app → Upload a custom app**.
+**Si Publish reste grisé pendant des heures**, installe l'application pour toi seul : dans le centre d'administration Teams, **Teams apps → Setup policies → Global (Org-wide default) → Upload custom apps : On**, et garde les applications personnalisées autorisées pour l'organisation. Une quinzaine de minutes plus tard, dans Teams : **Apps** (ou **Store**, barre de gauche) → **Manage your apps** (bouton engrenage, en haut à droite) → **Upload an app → Upload a custom app**.
 
 ## 6. Lier son compte Teams et essayer
 

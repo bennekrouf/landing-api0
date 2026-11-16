@@ -80,7 +80,7 @@ Tu préfères le préparer toi-même (icônes à ta marque, textes) ? Un templat
 
 ## Étape 5 — Installer et tester
 
-- Pour toi : Teams → *Apps* → *Gérer vos apps* → **Charger une app**.
+- Pour toi : Teams → *Apps* (ou *Store*) → *Gérer vos apps* (bouton engrenage, en haut à droite) → **Charger une app**.
 - Pour une organisation : l'admin Teams la publie depuis le *Teams admin center*.
 
 Dans api0, le bouton **Test** vérifie la chaîne. Écris ensuite au bot : au premier message, il envoie à la personne un lien pour **relier son compte**. Une fois relié, chaque action est faite avec son identité.

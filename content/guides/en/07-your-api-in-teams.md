@@ -83,7 +83,7 @@ The same api0 block also offers to link your Teams account right away. Wait unti
 ## 5. Install and approve the app
 
 1. In the same **Finish in Azure and Teams** box, click **Download Teams app**. Keep the `.zip` as it is.
-2. In Teams, **Apps → Manage your apps → Upload an app**. If your directory doesn't allow personal uploads, Teams submits the app to your organisation instead, and it shows as **Pending**.
+2. In Teams, **Apps** (called **Store** in recent versions, in the left bar) → **Manage your apps** (the gear button at the top right) → **Upload an app**. If your directory doesn't allow personal uploads, Teams submits the app to your organisation instead, and it shows as **Pending**.
 3. A **Teams Administrator** approves it in `https://admin.teams.microsoft.com` → **Teams apps → Manage apps** → the app:
    - **Publish** the submitted version;
    - set **Status** to **Allowed** (a newly submitted app is **Blocked**);
@@ -93,7 +93,7 @@ Approved changes can take up to an hour to reach Teams. The app then appears und
 
 On a directory where Teams was just added, the admin center first shows *"We're setting up your new app management experience"*, and **Publish** stays grey for up to 30 minutes. Wait, then reload.
 
-**If Publish stays grey for hours**, install the app for yourself instead: in the Teams admin center, **Teams apps → Setup policies → Global (Org-wide default) → Upload custom apps: On**, and keep custom apps allowed org-wide. About 15 minutes later, in Teams: **Apps** (the ⊞ icon in the left bar) → **Manage your apps → Upload an app → Upload a custom app**.
+**If Publish stays grey for hours**, install the app for yourself instead: in the Teams admin center, **Teams apps → Setup policies → Global (Org-wide default) → Upload custom apps: On**, and keep custom apps allowed org-wide. About 15 minutes later, in Teams: **Apps** (or **Store**, in the left bar) → **Manage your apps** (gear button, top right) → **Upload an app → Upload a custom app**.
 
 ## 6. Link your Teams account and try it
 
